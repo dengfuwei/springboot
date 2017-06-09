@@ -1,4 +1,4 @@
-package org.itopener.utils;
+package com.itopener.utils;
 
 import java.sql.Timestamp;
 

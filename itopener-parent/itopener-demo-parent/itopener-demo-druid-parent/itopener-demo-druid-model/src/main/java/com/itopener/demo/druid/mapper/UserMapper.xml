@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itopener.demo.druid.mapper.UserMapper">
+
+	<resultMap id="BaseResultMap" type="com.itopener.demo.druid.model.User">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="TINYINT" />
+		<result column="version" property="version" jdbcType="BIGINT" />
+	</resultMap>
+
+	<sql id="Column_List">
+		id, name, status, version
+	</sql>
+
+	<sql id="Where">
+		<where>
+			<if test="id > 0">
+				and id = #{id,jdbcType=BIGINT}
+			</if>
+			<if test="status > 0">
+				and status = #{status,jdbcType=TINYINT}
+			</if>
+		</where>
+	</sql>
+
+	<select id="select" parameterType="com.itopener.demo.druid.conditions.UserCondition" resultMap="BaseResultMap">
+		select <include refid="Column_List" />
+		from t_user
+		<include refid="Where" />
+	</select>
+
+	<select id="selectCount" parameterType="com.itopener.demo.druid.conditions.UserCondition" resultType="int">
+		select count(id)
+		from t_user
+		<include refid="Where" />
+	</select>
+
+	<select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select <include refid="Column_List" />
+		from t_user
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insert" parameterType="com.itopener.demo.druid.model.User">
+		insert into t_user(<include refid="Column_List" />)
+		values (
+			#{id,jdbcType=BIGINT},
+			#{name,jdbcType=VARCHAR},
+			#{status,jdbcType=TINYINT},
+			#{version,jdbcType=BIGINT})
+	</insert>
+
+	<update id="update" parameterType="com.itopener.demo.druid.model.User">
+		update t_user
+		set
+			name = #{name,jdbcType=VARCHAR},
+			status = #{status,jdbcType=TINYINT},
+			version = version + 1
+		where id = #{id,jdbcType=BIGINT}
+			and version = #{version,jdbcType=BIGINT}
+	</update>
+
+	<delete id="delete" parameterType="com.itopener.demo.druid.model.User">
+		delete from t_user
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+</mapper>

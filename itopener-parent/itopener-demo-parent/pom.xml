@@ -17,5 +17,6 @@
     <module>itopener-demo-springboot-admin-parent</module>
     <module>itopener-demo-kafka-parent</module>
     <module>itopener-demo-logback-kafka-parent</module>
+    <module>itopener-demo-druid-parent</module>
   </modules>
 </project>
