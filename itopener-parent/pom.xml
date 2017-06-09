@@ -127,6 +127,7 @@
 		<module>itopener-framework</module>
 		<module>itopener-utils</module>
 		<module>itopener-spring-boot-starters-parent</module>
+		<module>itopener-tools-parent</module>
 	</modules>
 
 	<repositories>
