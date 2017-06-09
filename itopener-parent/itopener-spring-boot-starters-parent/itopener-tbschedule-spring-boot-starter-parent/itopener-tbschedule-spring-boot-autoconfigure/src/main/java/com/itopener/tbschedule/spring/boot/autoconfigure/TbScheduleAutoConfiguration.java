@@ -1,10 +1,3 @@
-/**  
- * Project Name:msxf-tbschedule-spring-boot-autoconfigure 
- * File Name:TbScheduleAutoConfiguration.java  
- * Package Name:com.msxf.tbschedule.spring.boot.autoconfigure  
- * Date:2017年4月1日下午5:59:02 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package com.itopener.tbschedule.spring.boot.autoconfigure;
 
 import org.slf4j.Logger;
@@ -17,13 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import com.taobao.pamirs.schedule.strategy.TBScheduleManagerFactory;
 
 /**  
- * @ClassName:TbScheduleAutoConfiguration <br/> 
- * @Description <br/>
- * @date 2017年4月1日下午5:59:02 <br/>
  * @author fuwei.deng
- * @version 
- * @since JDK 1.6  
- * @see 
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 @Configuration
 @EnableConfigurationProperties(TbScheduleProperties.class)
