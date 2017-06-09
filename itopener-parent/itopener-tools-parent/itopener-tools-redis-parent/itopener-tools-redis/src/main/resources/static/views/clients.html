@@ -1,0 +1,66 @@
+<div class="am-cf am-padding-xs am-padding-bottom-0">
+	<div class="am-fl am-cf">
+		<strong class="am-text-primary am-text-lg">redis管理工具</strong> / <small>客户端</small>
+	</div>
+</div>
+<hr class="am-margin-xs"/>
+<form class="am-form am-form-horizontal am-margin-right-sm" role="form" id="queryForm">
+	<ul class="am-avg-sm-1 am-avg-md-2 am-avg-lg-4 am-thumbnails">
+		<li class="am-padding-bottom-0">
+			<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
+				<div class="am-u-sm-12 am-padding-left-xs am-padding-right-0">
+					<button type="button" id="refreshBtn" class="am-btn am-btn-sm am-btn-primary"><i class="am-icon-refresh"></i>&nbsp;刷新</button>
+				</div>
+			</div>
+		</li>
+	</ul>
+</form>
+<hr class="am-margin-top-0"/>
+<div class="am-scrollable-horizontal">
+	<table class="am-table am-table-bordered am-table-striped am-table-hover am-table-compact am-text-nowrap am-table-centered am-margin-bottom-xs">
+		<thead>
+			<tr id="tableHead"></tr>
+			<tr class="am-hide" id="tableTmpl"></tr>
+		</thead>
+		<tbody id="tableBody"></tbody>
+	</table>
+</div>
+<script>
+(function(){
+	var redisClientMapping = {
+		"addressPort": '客户端（ip:port）',
+		'age': '连接时长（秒）',
+		'patternSubscrbtions': '订阅的模式数量',
+		'channelSubscribtions': '订阅的频道数量'
+	}
+	$('#refreshBtn').on('click', function(){
+		$.ajax({
+			url: basePath + 'redis/clients',
+			type: 'get',
+			dataType: 'json',
+			success: function(data){
+				$('#tableTmpl').empty();
+				$('#tableHead').empty();
+				//按照连接时长排序
+				data.clients.sort(function(a, b){
+					return a.age - b.age;
+				});
+				for(var key in data.clients[0]){
+					$('#tableHead').append('<td>' + ($.getjson(redisClientMapping, key) || key) + "</td>");
+					$('#tableTmpl').append('<td>{{' + key + "}}</td>");
+				}
+				$('#tableBody').empty();
+				for(var i=0; i<data.clients.length; i++){
+					var tmpl = $.format($('#tableTmpl').html(), data.clients[i]);
+					$('#tableBody').append('<tr>' + tmpl + '<tr>');
+				}
+			}
+		});
+	});
+	$(function(){
+		$('#refreshBtn').trigger('click');
+	});
+})();
+</script>
+</body>
+</html>

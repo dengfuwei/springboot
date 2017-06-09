@@ -1,0 +1,143 @@
+<!doctype html>
+<html class="no-js fixed-layout">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>redis管理工具-itopener</title>
+	<meta name="description" content="redis管理工具-itopener">
+	<meta name="keywords" content="index">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<link rel="stylesheet" href="../res/css/amazeui.min.css" />
+	<link rel="stylesheet" href="../res/datetimepicker/css/amazeui.datetimepicker.css" />
+	<link rel="stylesheet" href="../res/css/admin.css" />
+</head>
+<body class="am-text-sm">
+<header class="am-topbar am-topbar-inverse admin-header" id="header">
+	<div class="am-topbar-brand">
+		<strong>redis管理工具</strong><small>&nbsp;&nbsp;itopener.com</small>
+	</div>
+
+	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}">
+		<span class="am-sr-only">导航切换</span>
+		<span class="am-icon-bars"></span>
+	</button>
+
+	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+			<li class="am-dropdown" data-am-dropdown>
+				<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+					<span class="am-icon-user"></span> 路人甲
+					<span class="am-icon-caret-down"></span>
+				</a>
+				<ul class="am-dropdown-content">
+					<li><a href="#"><span class="am-icon-power-off"></span>退出</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</header>
+<div class="am-cf admin-main">
+	<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+		<div class="am-offcanvas-bar admin-offcanvas-bar">
+			<ul class="am-list admin-sidebar-list" id="sidebarList"></ul>
+		</div>
+	</div>
+	<!-- content start -->
+	<div class="admin-content">
+		<div class="admin-content-body" id="contentBody"></div>
+		<footer class="admin-content-footer" id="footer">
+			<hr class="am-margin-xs">
+			<p class="am-padding-left am-margin-xs">©2015-2020 itopener.com All rights reserved</p>
+		</footer>
+	</div>
+	<!-- content end -->
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<!--[if lt IE 9]>
+	<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+	<script src="../res/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="../res/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script src="../res/js/amazeui.min.js"></script>
+<script src="../res/js/jquery-form.js"></script>
+<script src="../res/datetimepicker/js/amazeui.datetimepicker.min.js"></script>
+<script src="../res/datetimepicker/js/locales/amazeui.datetimepicker.zh-CN.js"></script>
+<script src="../res/js/layer/layer.js"></script>
+<script src="../res/js/app.js"></script>
+<script>
+	(function(){
+		var menus = [{
+			name: '首页',
+			icon: 'fa-tachometer',
+			url: 'views/home.html'
+		},{
+			name: 'key-value',
+			icon: 'fa-tachometer',
+			url: 'views/keys.html'
+		},{
+			name: '客户端',
+			icon: 'fa-tachometer',
+			url: 'views/clients.html'
+		},{
+			name: '集群',
+			icon: 'fa-tachometer',
+			url: 'views/cluster.html'
+		},{
+			name: 'master信息',
+			icon: 'fa-tachometer',
+			url: 'views/info.html'
+		}];
+		
+		function renderMenu(menus, ele){
+			var li = '<li><a href="javascript:void(0);" data-url="{{url}}"><span class="{{icon}}"></span>{{name}}</a></li>';
+			var liParent = '<li class="admin-parent"><a class="am-cf" data-am-collapse="{target: \'#collapse-nav{{name}}\'}">'
+							+ '<span class="{{icon}}"></span> {{name}}'
+							+ '<span class="am-icon-angle-right am-fr am-margin-right"></span>'
+							+ '</a>'
+							+ '<ul class="am-list am-collapse admin-sidebar-sub" id="collapse-nav{{name}}">'
+							+ '</ul></li>';
+			for(var i=0; i<menus.length; i++){
+				var menu = menus[i];
+				var hasChildren = menu.list && menu.list.length > 0;
+				if(hasChildren){
+					(ele || $('#sidebarList')).append($.format(liParent, menu));
+					renderMenu(menu.list, $('#sidebarList li:last .admin-sidebar-sub'));
+				} else{
+					(ele || $('#sidebarList')).append($.format(li, menu));
+				}
+			}
+		}
+		
+		//绑定菜单点击事件
+		$('#sidebarList').on('click', 'a[data-url]', function(){
+			var url = $(this).data('url');
+			$(this).parent().addClass("am-active");
+			$.ajax({
+				url: basePath + url,
+				dataType: 'html',
+				cache: false,
+				success: function(data){
+					$('#contentBody').html(data);
+				}
+			});
+			$('#breadcrumbs').text($(this).text());
+		});
+		
+		$(function(){
+			$('#sidebarList').empty();
+			renderMenu(menus);
+			//默认加载第一个菜单页面
+ 			$('#sidebarList a[data-url]:first').trigger('click');
+		});
+	})();
+</script>
+</body>
+</html>

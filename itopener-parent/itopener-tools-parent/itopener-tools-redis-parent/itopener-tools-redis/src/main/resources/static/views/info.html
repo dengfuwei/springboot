@@ -1,0 +1,183 @@
+<div class="am-cf am-padding-xs am-padding-bottom-0">
+	<div class="am-fl am-cf">
+		<strong class="am-text-primary am-text-lg">redis管理工具</strong> / <small>master信息</small>
+	</div>
+</div>
+<hr class="am-margin-xs"/>
+<form class="am-form am-form-horizontal am-margin-right-sm" role="form" id="queryForm">
+	<ul class="am-avg-sm-1 am-avg-md-2 am-avg-lg-4 am-thumbnails">
+		<li class="am-padding-bottom-0">
+			<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
+				<div class="am-u-sm-12 am-padding-left-xs am-padding-right-0">
+					<button type="button" id="refreshBtn" class="am-btn am-btn-sm am-btn-primary"><i class="am-icon-refresh"></i>&nbsp;刷新</button>
+				</div>
+			</div>
+		</li>
+	</ul>
+</form>
+<hr class="am-margin-top-0"/>
+<div class="am-g">
+	<ul class="am-avg-sm-1 am-avg-md-1 am-avg-lg-1 am-thumbnails" id="infoContent">
+	
+	</ul>
+</div>
+<ul class="am-hide" id="infoTmpl">
+	<li class="am-panel am-panel-default am-margin-bottom-xs am-padding-left-0 am-padding-right-0">
+		<div class="am-panel-hd am-cf" data-am-collapse="{target: '#collapse-panel-{{run_id}}'}">
+			{{node}}<span class="am-icon-chevron-down am-fr"></span>
+		</div>
+		<div id="collapse-panel-{{run_id}}" class="am-panel-bd am-collapse am-padding-0">
+			<div class="am-scrollable-horizontal">
+				<table class="am-table am-table-bordered am-table-striped am-table-hover am-table-compact am-table-centered am-margin-bottom-xs">
+					<thead>
+						<tr>
+							<th>指标</th>
+							<th>指标值</th>
+							<th>说明</th>
+						</tr>
+					</thead>
+					<tbody id="tableBody"></tbody>
+				</table>
+			</div>
+		</div>
+	</li>
+</ul>
+<script>
+(function(){
+	var redisInfoMapping = {
+		'os': '系统（os）',
+		'mem_fragmentation_ratio': '内存碎片比率',
+		'client_longest_output_list': '当前连接的客户端中最长的输出列表',
+		'used_memory_rss': '从操作系统的角度，返回 Redis 已分配的内存总量（俗称常驻集大小）。这个值和 top 、 ps 等命令的输出一致',
+		'used_memory': '由 Redis 分配器分配的内存总量，以字节（byte）为单位',
+		'sync_full': '',
+		'aof_buffer_length': 'AOF 缓冲区的大小',
+		'used_memory_rss_human': '',
+		'repl_backlog_first_byte_offset': '',
+		'rdb_current_bgsave_time_sec': '如果服务器正在创建 RDB 文件，那么这个域记录的就是当前的创建操作已经耗费的秒数',
+		'run_id': 'Redis的随机标识符(用于sentinel和集群)',
+		'rejected_connections': '因为最大客户端数量限制而被拒绝的连接请求数量',
+		'loading': '记录服务器是否正在载入持久化文件',
+		'process_id': '服务器进程PID',
+		'used_memory_lua_human': 'LUA引擎所使用的内存大小，更人性化的格式',
+		'executable': '',
+		'maxmemory_policy': '',
+		'tcp_port': 'Redis监听的端口号',
+		'uptime_in_days': 'Redis运行时长(天为单位)',
+		'used_cpu_user': 'Redis 服务器耗费的用户 CPU',
+		'aof_last_write_status': 'AOF缓冲区最后写状态',
+		'pubsub_channels': '目前被订阅的频道数量',
+		'total_commands_processed': '服务器已执行的命令数量',
+		'arch_bits': '架构位数，如：32位、64位',
+		'used_memory_peak': ' Redis 的内存消耗峰值（以字节为单位）',
+		'total_net_input_bytes': '总共输入字节数',
+		'total_net_output_bytes': '总共输出字节数',
+		'sync_partial_err': '',
+		'connected_slaves': '已连接的slave数量',
+		'keyspace_misses': '查找数据库键失败的次数',
+		'redis_git_dirty': '',
+		'aof_base_size': '服务器启动时或者 AOF 重写最近一次执行之后，AOF 文件的大小',
+		'rdb_bgsave_in_progress': '记录了服务器是否正在创建 RDB 文件',
+		'used_cpu_sys': 'Redis 服务器耗费的系统 CPU',
+		'aof_last_rewrite_time_sec': '最近一次创建 AOF 文件耗费的时长',
+		'client_biggest_input_buf': '当前连接的客户端中最大的输出缓存',
+		'aof_rewrite_scheduled': 'RDB 文件创建完毕之后，是否需要执行预约的 AOF 重写操作',
+		'aof_last_bgrewrite_status': '最近一次创建 AOF 文件的结果是成功还是失败',
+		'evicted_keys': '因为最大内存容量限制而被驱逐（evict）的键数量',
+		'blocked_clients': '正在等待阻塞命令（BLPOP、BRPOP、BRPOPLPUSH）的客户端的数量 需监控',
+		'master_repl_offset': '',
+		'instantaneous_ops_per_sec': '服务器每秒钟执行的命令数量',
+		'aof_enabled': 'AOF 是否处于打开状态',
+		'instantaneous_input_kbps': '',
+		'aof_rewrite_in_progress': '服务器是否正在创建 AOF 文件',
+		'mem_allocator': '',
+		'lru_clock': '以分钟为单位的自增时钟,用于LRU管理',
+		'used_cpu_user_children': '后台进程耗费的用户 CPU',
+		'migrate_cached_sockets': '',
+		'cluster_enabled': '是否允许cluster集群',
+		'rdb_changes_since_last_save': '距离最近一次成功创建持久化文件之后，经过了多少秒',
+		'aof_delayed_fsync': '被延迟的 fsync 调用数量',
+		'expired_keys': '因为过期而被自动删除的数据库键数量',
+		'rdb_last_bgsave_status': '最近一次创建 RDB 文件的结果是成功还是失败',
+		'maxmemory': '',
+		'gcc_version': 'gcc版本号',
+		'redis_git_sha1': '',
+		'used_cpu_sys_children': '后台进程耗费的系统 CPU',
+		'multiplexing_api': '调用算法',
+		'maxmemory_human': '',
+		'total_system_memory': '系统总内存，单位字节',
+		'total_system_memory_human': '系统总内存，更人性化的格式',
+		'aof_current_rewrite_time_sec': '如果服务器正在创建 AOF 文件，那么这个域记录的就是当前的创建操作已经耗费的秒数',
+		'aof_pending_rewrite': '是否有 AOF 重写操作在等待 RDB 文件创建完毕之后执行',
+		'redis_version': 'redis版本',
+		'instantaneous_output_kbps': '',
+		'aof_rewrite_buffer_length': 'AOF 重写缓冲区的大小',
+		'pubsub_patterns': '目前被订阅的模式数量',
+		'role': '如果当前服务器没有在复制任何其他服务器，那么这个域的值就是 master ；否则的话，这个域的值就是 slave 。注意，在创建复制链的时候，一个从服务器也可能是另一个服务器的主服务器',
+		'connected_clients': '已连接客户端的数量（不包括通过从属服务器连接的客户端）',
+		'rdb_last_bgsave_time_sec': '最近一次创建 RDB 文件耗费的秒数',
+		'used_memory_peak_human': 'redis峰值内存占用，更人性化的格式',
+		'latest_fork_usec': '最近一次 fork() 操作耗费的毫秒数',
+		'keyspace_hits': '查找数据库键成功的次数',
+		'rdb_last_save_time': '最近一次成功创建 RDB 文件的 UNIX 时间戳',
+		'config_file': 'redis配置文件',
+		'aof_pending_bio_fsync': '后台 I/O 队列里面，等待执行的 fsync 调用数量',
+		'redis_mode': 'redis运行模式',
+		'aof_current_size': 'AOF 文件目前的大小',
+		'slave0': '从属节点',
+		'used_memory_human': 'redis占用的内存，更人性化的格式',
+		'total_connections_received': '服务器已接受的连接请求数量',
+		'db0': 'keyspace 部分记录了数据库相关的统计信息，比如数据库的键数量、数据库已经被删除的过期键数量等。对于每个数据库，这个部分都会添加一行以下格式的信息',
+		'redis_build_id': '',
+		'repl_backlog_size': '',
+		'repl_backlog_active': '',
+		'repl_backlog_histlen': '',
+		'sync_partial_ok': '',
+		'hz': '',
+		'uptime_in_seconds': 'Redis运行时长(s为单位)',
+		'used_memory_lua': 'LUA引擎所使用的内存大小'
+	}
+	$('#refreshBtn').on('click', function(){
+		$.ajax({
+			url: basePath + 'redis/info',
+			type: 'get',
+			dataType: 'json',
+			success: function(data){
+				var info = {};
+				data.info = $.objKeySort(data.info);
+				for(var key in data.info){
+					var arr = key.split(':');
+					var ip = arr[0];
+					arr = arr[1].split('.');
+					var port = arr[0];
+					var metric = arr[1];
+					
+					var node = ip + ':' + port;
+					info[node] = info[node] || {};
+					info[node].node = node;
+					info[node][metric] = data.info[key];
+				}
+// 				console.log(JSON.stringify(info));
+				
+				$('#infoContent').empty();
+				for(var key in info){
+					$('#infoTmpl #tableBody').empty();
+					for(var item in info[key]){
+						if(item == 'node'){
+							continue;
+						}
+						$('#infoTmpl #tableBody').append('<tr><td>' + item + '</td><td>' + info[key][item] + '</td><td>' + ($.getjson(redisInfoMapping, item) || '') + '</td></tr>');
+					}
+					var html = $.format($('#infoTmpl').html(), info[key]);
+					$('#infoContent').append(html);
+				}
+			}
+		});
+	});
+	$(function(){
+		$('#refreshBtn').trigger('click');
+	});
+})();
+</script>
+</body>
+</html>
