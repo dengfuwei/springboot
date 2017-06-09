@@ -44,6 +44,12 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>com.itopener</groupId>
+			<artifactId>itopener-tools-redis-view</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		
+		<dependency>
 	        <groupId>org.springframework.boot</groupId>
 	        <artifactId>spring-boot-devtools</artifactId>
 	        <optional>true</optional>
