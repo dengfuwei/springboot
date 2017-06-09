@@ -17,7 +17,6 @@
 	</properties>
 	<modules>
 		<module>itopener-demo-druid-model</module>
-		<module>itopener-demo-druid-web</module>
 		<module>itopener-demo-druid</module>
 	</modules>
 </project>
