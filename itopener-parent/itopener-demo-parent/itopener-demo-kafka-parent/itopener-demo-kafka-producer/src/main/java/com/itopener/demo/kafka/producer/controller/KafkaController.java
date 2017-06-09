@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.itopener.demo.kafka.producer.config.KafkaProducerConstant;
 import com.itopener.framework.ResultMap;
 
-/**
- * Created by fuwei.deng on 2017年5月17日.
+/**  
+ * @author fuwei.deng
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 @RestController
 @RequestMapping("kafka")
