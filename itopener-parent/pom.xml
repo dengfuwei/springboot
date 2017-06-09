@@ -123,15 +123,6 @@
 
 	<repositories>
 		<repository>
-			<id>msxfRepo</id>
-			<name>msxfRepo</name>
-			<layout>default</layout>
-			<url>http://nexus.msfinance.cn/nexus/content/groups/public</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
 			<id>aliyun</id>
 			<name>aliyun</name>
 			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
