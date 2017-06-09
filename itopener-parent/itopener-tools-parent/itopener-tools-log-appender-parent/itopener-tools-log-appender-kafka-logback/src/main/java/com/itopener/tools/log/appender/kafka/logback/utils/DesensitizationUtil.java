@@ -1,17 +1,12 @@
-/**  
- * Project Name:msxf-tools-appender-kafka-logback 
- * File DesensitizationUtil.java  
- * Package Name:com.msxf.tools.appender.kafka.logback.formatter
- * Date:2017年5月17日下午1:14:20 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package com.itopener.tools.log.appender.kafka.logback.utils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by fuwei.deng on 2017年5月17日.
+/**  
+ * @author fuwei.deng
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 public class DesensitizationUtil {
 

@@ -1,15 +1,9 @@
-/**  
- * Project Name:msxf-tools-appender-kafka-logback 
- * File Name:Ssl.java  
- * Package Name:com.msxf.tools.appender.kafka.logback  
- * Date:2017年5月18日上午10:14:40 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package com.itopener.tools.log.appender.kafka.logback;
 
-
-/**
- * Created by fuwei.deng on 2017年5月18日.
+/**  
+ * @author fuwei.deng
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 public class Ssl<E> {
 

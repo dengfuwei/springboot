@@ -1,16 +1,11 @@
-/**  
- * Project Name:msxf-utils 
- * File Name:TimestampUtil.java  
- * Package Name:com.msxf.utils  
- * Date:2017年5月11日上午10:45:07 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package org.itopener.utils;
 
 import java.sql.Timestamp;
 
-/**
- * Created by fuwei.deng on 2017年5月11日.
+/**  
+ * @author fuwei.deng
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 public class TimestampUtil {
 

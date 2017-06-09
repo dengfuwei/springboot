@@ -1,10 +1,3 @@
-/**  
- * Project Name:msxf-integral-web 
- * File Name:KafkaAppender.java  
- * Package Name:com.msxf.integral.config  
- * Date:2017年5月17日下午5:12:38 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package com.itopener.tools.log.appender.kafka.logback;
 
 import java.util.ArrayList;
@@ -27,8 +20,10 @@ import com.itopener.tools.log.appender.kafka.logback.formatter.Formatter;
 import com.itopener.tools.log.appender.kafka.logback.formatter.MessageFormatter;
 import com.itopener.tools.log.appender.kafka.logback.utils.KafkaLogbackUtil;
 
-/**
- * Created by fuwei.deng on 2017年5月17日.
+/**  
+ * @author fuwei.deng
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 public class KafkaLogbackAppender<E> extends UnsynchronizedAppenderBase<E> {
 	

@@ -1,10 +1,3 @@
-/**  
- * Project Name:msxf-activity-web 
- * File Name:WebMvcConfigurer.java  
- * Package Name:com.msxf.activity.config  
- * Date:2017年3月17日下午4:51:32 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package com.itopener.tools.redis.config;
 
 import java.util.List;
@@ -22,13 +15,9 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
 import com.itopener.framework.interceptors.PerformanceInterceptor;
 
 /**  
- * @ClassName:WebMvcConfigurer <br/> 
- * @Description 增加 interceptors, formatters, view controllers 等配置<br/>
- * @date 2017年3月17日下午4:51:32 <br/>
  * @author fuwei.deng
- * @version 
- * @since JDK 1.6  
- * @see 
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 @Configuration
 public class WebMvcConfigurer extends WebMvcConfigurerAdapter {

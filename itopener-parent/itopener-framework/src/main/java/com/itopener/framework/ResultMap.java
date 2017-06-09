@@ -1,16 +1,11 @@
-/**  
- * Project Name:msxf-framework 
- * File Name:ResuleMap.java  
- * Package Name:com.msxf.framework  
- * Date:2017年5月5日上午9:36:35 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package com.itopener.framework;
 
 import org.springframework.ui.ModelMap;
 
-/**
- * Created by fuwei.deng on 2017年5月5日.
+/**  
+ * @author fuwei.deng
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 public class ResultMap extends ModelMap {
 

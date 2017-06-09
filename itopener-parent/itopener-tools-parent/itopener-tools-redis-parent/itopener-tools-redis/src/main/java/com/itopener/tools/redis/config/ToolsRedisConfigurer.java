@@ -1,10 +1,3 @@
-/**  
- * Project Name:msxf-tools-redis 
- * File Name:ToolsRedisConfigurer.java  
- * Package Name:com.msxf.tools.redis.config  
- * Date:2017年5月12日下午2:53:04 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package com.itopener.tools.redis.config;
 
 import org.springframework.context.annotation.Bean;
@@ -13,8 +6,10 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-/**
- * Created by fuwei.deng on 2017年5月12日.
+/**  
+ * @author fuwei.deng
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 @Configuration
 public class ToolsRedisConfigurer {

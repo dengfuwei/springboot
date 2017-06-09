@@ -1,10 +1,3 @@
-/**  
- * Project Name:msxf-tools-redis 
- * File Name:ClusterNode.java  
- * Package Name:com.msxf.tools.redis.vo  
- * Date:2017年5月12日上午10:23:47 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package com.itopener.tools.redis.vo;
 
 import java.util.List;
@@ -14,8 +7,10 @@ import org.springframework.data.redis.connection.RedisClusterNode.Flag;
 import org.springframework.data.redis.connection.RedisClusterNode.LinkState;
 import org.springframework.data.redis.connection.RedisNode.NodeType;
 
-/**
- * Created by fuwei.deng on 2017年5月12日.
+/**  
+ * @author fuwei.deng
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 public class ClusterNode {
 

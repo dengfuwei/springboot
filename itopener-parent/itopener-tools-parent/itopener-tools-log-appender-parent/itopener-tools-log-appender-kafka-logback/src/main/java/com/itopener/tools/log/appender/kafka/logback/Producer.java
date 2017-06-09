@@ -1,10 +1,3 @@
-/**  
- * Project Name:msxf-tools-appender-kafka-logback 
- * File Name:Producer.java  
- * Package Name:com.msxf.tools.appender.kafka.logback  
- * Date:2017年5月18日上午10:11:56 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package com.itopener.tools.log.appender.kafka.logback;
 
 import java.util.ArrayList;
@@ -19,8 +12,10 @@ import org.springframework.core.io.ClassPathResource;
 
 import com.itopener.tools.log.appender.kafka.logback.utils.KafkaLogbackUtil;
 
-/**
- * Created by fuwei.deng on 2017年5月18日.
+/**  
+ * @author fuwei.deng
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 public class Producer<E> {
 

@@ -1,22 +1,11 @@
-/**  
- * Project Name:msxf-activity-web 
- * File Name:ISessionUser.java  
- * Package Name:com.msxf.activity.interceptors  
- * Date:2017年3月28日下午3:37:28 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package com.itopener.framework.interceptors;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**  
- * @ClassName:ISessionUser <br/> 
- * @Description <br/>
- * @date 2017年3月28日下午3:37:28 <br/>
  * @author fuwei.deng
- * @version 
- * @since JDK 1.6  
- * @see 
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 public interface ISessionUser {
 

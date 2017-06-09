@@ -1,10 +1,3 @@
-/**  
- * Project Name:msxf-activity-web 
- * File Name:LoginRequiredInterceptor.java  
- * Package Name:com.msxf.activity.interceptors  
- * Date:2017年3月28日下午3:36:42 
- * Copyright (c)2015, 马上消费金融股份有限公司  All Rights Reserved.  
- */ 
 package com.itopener.framework.interceptors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,13 +11,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.alibaba.fastjson.JSON;
 
 /**  
- * @ClassName:LoginRequiredInterceptor <br/> 
- * @Description <br/>
- * @date 2017年3月28日下午3:36:42 <br/>
  * @author fuwei.deng
- * @version 
- * @since JDK 1.6  
- * @see 
+ * @Date 2017年6月9日 下午3:10:58
+ * @version 1.0.0
  */
 public class LoginRequiredInterceptor extends HandlerInterceptorAdapter {
 
