@@ -18,5 +18,6 @@
     <module>itopener-demo-kafka-parent</module>
     <module>itopener-demo-logback-kafka-parent</module>
     <module>itopener-demo-druid-parent</module>
+    <module>itopener-demo-rabbitmq-parent</module>
   </modules>
 </project>
