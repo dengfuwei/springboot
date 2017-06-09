@@ -20,4 +20,9 @@ public class KafkaListenerConfigurer {
 		logger.info("kafka received msg : " + content);
 	}
 	
+	@KafkaListener(topics = KafkaConsumerConstant.KAFKA_TOPIC_LOGBACK_DEMO)
+	public void processLogback(String content) {
+		logger.info("kafka received log : " + content);
+	}
+	
 }

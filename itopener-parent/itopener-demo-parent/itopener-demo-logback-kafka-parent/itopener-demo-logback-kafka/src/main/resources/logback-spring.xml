@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- 引用现有配置 -->
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+	<!-- 控制台 -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="KAFKA" class="com.itopener.tools.log.appender.kafka.logback.KafkaLogbackAppender">
+		<topic>kafka-topic-logback-demo</topic>
+		<bootstrapServers>localhost:9092</bootstrapServers>
+		<clientId>kafka-logback-demo</clientId>
+		<producer class="com.itopener.tools.log.appender.kafka.logback.Producer">
+			<retries>3</retries>
+			<keySerializer class="org.apache.kafka.common.serialization.StringSerializer"></keySerializer>
+		</producer>
+		<loggerNamePrefix>com.itopener</loggerNamePrefix>
+	</appender>
+	
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="KAFKA" />
+	</root>
+</configuration>
