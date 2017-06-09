@@ -15,5 +15,6 @@
 	</properties>
   <modules>
     <module>itopener-demo-springboot-admin-parent</module>
+    <module>itopener-demo-kafka-parent</module>
   </modules>
 </project>
