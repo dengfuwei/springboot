@@ -25,6 +25,7 @@
 		<pagehelper-starter.version>1.1.0</pagehelper-starter.version>
 		<mybatis-starter.version>1.2.0</mybatis-starter.version>
 		<sharding-jdbc.version>1.4.2</sharding-jdbc.version>
+		<druid.version>1.0.29</druid.version>
 	</properties>
 
 	<dependencyManagement>
@@ -33,6 +34,12 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
 			</dependency>
 
 			<dependency>
@@ -119,6 +126,7 @@
 		<module>msxf-drools-parent</module>
 		<module>itopener-framework</module>
 		<module>itopener-utils</module>
+		<module>itopener-spring-boot-starters-parent</module>
 	</modules>
 
 	<repositories>
