@@ -26,6 +26,7 @@
 		<mybatis-starter.version>1.2.0</mybatis-starter.version>
 		<sharding-jdbc.version>1.4.2</sharding-jdbc.version>
 		<druid.version>1.0.29</druid.version>
+		<tbschedule.version>3.3.3.2</tbschedule.version>
 	</properties>
 
 	<dependencyManagement>
@@ -40,6 +41,12 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>
 				<version>${druid.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.taobao.pamirs.schedule</groupId>
+				<artifactId>tbschedule</artifactId>
+				<version>${tbschedule.version}</version>
 			</dependency>
 
 			<dependency>
@@ -128,6 +135,7 @@
 		<module>itopener-utils</module>
 		<module>itopener-spring-boot-starters-parent</module>
 		<module>itopener-tools-parent</module>
+		<module>itopener-demos-parent</module>
 	</modules>
 
 	<repositories>
