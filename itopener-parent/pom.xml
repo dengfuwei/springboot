@@ -27,6 +27,7 @@
 		<sharding-jdbc.version>1.4.2</sharding-jdbc.version>
 		<druid.version>1.0.29</druid.version>
 		<tbschedule.version>3.3.3.2</tbschedule.version>
+		<spring-boot-admin.version>1.5.0</spring-boot-admin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -47,6 +48,27 @@
 				<groupId>com.taobao.pamirs.schedule</groupId>
 				<artifactId>tbschedule</artifactId>
 				<version>${tbschedule.version}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>de.codecentric</groupId>
+			    <artifactId>spring-boot-admin-server</artifactId>
+			    <version>${spring-boot-admin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-server-ui</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<dependency>
+			    <groupId>de.codecentric</groupId>
+			    <artifactId>spring-boot-admin-server-ui-login</artifactId>
+			    <version>${spring-boot-admin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-client</artifactId>
+				<version>${spring-boot-admin.version}</version>
 			</dependency>
 
 			<dependency>
@@ -120,22 +142,11 @@
 	</dependencyManagement>
 
 	<modules>
-		<module>msxf-spring-boot-starters-parent</module>
-		<module>msxf-activity-parent</module>
-		<module>msxf-framework</module>
-		<module>msxf-integral-parent</module>
-		<module>msxf-utils</module>
-		<module>msxf-tools-parent</module>
-		<module>msxf-kafka-consumer</module>
-		<module>msxf-kafka-logback</module>
-		<module>msxf-spring-boot-admin</module>
-		<module>msxf-normal-parent</module>
-		<module>msxf-drools-parent</module>
 		<module>itopener-framework</module>
 		<module>itopener-utils</module>
 		<module>itopener-spring-boot-starters-parent</module>
 		<module>itopener-tools-parent</module>
-		<module>itopener-demos-parent</module>
+		<module>itopener-demo-parent</module>
 	</modules>
 
 	<repositories>
