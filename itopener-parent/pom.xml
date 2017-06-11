@@ -18,7 +18,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.8</java.version>
+		<java.version>1.7</java.version>
 		<fastjson.version>1.2.31</fastjson.version>
 		<drools.version>6.5.0.Final</drools.version>
 		<curator-client.version>2.11.1</curator-client.version>
@@ -147,6 +147,7 @@
 		<module>itopener-spring-boot-starters-parent</module>
 		<module>itopener-tools-parent</module>
 		<module>itopener-demo-parent</module>
+		<module>itopener-tellist-parent</module>
 	</modules>
 
 	<repositories>
