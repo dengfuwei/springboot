@@ -1,5 +1,6 @@
 package com.itopener.tellist.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -7,7 +8,10 @@ import java.sql.Timestamp;
  * @author fuwei.deng
  * @date 2017-06-12 18:04:17
  */
-public class TelList {
+public class TelList implements Serializable {
+
+	/** */
+	private static final long serialVersionUID = -2371881890049063160L;
 
 	/** ID*/
 	private long id;

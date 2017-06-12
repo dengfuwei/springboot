@@ -13,23 +13,28 @@ public class UserCondition extends User implements BaseCondition {
 	/** */
 	private static final long serialVersionUID = 1292720196300671560L;
 
-	private int pageNum;
+	/** 页数*/
+	private int page;
 	
-	private int pageSize;
+	/** 每页数量*/
+	private int size;
 
-	public int getPageNum() {
-		return pageNum;
+	public int getPage() {
+		return page;
 	}
 
-	public void setPageNum(int pageNum) {
-		this.pageNum = pageNum;
+	public UserCondition setPage(int page) {
+		this.page = page;
+		return this;
 	}
 
-	public int getPageSize() {
-		return pageSize;
+	public int getSize() {
+		return size;
 	}
 
-	public void setPageSize(int pageSize) {
-		this.pageSize = pageSize;
+	public UserCondition setSize(int size) {
+		this.size = size;
+		return this;
 	}
+
 }

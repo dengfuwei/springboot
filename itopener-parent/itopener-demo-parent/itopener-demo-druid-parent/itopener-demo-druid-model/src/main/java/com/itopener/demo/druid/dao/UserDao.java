@@ -32,7 +32,7 @@ public class UserDao {
 	}
 
 	public List<User> selectPage(UserCondition condition) {
-		return baseDao.selectPage(NAMESPACE + "select", condition, condition.getPageNum(), condition.getPageSize());
+		return baseDao.selectPage(NAMESPACE + "select", condition, condition.getPage(), condition.getSize());
 	}
 
 	public int selectCount(UserCondition condition) {
