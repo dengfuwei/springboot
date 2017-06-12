@@ -7,4 +7,11 @@ package com.itopener.framework.base;
  */
 public interface BaseCondition {
 
+	public int getPage();
+	
+	public BaseCondition setPage(int page);
+	
+	public int getSize();
+	
+	public BaseCondition setSize(int size);
 }

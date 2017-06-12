@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itopener.tellist.mapper.TelListMapper">
+
+	<resultMap id="BaseResultMap" type="com.itopener.tellist.model.TelList">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="serial_number" property="serialNumber" jdbcType="BIGINT" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="dept_id" property="deptId" jdbcType="BIGINT" />
+		<result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="vnet_number" property="vnetNumber" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="position" property="position" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+	</resultMap>
+
+	<sql id="Insert_Column_List">
+		serial_number, user_id, name, dept_id, dept_name, mobile, vnet_number, telephone, position, email, 
+		create_time, create_user_id, update_time, update_user_id
+	</sql>
+
+	<sql id="Column_List">
+		id, <include refid="Insert_Column_List" />
+	</sql>
+
+	<sql id="Where">
+		<where>
+			<if test="id > 0">
+				and id = #{id,jdbcType=BIGINT}
+			</if>
+			<if test="deptId > 0">
+				and dept_id = #{deptId,jdbcType=BIGINT}
+			</if>
+			<if test="userId > 0">
+				and user_id = #{userId,jdbcType=BIGINT}
+			</if>
+			<if test="vnetNumber != null and vnetNumber != ''">
+				and vnet_number = #{vnetNumber,jdbcType=VARCHAR}
+			</if>
+			<if test="mobile != null and mobile != ''">
+				and mobile = #{mobile,jdbcType=VARCHAR}
+			</if>
+			<if test="likeName != null and likeName != ''">
+				and name like concat('%', #{likeName,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="likeTelephone != null and likeTelephone != ''">
+				and telephone like concat('%', #{likeTelephone,jdbcType=VARCHAR}, '%')
+			</if>
+			<if test="likeMobile != null and likeMobile != ''">
+				and mobile like concat('%', #{likeMobile,jdbcType=VARCHAR}, '%')
+			</if>
+		</where>
+	</sql>
+
+	<select id="select" parameterType="com.itopener.tellist.conditions.TelListCondition" resultMap="BaseResultMap">
+		select <include refid="Column_List" />
+		from t_tel_list
+		<include refid="Where" />
+	</select>
+
+	<select id="selectCount" parameterType="com.itopener.tellist.conditions.TelListCondition" resultType="int">
+		select count(id)
+		from t_tel_list
+		<include refid="Where" />
+	</select>
+
+	<select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select <include refid="Column_List" />
+		from t_tel_list
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insert" parameterType="com.itopener.tellist.model.TelList" keyProperty="id" useGeneratedKeys="true">
+		insert into t_tel_list(<include refid="Insert_Column_List" />)
+		values (
+			#{serialNumber,jdbcType=BIGINT},
+			#{userId,jdbcType=BIGINT},
+			#{name,jdbcType=VARCHAR},
+			#{deptId,jdbcType=BIGINT},
+			#{deptName,jdbcType=VARCHAR},
+			#{mobile,jdbcType=VARCHAR},
+			#{vnetNumber,jdbcType=VARCHAR},
+			#{telephone,jdbcType=VARCHAR},
+			#{position,jdbcType=VARCHAR},
+			#{email,jdbcType=VARCHAR},
+			#{createTime,jdbcType=TIMESTAMP},
+			#{createUserId,jdbcType=BIGINT},
+			#{updateTime,jdbcType=TIMESTAMP},
+			#{updateUserId,jdbcType=BIGINT})
+	</insert>
+
+	<update id="update" parameterType="com.itopener.tellist.model.TelList">
+		update t_tel_list
+		set
+			serial_number = #{serialNumber,jdbcType=BIGINT},
+			user_id = #{userId,jdbcType=BIGINT},
+			name = #{name,jdbcType=VARCHAR},
+			dept_id = #{deptId,jdbcType=BIGINT},
+			dept_name = #{deptName,jdbcType=VARCHAR},
+			mobile = #{mobile,jdbcType=VARCHAR},
+			vnet_number = #{vnetNumber,jdbcType=VARCHAR},
+			telephone = #{telephone,jdbcType=VARCHAR},
+			position = #{position,jdbcType=VARCHAR},
+			email = #{email,jdbcType=VARCHAR},
+			create_user_id = #{createUserId,jdbcType=BIGINT},
+			update_time = #{updateTime,jdbcType=TIMESTAMP},
+			update_user_id = #{updateUserId,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<delete id="delete" parameterType="com.itopener.tellist.model.TelList">
+		delete from t_tel_list
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+</mapper>
