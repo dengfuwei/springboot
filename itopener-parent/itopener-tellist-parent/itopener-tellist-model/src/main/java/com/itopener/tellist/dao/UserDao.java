@@ -26,7 +26,7 @@ public class UserDao {
 	}
 
 	public List<User> selectPage(UserCondition condition) {
-		PageHelper.startPage(condition.getPage(), condition.getSize());
+		PageHelper.startPage(condition.getPage(), condition.getSize(), false);
 		return baseDao.selectList(NAMESPACE + "select", condition);
 	}
 

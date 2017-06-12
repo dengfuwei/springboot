@@ -62,6 +62,9 @@
 		select <include refid="Column_List" />
 		from t_tel_list
 		<include refid="Where" />
+		<if test="orderBy != null and orderBy != ''">
+			order by ${orderBy}
+		</if>
 	</select>
 
 	<select id="selectCount" parameterType="com.itopener.tellist.conditions.TelListCondition" resultType="int">

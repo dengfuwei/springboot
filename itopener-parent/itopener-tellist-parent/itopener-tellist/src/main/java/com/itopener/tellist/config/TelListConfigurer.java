@@ -1,6 +1,9 @@
 package com.itopener.tellist.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.itopener.framework.base.BaseDao;
 
 /**
  * @author fuwei.deng
@@ -10,5 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TelListConfigurer {
 
-	
+	@Bean
+	public BaseDao baseDao(){
+		return new BaseDao();
+	}
 }

@@ -4,6 +4,7 @@
 	</div>
 	<div class="am-fr am-cf">
 		<button type="button" id="toAddBtn" class="am-btn am-btn-xs am-btn-primary" data-am-modal="{target: '#modal-tellist-add'}"><i class="am-icon-plus"></i>&nbsp;新增</button>
+		<button type="button" id="refreshBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-refresh"></i>&nbsp;刷新分部数据</button>
 	</div>
 </div>
 <hr class="am-margin-xs"/>
@@ -13,7 +14,7 @@
 			<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 				<label for="name" class="am-u-sm-4 am-form-label am-text-right am-padding-left-0 am-padding-right-0">姓名：</label>
 				<div class="am-u-sm-8 am-padding-left-0 am-padding-right-0">
-					<input type="text" class="am-form-field" />
+					<input type="text" class="am-form-field" name="likeName" />
 				</div>
 			</div>
 		</li>
@@ -21,7 +22,7 @@
 			<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 				<label for="name" class="am-u-sm-4 am-form-label am-text-right am-padding-left-0 am-padding-right-0">电话：</label>
 				<div class="am-u-sm-8 am-padding-left-0 am-padding-right-0">
-					<input type="text" class="am-form-field" />
+					<input type="text" class="am-form-field" name="likeMobile" />
 				</div>
 			</div>
 		</li>
@@ -34,6 +35,8 @@
 			</div>
 		</li>
 	</ul>
+	<input type="hidden" id="page" />
+	<input type="hidden" id="size" />
 </form>
 <hr class="am-margin-top-0"/>
 <div class="am-u-sm-3">
@@ -73,205 +76,21 @@
 					<th>邮件</th>
 					<th>操作</th>
 				</tr>
-				<tr class="am-hide" id="tableTmpl"></tr>
+				<tr class="am-hide" id="tableTmpl">
+					<td>{{deptName}}</td>
+					<td>{{name}}</td>
+					<td>{{position}}</td>
+					<td>{{telephone}}</td>
+					<td>{{mobile}}</td>
+					<td>{{vnetNumber}}</td>
+					<td>{{email}}</td>
+					<td>
+						<button type="button" id="toUpdateBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
+						<button type="button" id="toDeleteBtn" data-id="{{id}}" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
+					</td>
+				</tr>
 			</thead>
-			<tbody id="tableBody">
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-				<tr>
-					<td>分部一</td>
-					<td>邓夫伟</td>
-					<td>java开发工程师</td>
-					<td>028-12345678</td>
-					<td>17302816229</td>
-					<td>816229</td>
-					<td>442617114@qq.com</td>
-					<td>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="queryBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
-					</td>
-				</tr>
-			</tbody>
+			<tbody id="tableBody"></tbody>
 		</table>
 		<div id="pagingDiv"></div>
 	</div>
@@ -283,68 +102,68 @@
 				data-am-modal-close>&times;</a>
 		</div>
 		<div class="am-modal-bd am-padding-bottom-0">
-			<form class="am-form am-form-horizontal">
+			<form class="am-form am-form-horizontal" id="editForm">
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-					<label for="doc-ipt-3" class="am-u-sm-2 am-form-label">编号<span class="am-text-danger">*</span></label>
-					<div class="am-u-sm-10">
-						<input type="number" id="serialNumber">
+					<label for="doc-ipt-3" class="am-u-sm-3 am-form-label">编号<span class="am-text-danger">*</span></label>
+					<div class="am-u-sm-9">
+						<input type="number" id="serialNumber" name="serialNumber">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-					<label for="doc-ipt-pwd-2" class="am-u-sm-2 am-form-label">姓名<span class="am-text-danger">*</span></label>
-					<div class="am-u-sm-10">
-						<input type="text" id="name">
+					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">姓名<span class="am-text-danger">*</span></label>
+					<div class="am-u-sm-9">
+						<input type="text" id="name" name="name">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-					<label for="doc-ipt-pwd-2" class="am-u-sm-2 am-form-label">手机<span class="am-text-danger">*</span></label>
-					<div class="am-u-sm-10">
-						<input type="text" id="mobile">
+					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">手机<span class="am-text-danger">*</span></label>
+					<div class="am-u-sm-9">
+						<input type="text" id="mobile" name="mobile">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-					<label for="doc-ipt-pwd-2" class="am-u-sm-2 am-form-label">V网短号</label>
-					<div class="am-u-sm-10">
-						<input type="text" id="vnetNumber">
+					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">V网短号</label>
+					<div class="am-u-sm-9">
+						<input type="text" id="vnetNumber" name="vnetNumber">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-					<label for="doc-ipt-pwd-2" class="am-u-sm-2 am-form-label">电话</label>
-					<div class="am-u-sm-10">
-						<input type="text" id="telephone">
+					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">电话</label>
+					<div class="am-u-sm-9">
+						<input type="text" id="telephone" name="telephone">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-					<label for="doc-ipt-pwd-2" class="am-u-sm-2 am-form-label">单位<span class="am-text-danger">*</span></label>
-					<div class="am-u-sm-10">
-						<select name="deptId">
+					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">单位<span class="am-text-danger">*</span></label>
+					<div class="am-u-sm-9">
+						<select name="deptId" id="deptSelect">
 							<option value=""></option>
 						</select>
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-					<label for="doc-ipt-pwd-2" class="am-u-sm-2 am-form-label">职位</label>
-					<div class="am-u-sm-10">
-						<input type="text" id="position">
+					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">职位</label>
+					<div class="am-u-sm-9">
+						<input type="text" id="position" name="position">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-					<label for="doc-ipt-pwd-2" class="am-u-sm-2 am-form-label">邮箱</label>
-					<div class="am-u-sm-10">
-						<input type="text" id="email">
+					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">邮箱</label>
+					<div class="am-u-sm-9">
+						<input type="text" id="email" name="email">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 					<div class="am-u-sm-12">
-						<button type="button" class="am-btn am-btn-sm am-btn-primary">保存</button>
+						<button type="button" id="saveBtn" class="am-btn am-btn-sm am-btn-primary">保存</button>
 					</div>
 				</div>
 			</form>
@@ -360,43 +179,115 @@
 		totalCount: 2000
 	});
 	
-	var data = [{
-		title: '一级分部1',
-		type: 'folder',
-		products: [
-			{
-				title: '二级分部1',
-				type: 'item'
-			}, {
-				title: '二级分部2',
-				type: 'item'
-			}, {
-				title: '二级分部3',
-				type: 'folder',
-				products: [
-					{
-						title: '三级分部1',
-						type: 'item'
-					}, {
-						title: '三级分部2',
-						type: 'item'
-					}, {
-						title: '三级分部3',
-						type: 'item'
-					}]
-			}]
-		}];
-	$('#deptTree').tree({
-		dataSource: function(options, callback) {
-			callback({data: options.products || data});
-		},
-		multiSelect: false,
-		folderSelect: true,
-		folderIcon: 'am-icon-hand-o-right',
-// 		folderOpenIcon: 'am-icon-hand-o-right',
-		itemIcon: 'am-icon-hand-o-right'
+	$('#queryBtn').on('click', function(){
+		$('#queryForm').trimForm();
+		var page = $('#page').val() || 1;
+		var size = $('#size').val() || 15;
+		var deptId = 0;
+		$('#queryForm').ajaxSubmit({
+			url: basePath + 'tellist/list/' + page + '/' + size,
+			type: 'get',
+			dataType: 'json',
+			data: {
+				deptId: deptId
+			},
+			success: function(data){
+				$('#tableBody').empty();
+				if(data.count < 1){
+					$('#tableBody').append('<tr><td colspan="8">没有查询到符合条件的数据</td></tr>');
+					return false;
+				}
+				for(var i=0; i<data.list.length; i++){
+					$('#tableBody').append('<tr>' + $.format($('#tableTmpl').html(), data.list[i]) + '</tr>');
+				}
+				$('#pagingDiv').paging({
+					page: page,
+					pageSize: size,
+					totalPage: data.count == 0 ? 1 : Math.ceil(data.count/size),
+					totalCount: data.count
+				});
+			}
+		});
 	});
-	$('#deptTree').tree('discloseAll');
+	
+	function handleTree(srcList, treeObj, parentId){
+		treeObj.products = new Array();
+		for(var i=0; i<srcList.length; i++){
+			var item = srcList[i];
+			if(item.parentId == parentId){
+				var obj = {
+					title: item.name,
+					type: 'item',
+					attr: item
+				}
+				treeObj.products.push(obj);
+			}
+		}
+		if(treeObj.products.length > 0){
+			treeObj.type = 'folder';
+			for(var i=0; i<treeObj.products.length; i++){
+				var item = treeObj.products[i];
+				handleTree(srcList, item, item.attr.id);
+			}
+		}
+	}
+	
+	$('#refreshBtn').on('click', function(){
+		$.ajax({
+			url: basePath + 'dept/list',
+			type: 'get',
+			dataType: 'json',
+			async: false,
+			success: function(data){
+				if(!data.list || data.list.length < 1){
+					layer.msg('没有查询到分部数据');
+					return false;
+				}
+				var treeObj = {
+					title: '全部分部数据',
+					type: 'item'
+				}
+				handleTree(data.list, treeObj, 0);
+				
+				$('#deptSelect').empty();
+				$('#deptSelect').append('<option value="0">无上级</option>');
+				for(var i=0; i<data.list.length; i++){
+					$('#deptSelect').append('<option value="' + data.list[i].id + '">' + data.list[i].name + '</option>');
+				}
+				
+				$('#deptTree').tree({
+					dataSource: function(options, callback) {
+						callback({data: options.products || treeObj.products});
+					},
+					multiSelect: false,
+					folderSelect: true,
+					cacheItems: false,
+					folderIcon: 'am-icon-hand-o-right',
+//			 		folderOpenIcon: 'am-icon-hand-o-right',
+					itemIcon: 'am-icon-hand-o-right'
+				});
+				$('#deptTree').tree('discloseAll');
+				
+				$('#queryBtn').trigger('click');
+			}
+		});
+	});
+	
+	$('#saveBtn').on('click', function(){
+		$('#editForm').trimForm();
+		$('#editForm').ajaxSubmit({
+			url: basePath + 'tellist/save',
+			type: 'put',
+			dataType: 'json',
+			success: function(data){
+				layer.msg('保存成功');
+			}
+		});
+	});
+	
+	$(function(){
+		$('#refreshBtn').trigger('click');
+	});
 })();
 </script>
 </body>

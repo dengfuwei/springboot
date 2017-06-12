@@ -1,5 +1,5 @@
-//var basePath = "http://localhost:8080/";
-var basePath = "http://182.92.78.206:8080/";
+var basePath = "http://localhost:8080/";
+//var basePath = "http://182.92.78.206:8080/";
 
 $.extend({
 	formatNumber: function(num, n){

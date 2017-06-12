@@ -14,10 +14,13 @@ public class TelListCondition extends TelList implements BaseCondition {
 	private static final long serialVersionUID = 943866958981162715L;
 
 	/** 页数*/
-	private int page;
+	private int page = 1;
 	
 	/** 每页数量*/
-	private int size;
+	private int size = 20;
+	
+	/** 排序*/
+	private String orderBy;
 
 	/** 姓名--模糊匹配*/
 	private String likeName;
@@ -71,5 +74,14 @@ public class TelListCondition extends TelList implements BaseCondition {
 
 	public String getLikeMobile() {
 		return likeMobile;
+	}
+	
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public TelListCondition setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+		return this;
 	}
 }

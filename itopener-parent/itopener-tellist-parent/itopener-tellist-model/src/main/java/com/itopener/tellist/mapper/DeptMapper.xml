@@ -36,6 +36,9 @@
 		select <include refid="Column_List" />
 		from t_dept
 		<include refid="Where" />
+		<if test="orderBy != null and orderBy != ''">
+			order by ${orderBy}
+		</if>
 	</select>
 
 	<select id="selectCount" parameterType="com.itopener.tellist.conditions.DeptCondition" resultType="int">

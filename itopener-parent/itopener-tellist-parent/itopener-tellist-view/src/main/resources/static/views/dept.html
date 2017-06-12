@@ -3,39 +3,10 @@
 		<strong class="am-text-primary am-text-lg">通讯录管理</strong> / <small>分部管理</small>
 	</div>
 	<div class="am-fr am-cf">
-		<button type="button" id="toAddBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-plus"></i>&nbsp;新增</button>
+		<button type="button" id="refreshBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-refresh"></i>&nbsp;刷新分部数据</button>
 	</div>
 </div>
 <hr class="am-margin-xs"/>
-<form class="am-form am-form-horizontal am-margin-right-sm" role="form" id="queryForm">
-	<ul class="am-avg-sm-1 am-avg-md-3 am-avg-lg-4 am-thumbnails">
-		<li class="am-padding-0">
-			<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-				<label for="name" class="am-u-sm-4 am-form-label am-text-right am-padding-left-0 am-padding-right-0">序号：</label>
-				<div class="am-u-sm-8 am-padding-left-0 am-padding-right-0">
-					<input type="text" class="am-form-field" />
-				</div>
-			</div>
-		</li>
-		<li class="am-padding-0">
-			<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-				<label for="name" class="am-u-sm-4 am-form-label am-text-right am-padding-left-0 am-padding-right-0">名称：</label>
-				<div class="am-u-sm-8 am-padding-left-0 am-padding-right-0">
-					<input type="text" class="am-form-field" />
-				</div>
-			</div>
-		</li>
-		<li class="am-padding-0">
-			<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-				<div class="am-u-sm-12 am-padding-left-xs am-padding-right-0">
-					<button type="button" id="queryBtn" class="am-btn am-btn-sm am-btn-primary"><i class="am-icon-search"></i>&nbsp;查询</button>
-					<button type="reset" class="am-btn am-btn-sm am-btn-default"><i class="am-icon-undo"></i>&nbsp;重置</button>
-				</div>
-			</div>
-		</li>
-	</ul>
-</form>
-<hr class="am-margin-top-0"/>
 
 <div class="am-u-sm-5">
 	<ul class="am-tree" role="tree" id="deptTree">
@@ -61,26 +32,26 @@
 	</ul>
 </div>
 <div class="am-u-sm-7">
-	<form class="am-form am-form-horizontal">
+	<form class="am-form am-form-horizontal" id="editForm">
 		<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 			<label for="doc-ipt-3" class="am-u-sm-3 am-form-label">ID<span class="am-text-danger">*</span></label>
 			<div class="am-u-sm-9">
-				<input type="number" name="id" readonly="readonly">
+				<input type="number" name="id" readonly="readonly" value="0" class="vfor">
 			</div>
 		</div>
 		
 		<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 			<label for="doc-ipt-3" class="am-u-sm-3 am-form-label">序号<span class="am-text-danger">*</span></label>
 			<div class="am-u-sm-9">
-				<input type="number" name="serialNumber" id="serialNumber">
+				<input type="number" name="serialNumber" id="serialNumber" class="vfor">
 			</div>
 		</div>
 		
 		<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 			<label for="doc-ipt-3" class="am-u-sm-3 am-form-label">上级分部<span class="am-text-danger">*</span></label>
 			<div class="am-u-sm-9">
-				<select name="parentId">
-					<option value=""></option>
+				<select name="parentId" id="deptSelect" class="vfor">
+					<option value="0">无上级</option>
 				</select>
 			</div>
 		</div>
@@ -88,56 +59,148 @@
 		<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 			<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">名称<span class="am-text-danger">*</span></label>
 			<div class="am-u-sm-9">
-				<input type="text" name="name" id="name">
+				<input type="text" name="name" id="name" class="vfor">
 			</div>
 		</div>
 
 		<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 			<div class="am-u-sm-9 am-u-sm-offset-3">
-				<button type="button" class="am-btn am-btn-sm am-btn-primary">保存</button>
+				<button type="button" id="saveBtn" class="am-btn am-btn-sm am-btn-primary">保存</button>
+				<button type="reset" class="am-btn am-btn-sm am-btn-primary">清空/新增</button>
 			</div>
 		</div>
 	</form>
 </div>
 <script>
 (function() {
-	var data = [{
-		title: '一级分部1',
-		type: 'folder',
-		products: [
-			{
-				title: '二级分部1',
-				type: 'item'
-			}, {
-				title: '二级分部2',
-				type: 'item'
-			}, {
-				title: '二级分部3',
-				type: 'folder',
-				products: [
-					{
-						title: '三级分部1',
-						type: 'item'
-					}, {
-						title: '三级分部2',
-						type: 'item'
-					}, {
-						title: '三级分部3',
-						type: 'item'
-					}]
-			}]
-		}];
-	$('#deptTree').tree({
-		dataSource: function(options, callback) {
-			callback({data: options.products || data});
-		},
-		multiSelect: false,
-		folderSelect: true,
-		folderIcon: 'am-icon-hand-o-right',
-// 		folderOpenIcon: 'am-icon-hand-o-right',
-		itemIcon: 'am-icon-hand-o-right'
+	function handleTree(srcList, treeObj, parentId){
+		treeObj.products = new Array();
+		for(var i=0; i<srcList.length; i++){
+			var item = srcList[i];
+			if(item.parentId == parentId){
+				var obj = {
+					title: item.name,
+					type: 'item',
+					attr: item
+				}
+				treeObj.products.push(obj);
+			}
+		}
+		if(treeObj.products.length > 0){
+			treeObj.type = 'folder';
+			for(var i=0; i<treeObj.products.length; i++){
+				var item = treeObj.products[i];
+				handleTree(srcList, item, item.attr.id);
+			}
+		}
+	}
+	
+	$('#refreshBtn').on('click', function(){
+		$.ajax({
+			url: basePath + 'dept/list',
+			type: 'get',
+			dataType: 'json',
+			async: false,
+			success: function(data){
+				if(!data.list || data.list.length < 1){
+					layer.msg('没有查询到分部数据');
+					return false;
+				}
+				var treeObj = {
+					title: '全部分部数据',
+					type: 'item'
+				}
+				handleTree(data.list, treeObj, 0);
+				
+				$('#deptSelect').empty();
+				$('#deptSelect').append('<option value="0">无上级</option>');
+				for(var i=0; i<data.list.length; i++){
+					$('#deptSelect').append('<option value="' + data.list[i].id + '">' + data.list[i].name + '</option>');
+				}
+				
+				$('#deptTree').tree({
+					dataSource: function(options, callback) {
+						callback({data: options.products || treeObj.products});
+					},
+					multiSelect: false,
+					folderSelect: true,
+					cacheItems: false,
+					folderIcon: 'am-icon-hand-o-right',
+//			 		folderOpenIcon: 'am-icon-hand-o-right',
+					itemIcon: 'am-icon-hand-o-right'
+				});
+				$('#deptTree').tree('discloseAll');
+			}
+		});
 	});
-	$('#deptTree').tree('discloseAll');
+	
+	$('#saveBtn').on('click', function(){
+		$('#editForm').trimForm();
+		var serialNumber = $('#serialNumber').val();
+		if(!serialNumber){
+			layer.msg('输入序号');
+			return false;
+		}
+		
+		var name = $('#name').val();
+		if(!name){
+			layer.msg('输入名称');
+			return false;
+		}
+		
+		$('#editForm').ajaxSubmit({
+			url: basePath + 'dept/save',
+			type: 'put',
+			dataType: 'json',
+			success: function(data){
+				layer.msg('保存成功');
+// 				$('#deptTree').tree('destroy');
+				$('#refreshBtn').trigger('click');
+			}
+		});
+	});
+	
+	$(function(){
+		$('#refreshBtn').trigger('click');
+	});
+	
+// 	var data = [{
+// 		title: '一级分部1',
+// 		type: 'folder',
+// 		products: [
+// 			{
+// 				title: '二级分部1',
+// 				type: 'item'
+// 			}, {
+// 				title: '二级分部2',
+// 				type: 'item'
+// 			}, {
+// 				title: '二级分部3',
+// 				type: 'folder',
+// 				products: [
+// 					{
+// 						title: '三级分部1',
+// 						type: 'item'
+// 					}, {
+// 						title: '三级分部2',
+// 						type: 'item'
+// 					}, {
+// 						title: '三级分部3',
+// 						type: 'item'
+// 					}]
+// 			}]
+// 		}];
+// 	$('#deptTree').tree({
+// 		dataSource: function(options, callback) {
+// 			callback({data: options.products || data});
+// 		},
+// 		multiSelect: false,
+// 		folderSelect: true,
+// 		folderIcon: 'am-icon-hand-o-right',
+// // 		folderOpenIcon: 'am-icon-hand-o-right',
+// 		itemIcon: 'am-icon-hand-o-right'
+// 	});
+// 	$('#deptTree').tree('discloseAll');
 })();
 </script>
 </body>

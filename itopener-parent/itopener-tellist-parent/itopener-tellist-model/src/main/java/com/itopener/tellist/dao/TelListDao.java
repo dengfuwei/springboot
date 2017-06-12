@@ -26,7 +26,7 @@ public class TelListDao {
 	}
 
 	public List<TelList> selectPage(TelListCondition condition) {
-		PageHelper.startPage(condition.getPage(), condition.getSize());
+		PageHelper.startPage(condition.getPage(), condition.getSize(), false);
 		return baseDao.selectList(NAMESPACE + "select", condition);
 	}
 

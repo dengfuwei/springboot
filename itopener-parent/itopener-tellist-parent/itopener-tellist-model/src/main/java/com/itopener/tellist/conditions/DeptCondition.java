@@ -18,6 +18,9 @@ public class DeptCondition extends Dept implements BaseCondition {
 	
 	/** 每页数量*/
 	private int size;
+	
+	/** 排序*/
+	private String orderBy;
 
 	public int getPage() {
 		return page;
@@ -34,6 +37,15 @@ public class DeptCondition extends Dept implements BaseCondition {
 
 	public DeptCondition setSize(int size) {
 		this.size = size;
+		return this;
+	}
+
+	public String getOrderBy() {
+		return orderBy;
+	}
+
+	public DeptCondition setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
 		return this;
 	}
 	

@@ -2,6 +2,7 @@ package com.itopener.tellist.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @desc 分部
@@ -36,6 +37,9 @@ public class Dept implements Serializable {
 
 	/** 最后更新人ID*/
 	private long updateUserId;
+	
+	/** 子分部*/
+	private List<Dept> list;
 
 	public long getId() {
 		return id;
@@ -108,4 +112,13 @@ public class Dept implements Serializable {
 		this.updateUserId = updateUserId;
 		return this;
 	}
+
+	public List<Dept> getList() {
+		return list;
+	}
+
+	public void setList(List<Dept> list) {
+		this.list = list;
+	}
+	
 }

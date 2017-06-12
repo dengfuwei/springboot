@@ -14,4 +14,8 @@ public interface BaseCondition {
 	public int getSize();
 	
 	public BaseCondition setSize(int size);
+	
+	public String getOrderBy();
+	
+	public BaseCondition setOrderBy(String orderBy);
 }
