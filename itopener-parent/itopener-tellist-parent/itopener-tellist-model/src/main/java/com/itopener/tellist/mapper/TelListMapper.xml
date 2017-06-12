@@ -100,7 +100,6 @@
 		update t_tel_list
 		set
 			serial_number = #{serialNumber,jdbcType=BIGINT},
-			user_id = #{userId,jdbcType=BIGINT},
 			name = #{name,jdbcType=VARCHAR},
 			dept_id = #{deptId,jdbcType=BIGINT},
 			dept_name = #{deptName,jdbcType=VARCHAR},
@@ -109,7 +108,6 @@
 			telephone = #{telephone,jdbcType=VARCHAR},
 			position = #{position,jdbcType=VARCHAR},
 			email = #{email,jdbcType=VARCHAR},
-			create_user_id = #{createUserId,jdbcType=BIGINT},
 			update_time = #{updateTime,jdbcType=TIMESTAMP},
 			update_user_id = #{updateUserId,jdbcType=BIGINT}
 		where id = #{id,jdbcType=BIGINT}

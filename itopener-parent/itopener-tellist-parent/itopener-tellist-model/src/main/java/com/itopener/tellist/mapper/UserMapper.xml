@@ -78,7 +78,6 @@
 			login_pwd = #{loginPwd,jdbcType=VARCHAR},
 			state = #{state,jdbcType=TINYINT},
 			role = #{role,jdbcType=TINYINT},
-			create_user_id = #{createUserId,jdbcType=BIGINT},
 			update_time = #{updateTime,jdbcType=TIMESTAMP},
 			update_user_id = #{updateUserId,jdbcType=BIGINT}
 		where id = #{id,jdbcType=BIGINT}
