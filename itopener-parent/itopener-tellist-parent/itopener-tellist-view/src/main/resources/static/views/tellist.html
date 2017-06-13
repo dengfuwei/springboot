@@ -66,8 +66,8 @@
 					<td>
 						<div class="am-btn-toolbar">
 							<div class="am-btn-group am-btn-group-xs">
-								<button type="button" class="am-btn am-btn-xs am-btn-primary toUpdateBtn"><i class="am-icon-search"></i>&nbsp;修改</button>
-								<button type="button" class="am-btn am-btn-xs am-btn-primary toDeleteBtn" data-id="{{id}}"><i class="am-icon-search"></i>&nbsp;删除</button>
+								<button type="button" class="am-btn am-btn-xs am-btn-primary toUpdateBtn"><i class="am-icon-edit"></i>&nbsp;修改</button>
+								<button type="button" class="am-btn am-btn-xs am-btn-primary toDeleteBtn" data-id="{{id}}"><i class="am-icon-trash-o"></i>&nbsp;删除</button>
 							</div>
 						</div>
 					</td>
@@ -87,7 +87,7 @@
 		<div class="am-modal-bd am-padding-bottom-0">
 			<form class="am-form am-form-horizontal" id="editForm">
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-					<label for="doc-ipt-3" class="am-u-sm-3 am-form-label">编号<span class="am-text-danger">*</span></label>
+					<label for="doc-ipt-3" class="am-u-sm-3 am-form-label">序号<span class="am-text-danger">*</span></label>
 					<div class="am-u-sm-9">
 						<input type="number" id="serialNumber" name="serialNumber" class="vfor">
 					</div>
@@ -141,7 +141,7 @@
 					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">邮箱<span class="am-text-danger">*</span></label>
 					<div class="am-u-sm-9">
 						<div class="am-input-group">
-							<input type="text" id="email" name="email" class="am-form-field vfor">
+							<input type="text" id="email" name="emailPrefix" class="am-form-field vfor">
 							<span class="am-input-group-label">@petrochina.com.cn</span>
 						</div>
 					</div>
@@ -150,6 +150,7 @@
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 					<div class="am-u-sm-12">
 						<button type="button" id="saveBtn" class="am-btn am-btn-sm am-btn-primary">保存</button>
+						<button type="button" class="am-btn am-btn-sm am-btn-primary" data-am-modal-close>取消</button>
 					</div>
 				</div>
 			</form>
@@ -220,7 +221,7 @@
 	
 	$('#refreshBtn').on('click', function(){
 		$.ajax({
-			url: basePath + 'dept/list',
+			url: basePath + 'tellist/depts',
 			type: 'get',
 			dataType: 'json',
 			success: function(data){
@@ -266,9 +267,17 @@
 	
 	$('#saveBtn').on('click', function(){
 		$('#editForm').trimForm();
+		
+		if(!validate()){
+			return false;
+		}
+		
 		$('#editForm').ajaxSubmit({
 			url: basePath + 'tellist/save',
 			type: 'put',
+			data: {
+				email: $('#editForm #email').val()
+			},
 			dataType: 'json',
 			success: function(data){
 				layer.msg('保存成功');
@@ -278,8 +287,47 @@
 		});
 	});
 	
+	function validate(){
+		var serialNumber = $('#editForm #serialNumber').val();
+		if(!serialNumber){
+			layer.msg('请输入序号');
+			return false;
+		}
+		
+		var name = $('#editForm #name').val();
+		if(!name){
+			layer.msg('请输入姓名');
+			return false;
+		}
+		
+		var mobile = $('#editForm #mobile').val();
+		if(!mobile){
+			layer.msg('请输入手机号');
+			return false;
+		}
+		
+		var deptId = $('#editForm #deptSelect').val();
+		if(!deptId || parseInt(deptId) < 1){
+			layer.msg('请选择所属分部');
+			return false;
+		}
+		
+		var email = $('#editForm #email').val();
+		if(!email){
+			layer.msg('请输入邮箱');
+			return false;
+		}
+		if(email.indexOf('@') > -1){
+			layer.msg('请输入正确的邮箱');
+			return false;
+		}
+		return true;
+	}
+	
 	$('#tableBody').on('click', '.toUpdateBtn', function(){
 		var obj = $(this).data('obj');
+		obj.emailPrefix = obj.email.substring(0, obj.email.indexOf('@'));
+		console.log(obj.email);
 		$('#editForm').find('.vfor').each(function(){
 			$(this).val($.getjson(obj, $(this).attr('name')));
 		});

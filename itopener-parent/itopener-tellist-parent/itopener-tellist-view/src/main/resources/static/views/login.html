@@ -40,7 +40,7 @@
 		<hr />
 	</div>
 	<div class="am-g am-u-lg-4 am-u-md-4 am-u-sm-centered am-padding-top-sm am-login">
-		<form class="am-form am-form-horizontal">
+		<form class="am-form am-form-horizontal" id="loginForm">
 			<div class="am-form-group am-form-group-sm">
 				<label for="loginName" class="am-u-sm-3 am-form-label">用户名</label>
 				<div class="am-u-sm-9">
@@ -55,7 +55,7 @@
 			</div>
 			<div class="am-form-group am-form-group-sm">
 				<div class="am-u-sm-9 am-u-sm-offset-3">
-					<button type="button" id="loginBtn" class="am-btn am-btn-sm am-btn-primary">登录</button>
+					<button type="submit" class="am-btn am-btn-sm am-btn-primary">登录</button>
 					<a href="/" class="am-btn am-btn-sm am-btn-primary">直接进入</a>
 				</div>
 			</div>
@@ -80,7 +80,7 @@
 	<script src="../res/js/app.js"></script>
 	<script>
 		(function(){
-			$('#loginBtn').on('click', function(){
+			$('#loginForm').submit(function(){
 				var loginName = $('#loginName').val();
 				if(!loginName){
 					layer.msg('请输入用户名');
@@ -103,6 +103,7 @@
 						location.href = basePath;
 					}
 				});
+				return false;
 			});
 			
 			$(function(){

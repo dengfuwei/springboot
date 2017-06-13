@@ -39,10 +39,10 @@ public class DeptController {
 		DeptCondition condition = new DeptCondition();
 		condition.setOrderBy("serial_number asc");
 		
-		long deptId = TelListUtil.getSessionDeptId(request);
-		if(deptId > 0){
-			condition.setId(deptId);
-		}
+//		long deptId = TelListUtil.getSessionDeptId(request);
+//		if(deptId > 0){
+//			condition.setId(deptId);
+//		}
 		
 		List<Dept> deptList = deptService.list(condition);
 		return ResultMap.buildSuccess().put("list", deptList);
@@ -52,17 +52,18 @@ public class DeptController {
 	@RequestMapping(value = "save", method = RequestMethod.PUT)
 	public ResultMap save(Dept dept){
 		try {
-			if(dept.getId() == dept.getParentId()){
+			if(dept.getId() > 0 && dept.getId() == dept.getParentId()){
 				return ResultMap.buildFailed("上级分部不能是当前分部");
 			}
+			long userId = TelListUtil.getSessionUserId(request);
 			Timestamp now = TimestampUtil.current();
 			dept.setUpdateTime(now);
-			dept.setUpdateUserId(0);
+			dept.setUpdateUserId(userId);
 			if(dept.getId() > 0){
 				deptService.update(dept);
 			} else{
 				dept.setCreateTime(now);
-				dept.setCreateUserId(0);
+				dept.setCreateUserId(userId);
 				deptService.add(dept);
 			}
 			return ResultMap.buildSuccess();

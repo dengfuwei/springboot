@@ -22,7 +22,7 @@ public class TelListUtil {
 		
 		if(!CollectionUtils.isEmpty(distList)){
 			for(Dept item : distList){
-				item.setList(new ArrayList<>());
+				item.setList(new ArrayList<Dept>());
 				handleTree(srcList, item.getList(), item.getId());
 			}
 		}
