@@ -9,27 +9,7 @@
 <hr class="am-margin-xs"/>
 
 <div class="am-u-sm-5">
-	<ul class="am-tree" role="tree" id="deptTree">
-		<li class="am-tree-branch am-hide" data-template="treebranch" role="treeitem" aria-expanded="false">
-			<div class="am-tree-branch-header">
-				<button class="am-tree-icon am-tree-icon-caret am-icon-caret-right">
-					<span class="am-sr-only">Open</span>
-				</button>
-				<button class="am-tree-branch-name">
-					<span class="am-tree-icon am-tree-icon-folder"></span>
-					<span class="am-tree-label"></span>
-				</button>
-			</div>
-			<ul class="am-tree-branch-children" role="group"></ul>
-			<div class="am-tree-loader" role="alert">Loading...</div>
-		</li>
-		<li class="am-tree-item am-hide" data-template="treeitem" role="treeitem">
-			<button class="am-tree-item-name">
-				<span class="am-tree-icon am-tree-icon-item"></span>
-				<span class="am-tree-label"></span>
-			</button>
-		</li>
-	</ul>
+	<ul class="ztree" id="deptTree"></ul>
 </div>
 <div class="am-u-sm-7">
 	<form class="am-form am-form-horizontal" id="editForm">
@@ -66,7 +46,8 @@
 		<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 			<div class="am-u-sm-9 am-u-sm-offset-3">
 				<button type="button" id="saveBtn" class="am-btn am-btn-sm am-btn-primary">保存</button>
-				<button type="reset" class="am-btn am-btn-sm am-btn-primary">清空/新增</button>
+				<button type="reset" id="resetBtn" class="am-btn am-btn-sm am-btn-primary">清空</button>
+				<button type="button" id="deleteBtn" class="am-btn am-btn-sm am-btn-primary">删除</button>
 			</div>
 		</div>
 	</form>
@@ -74,22 +55,23 @@
 <script>
 (function() {
 	function handleTree(srcList, treeObj, parentId){
-		treeObj.products = new Array();
+		treeObj.children = new Array();
 		for(var i=0; i<srcList.length; i++){
 			var item = srcList[i];
 			if(item.parentId == parentId){
 				var obj = {
-					title: item.name,
-					type: 'item',
+					name: item.name,
+					isParent: false,
+					open: true,
 					attr: item
 				}
-				treeObj.products.push(obj);
+				treeObj.children.push(obj);
 			}
 		}
-		if(treeObj.products.length > 0){
-			treeObj.type = 'folder';
-			for(var i=0; i<treeObj.products.length; i++){
-				var item = treeObj.products[i];
+		if(treeObj.children.length > 0){
+			treeObj.isParent = true;
+			for(var i=0; i<treeObj.children.length; i++){
+				var item = treeObj.children[i];
 				handleTree(srcList, item, item.attr.id);
 			}
 		}
@@ -100,36 +82,35 @@
 			url: basePath + 'dept/list',
 			type: 'get',
 			dataType: 'json',
-			async: false,
+// 			async: false,
 			success: function(data){
 				if(!data.list || data.list.length < 1){
 					layer.msg('没有查询到分部数据');
 					return false;
 				}
-				var treeObj = {
-					title: '全部分部数据',
-					type: 'item'
-				}
+				var treeObj = {};
 				handleTree(data.list, treeObj, 0);
-				
+				$('#resetBtn').trigger('click');
 				$('#deptSelect').empty();
 				$('#deptSelect').append('<option value="0">无上级</option>');
 				for(var i=0; i<data.list.length; i++){
 					$('#deptSelect').append('<option value="' + data.list[i].id + '">' + data.list[i].name + '</option>');
 				}
 				
-				$('#deptTree').tree({
-					dataSource: function(options, callback) {
-						callback({data: options.products || treeObj.products});
+				var setting = {
+					callback: {
+						onClick: function(event, treeId, treeNode){
+							$('#editForm').find('.vfor').each(function(){
+								$(this).val($.getjson(treeNode.attr, $(this).attr('name')));
+							});
+						}
 					},
-					multiSelect: false,
-					folderSelect: true,
-					cacheItems: false,
-					folderIcon: 'am-icon-hand-o-right',
-//			 		folderOpenIcon: 'am-icon-hand-o-right',
-					itemIcon: 'am-icon-hand-o-right'
-				});
-				$('#deptTree').tree('discloseAll');
+					view: {
+						showIcon: false,
+						showTitle: false
+					}
+				};
+				$.fn.zTree.init($('#deptTree'), setting, treeObj.children);
 			}
 		});
 	});
@@ -154,53 +135,33 @@
 			dataType: 'json',
 			success: function(data){
 				layer.msg('保存成功');
-// 				$('#deptTree').tree('destroy');
 				$('#refreshBtn').trigger('click');
 			}
+		});
+	});
+	
+	$('#deleteBtn').on('click', function(){
+		$.confirm('确认', '确认要删除此分部吗？', function(){
+			var deptId = $('#editForm').find('input[name="id"]').val();
+			if(!deptId){
+				layer.msg('请选择要删除的分部');
+				return false;
+			}
+			$.ajax({
+				url: basePath + 'dept/' + deptId,
+				type: 'delete',
+				dataType: 'json',
+				success: function(data){
+					layer.msg('操作成功');
+					$('#refreshBtn').trigger('click');
+				}
+			});
 		});
 	});
 	
 	$(function(){
 		$('#refreshBtn').trigger('click');
 	});
-	
-// 	var data = [{
-// 		title: '一级分部1',
-// 		type: 'folder',
-// 		products: [
-// 			{
-// 				title: '二级分部1',
-// 				type: 'item'
-// 			}, {
-// 				title: '二级分部2',
-// 				type: 'item'
-// 			}, {
-// 				title: '二级分部3',
-// 				type: 'folder',
-// 				products: [
-// 					{
-// 						title: '三级分部1',
-// 						type: 'item'
-// 					}, {
-// 						title: '三级分部2',
-// 						type: 'item'
-// 					}, {
-// 						title: '三级分部3',
-// 						type: 'item'
-// 					}]
-// 			}]
-// 		}];
-// 	$('#deptTree').tree({
-// 		dataSource: function(options, callback) {
-// 			callback({data: options.products || data});
-// 		},
-// 		multiSelect: false,
-// 		folderSelect: true,
-// 		folderIcon: 'am-icon-hand-o-right',
-// // 		folderOpenIcon: 'am-icon-hand-o-right',
-// 		itemIcon: 'am-icon-hand-o-right'
-// 	});
-// 	$('#deptTree').tree('discloseAll');
 })();
 </script>
 </body>

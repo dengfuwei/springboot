@@ -17,7 +17,7 @@ public class SessionUserAdapter implements ISessionUser {
 	}
 
 	@Override
-	public boolean hasAuthority(HttpServletRequest request, String controller) {
+	public boolean hasAuthority(HttpServletRequest request, AuthorityRequired authorityRequired, String controller) {
 		return false;
 	}
 

@@ -40,13 +40,13 @@
 
 		<dependency>
 			<groupId>com.itopener</groupId>
-			<artifactId>itopener-druid-spring-boot-autoconfigure</artifactId>
+			<artifactId>itopener-druid-spring-boot-starter</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.itopener</groupId>
-			<artifactId>itopener-druidstat-spring-boot-autoconfigure</artifactId>
+			<artifactId>itopener-druidstat-spring-boot-starter</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		

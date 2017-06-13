@@ -10,18 +10,24 @@ import javax.servlet.http.HttpServletRequest;
 public interface ISessionUser {
 
 	/**
-	 * @Description: 是否登录
+	 * @description 是否登录
+	 * @author fuwei.deng
+	 * @date 2017年6月13日 下午5:30:21
+	 * @version 1.0.0
+	 * @param request
 	 * @return userId,如果大于0表示已登录，等于0表示未登录，返回userId方便记录用户操作日志
-	 * @author 邓夫伟
-	 * @date 2015年10月24日 下午4:27:30
 	 */
 	public long isLogin(HttpServletRequest request);
 	
 	/**
-	 * @Description: 是否有权限
+	 * @description 是否有权限
+	 * @author fuwei.deng
+	 * @date 2017年6月13日 下午5:30:58
+	 * @version 1.0.0
+	 * @param request
+	 * @param authorityRequired
+	 * @param controller
 	 * @return true:有权限；false：无权限
-	 * @author 邓夫伟
-	 * @date 2015年10月24日 下午4:28:42
 	 */
-	public boolean hasAuthority(HttpServletRequest request, String controller);
+	public boolean hasAuthority(HttpServletRequest request, AuthorityRequired authorityRequired, String controller);
 }

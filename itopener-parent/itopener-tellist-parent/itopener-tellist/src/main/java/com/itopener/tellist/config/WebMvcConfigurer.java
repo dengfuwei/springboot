@@ -12,6 +12,8 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
+import com.itopener.framework.interceptors.AuthorityInterceptor;
+import com.itopener.framework.interceptors.LoginRequiredInterceptor;
 import com.itopener.framework.interceptors.PerformanceInterceptor;
 
 /**
@@ -33,6 +35,8 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		logger.info("添加拦截器");
 		registry.addInterceptor(new PerformanceInterceptor());
+		registry.addInterceptor(new LoginRequiredInterceptor());
+		registry.addInterceptor(new AuthorityInterceptor().setSessionUser(new SessionUser()));
 	}
 
 	@Override

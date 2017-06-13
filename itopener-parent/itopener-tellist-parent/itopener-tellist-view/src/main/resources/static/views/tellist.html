@@ -4,7 +4,7 @@
 	</div>
 	<div class="am-fr am-cf">
 		<button type="button" id="toAddBtn" class="am-btn am-btn-xs am-btn-primary" data-am-modal="{target: '#modal-tellist-add'}"><i class="am-icon-plus"></i>&nbsp;新增</button>
-		<button type="button" id="refreshBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-refresh"></i>&nbsp;刷新分部数据</button>
+		<button type="button" id="refreshBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-refresh"></i>&nbsp;刷新</button>
 	</div>
 </div>
 <hr class="am-margin-xs"/>
@@ -35,32 +35,11 @@
 			</div>
 		</li>
 	</ul>
-	<input type="hidden" id="page" />
-	<input type="hidden" id="size" />
+	<input type="hidden" id="deptId" />
 </form>
-<hr class="am-margin-top-0"/>
+<hr class="am-margin-xs am-margin-top-0"/>
 <div class="am-u-sm-3">
-	<ul class="am-tree" role="tree" id="deptTree">
-		<li class="am-tree-branch am-hide" data-template="treebranch" role="treeitem" aria-expanded="false">
-			<div class="am-tree-branch-header">
-				<button class="am-tree-icon am-tree-icon-caret am-icon-caret-right">
-					<span class="am-sr-only">Open</span>
-				</button>
-				<button class="am-tree-branch-name">
-					<span class="am-tree-icon am-tree-icon-folder"></span>
-					<span class="am-tree-label"></span>
-				</button>
-			</div>
-			<ul class="am-tree-branch-children" role="group"></ul>
-			<div class="am-tree-loader" role="alert">Loading...</div>
-		</li>
-		<li class="am-tree-item am-hide" data-template="treeitem" role="treeitem">
-			<button class="am-tree-item-name">
-				<span class="am-tree-icon am-tree-icon-item"></span>
-				<span class="am-tree-label"></span>
-			</button>
-		</li>
-	</ul>
+	<ul class="ztree" id="deptTree"></ul>
 </div>
 <div class="am-u-sm-9">
 	<div class="am-scrollable-horizontal">
@@ -85,8 +64,12 @@
 					<td>{{vnetNumber}}</td>
 					<td>{{email}}</td>
 					<td>
-						<button type="button" id="toUpdateBtn" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;修改</button>
-						<button type="button" id="toDeleteBtn" data-id="{{id}}" class="am-btn am-btn-xs am-btn-primary"><i class="am-icon-search"></i>&nbsp;删除</button>
+						<div class="am-btn-toolbar">
+							<div class="am-btn-group am-btn-group-xs">
+								<button type="button" class="am-btn am-btn-xs am-btn-primary toUpdateBtn"><i class="am-icon-search"></i>&nbsp;修改</button>
+								<button type="button" class="am-btn am-btn-xs am-btn-primary toDeleteBtn" data-id="{{id}}"><i class="am-icon-search"></i>&nbsp;删除</button>
+							</div>
+						</div>
 					</td>
 				</tr>
 			</thead>
@@ -98,50 +81,50 @@
 <div class="am-modal am-modal-no-btn" tabindex="-1" id="modal-tellist-add">
 	<div class="am-modal-dialog">
 		<div class="am-modal-hd">
-			编辑通讯录信息 <a href="javascript: void(0)" class="am-close am-close-spin"
-				data-am-modal-close>&times;</a>
+			编辑通讯录信息 
+			<a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
 		</div>
 		<div class="am-modal-bd am-padding-bottom-0">
 			<form class="am-form am-form-horizontal" id="editForm">
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 					<label for="doc-ipt-3" class="am-u-sm-3 am-form-label">编号<span class="am-text-danger">*</span></label>
 					<div class="am-u-sm-9">
-						<input type="number" id="serialNumber" name="serialNumber">
+						<input type="number" id="serialNumber" name="serialNumber" class="vfor">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">姓名<span class="am-text-danger">*</span></label>
 					<div class="am-u-sm-9">
-						<input type="text" id="name" name="name">
+						<input type="text" id="name" name="name" class="vfor">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">手机<span class="am-text-danger">*</span></label>
 					<div class="am-u-sm-9">
-						<input type="text" id="mobile" name="mobile">
+						<input type="text" id="mobile" name="mobile" class="vfor">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">V网短号</label>
 					<div class="am-u-sm-9">
-						<input type="text" id="vnetNumber" name="vnetNumber">
+						<input type="text" id="vnetNumber" name="vnetNumber" class="vfor">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">电话</label>
 					<div class="am-u-sm-9">
-						<input type="text" id="telephone" name="telephone">
+						<input type="text" id="telephone" name="telephone" class="vfor">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">单位<span class="am-text-danger">*</span></label>
 					<div class="am-u-sm-9">
-						<select name="deptId" id="deptSelect">
+						<select name="deptId" id="deptSelect" class="vfor">
 							<option value=""></option>
 						</select>
 					</div>
@@ -150,17 +133,20 @@
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">职位</label>
 					<div class="am-u-sm-9">
-						<input type="text" id="position" name="position">
+						<input type="text" id="position" name="position" class="vfor">
 					</div>
 				</div>
 
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">邮箱</label>
+					<label for="doc-ipt-pwd-2" class="am-u-sm-3 am-form-label">邮箱<span class="am-text-danger">*</span></label>
 					<div class="am-u-sm-9">
-						<input type="text" id="email" name="email">
+						<div class="am-input-group">
+							<input type="text" id="email" name="email" class="am-form-field vfor">
+							<span class="am-input-group-label">@petrochina.com.cn</span>
+						</div>
 					</div>
 				</div>
-
+				<input type="hidden" name="id" value="0" class="vfor" />
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 					<div class="am-u-sm-12">
 						<button type="button" id="saveBtn" class="am-btn am-btn-sm am-btn-primary">保存</button>
@@ -172,18 +158,15 @@
 </div>
 <script>
 (function() {
-	$('#pagingDiv').paging({
-		page: 1,
-		pageSize: 30,
-		totalPage: 20,
-		totalCount: 2000
+	$('#queryBtn').on('click', function(){
+		query(1, 10);
 	});
 	
-	$('#queryBtn').on('click', function(){
+	function query(page, size){
 		$('#queryForm').trimForm();
-		var page = $('#page').val() || 1;
-		var size = $('#size').val() || 15;
-		var deptId = 0;
+		var page = page || 1;
+		var size = size || 10;
+		var deptId = $('#deptId').val() || 0;
 		$('#queryForm').ajaxSubmit({
 			url: basePath + 'tellist/list/' + page + '/' + size,
 			type: 'get',
@@ -199,34 +182,37 @@
 				}
 				for(var i=0; i<data.list.length; i++){
 					$('#tableBody').append('<tr>' + $.format($('#tableTmpl').html(), data.list[i]) + '</tr>');
+					$('#tableBody tr:last .toUpdateBtn').data('obj', data.list[i]);
 				}
 				$('#pagingDiv').paging({
 					page: page,
 					pageSize: size,
 					totalPage: data.count == 0 ? 1 : Math.ceil(data.count/size),
-					totalCount: data.count
+					totalCount: data.count,
+					callback: query
 				});
 			}
 		});
-	});
+	}
 	
 	function handleTree(srcList, treeObj, parentId){
-		treeObj.products = new Array();
+		treeObj.children = new Array();
 		for(var i=0; i<srcList.length; i++){
 			var item = srcList[i];
 			if(item.parentId == parentId){
 				var obj = {
-					title: item.name,
-					type: 'item',
+					name: item.name,
+					isParent: false,
+					open: true,
 					attr: item
 				}
-				treeObj.products.push(obj);
+				treeObj.children.push(obj);
 			}
 		}
-		if(treeObj.products.length > 0){
-			treeObj.type = 'folder';
-			for(var i=0; i<treeObj.products.length; i++){
-				var item = treeObj.products[i];
+		if(treeObj.children.length > 0){
+			treeObj.isParent = true;
+			for(var i=0; i<treeObj.children.length; i++){
+				var item = treeObj.children[i];
 				handleTree(srcList, item, item.attr.id);
 			}
 		}
@@ -237,16 +223,12 @@
 			url: basePath + 'dept/list',
 			type: 'get',
 			dataType: 'json',
-			async: false,
 			success: function(data){
 				if(!data.list || data.list.length < 1){
 					layer.msg('没有查询到分部数据');
 					return false;
 				}
-				var treeObj = {
-					title: '全部分部数据',
-					type: 'item'
-				}
+				var treeObj = {};
 				handleTree(data.list, treeObj, 0);
 				
 				$('#deptSelect').empty();
@@ -255,22 +237,31 @@
 					$('#deptSelect').append('<option value="' + data.list[i].id + '">' + data.list[i].name + '</option>');
 				}
 				
-				$('#deptTree').tree({
-					dataSource: function(options, callback) {
-						callback({data: options.products || treeObj.products});
+				var setting = {
+					callback: {
+						onClick: function(event, treeId, treeNode){
+							$('#deptId').val(treeNode.attr.id);
+							$('#queryBtn').trigger('click');
+						}
 					},
-					multiSelect: false,
-					folderSelect: true,
-					cacheItems: false,
-					folderIcon: 'am-icon-hand-o-right',
-//			 		folderOpenIcon: 'am-icon-hand-o-right',
-					itemIcon: 'am-icon-hand-o-right'
-				});
-				$('#deptTree').tree('discloseAll');
+					view: {
+						showIcon: false,
+						showTitle: false
+					}
+				};
+				$.fn.zTree.init($('#deptTree'), setting, treeObj.children);
 				
+				$('#deptId').val(0);
 				$('#queryBtn').trigger('click');
 			}
 		});
+	});
+	
+	$('#toAddBtn').on('click', function(){
+		$('#editForm').find('.vfor').each(function(){
+			$(this).val('');
+		});
+		$('#deptSelect').val(0);
 	});
 	
 	$('#saveBtn').on('click', function(){
@@ -281,7 +272,32 @@
 			dataType: 'json',
 			success: function(data){
 				layer.msg('保存成功');
+				$('#modal-tellist-add').modal('close');
+				$('#queryBtn').trigger('click');
 			}
+		});
+	});
+	
+	$('#tableBody').on('click', '.toUpdateBtn', function(){
+		var obj = $(this).data('obj');
+		$('#editForm').find('.vfor').each(function(){
+			$(this).val($.getjson(obj, $(this).attr('name')));
+		});
+		$('#modal-tellist-add').modal('open');
+	});
+	
+	$('#tableBody').on('click', '.toDeleteBtn', function(){
+		var id = $(this).data('id');
+		$.confirm('确认', '确认要删除此通讯录吗？', function(){
+			$.ajax({
+				url: basePath + 'tellist/' + id,
+				type: 'delete',
+				dataType: 'json',
+				success: function(data){
+					layer.msg('操作成功');
+					$('#queryBtn').trigger('click');
+				}
+			});
 		});
 	});
 	

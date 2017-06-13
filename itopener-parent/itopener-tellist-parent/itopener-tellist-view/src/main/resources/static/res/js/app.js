@@ -69,58 +69,16 @@ $.extend({
  		return this.getjson(data, key);
  	},
  	confirm : function(title, msg, callback) {
- 		if($('#confirmModal').length < 1){
- 			var confirmModal = '<div class="modal fade" tabindex="-1" role="dialog" id="confirmModal">'
- 				+ '<div class="modal-dialog" role="document">'
- 				+ '<div class="modal-content">'
- 				+ '<div class="modal-header">'
- 				+ '<button type="button" class="close" data-dismiss="modal" aria-label="Close">'
- 				+ '<span aria-hidden="true">&times;</span></button>'
- 				+ '<h4 class="modal-title"></h4></div>'
- 				+ '<div class="modal-body text-md"></div>'
- 				+ '<div class="modal-footer">'
- 				+ '<button type="button" class="btn btn-primary btn-sm confirmBtn">确认</button>'
- 				+ '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>'
- 				+ '</div></div></div></div>';
- 			$('body').append(confirmModal);
- 		}
- 		
- 		$('#confirmModal').find('.modal-title').html(title);
- 		$('#confirmModal').find('.modal-body').html(msg);
- 		$('#confirmModal').off('click').on('click', '.confirmBtn', function(){
- 			$('#confirmModal').modal('hide');
- 			if(callback){
- 				callback();
- 			}
+ 		layer.confirm(msg, {
+ 			title: title,
+ 			yes: callback
  		});
- 		$('#confirmModal').modal('show');
 	},
 	alert: function(title, msg, callback){
-		if($('#alertModal').length < 1){
- 			var alertModal = '<div class="modal fade" tabindex="-1" role="dialog" id="alertModal">'
- 				+ '<div class="modal-dialog" role="document">'
- 				+ '<div class="modal-content">'
- 				+ '<div class="modal-header">'
- 				+ '<button type="button" class="close" data-dismiss="modal" aria-label="Close">'
- 				+ '<span aria-hidden="true">&times;</span></button>'
- 				+ '<h4 class="modal-title"></h4></div>'
- 				+ '<div class="modal-body text-md"></div>'
- 				+ '<div class="modal-footer">'
- 				+ '<button type="button" class="btn btn-primary btn-sm confirmBtn">确认</button>'
- 				+ '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>'
- 				+ '</div></div></div></div>';
- 			$('body').append(alertModal);
- 		}
- 		
- 		$('#alertModal').find('.modal-title').html(title);
- 		$('#alertModal').find('.modal-body').html(msg);
- 		$('#alertModal').off('click').on('click', '.confirmBtn', function(){
- 			$('#alertModal').modal('hide');
- 			if(callback){
- 				callback();
- 			}
- 		});
- 		$('#alertModal').modal('show');
+		layer.alert(msg, {
+			title: title,
+			yes: callback
+		});
 	},
  	//格式化时间
 	dateformat: function (date, mask, utc) {
@@ -261,16 +219,18 @@ $.fn.extend({
 //		tmpl += '<label for="name" class="am-u-sm-1 am-form-label am-text-right am-padding-left-0 am-padding-right-0">每页：</label>';
 		tmpl += '<div class="am-u-sm-1 am-padding-right-0">';
 		tmpl += '<select class="am-input-sm pageSize">';
-		if(!obj.pageSize || obj.pageSize == 15){
-			tmpl += '<option value="15">15</option>';
-		} else{
-			tmpl += '<option value="{{pageSize}}">{{pageSize}}</option>';
-		}
+		
+		tmpl += '<option value="10" ' + (obj.pageSize == 10 ? 'selected' : '') + '>10</option>';
+		tmpl += '<option value="20" ' + (obj.pageSize == 20 ? 'selected' : '') + '>20</option>';
+		tmpl += '<option value="30" ' + (obj.pageSize == 30 ? 'selected' : '') + '>30</option>';
+		tmpl += '<option value="50" ' + (obj.pageSize == 50 ? 'selected' : '') + '>50</option>';
+		
 		tmpl += '</select></div>条/页，当前第{{page}}/{{totalPage}}页，共{{totalCount}}条';
 		tmpl += '<input type="hidden" class="currPage" value="{{page}}" />';
 		tmpl += '<button type="button" class="am-btn am-btn-xs am-btn-primary prePageBtn">上一页</button>&nbsp;';
 		tmpl += '<button type="button" class="am-btn am-btn-xs am-btn-primary nextPageBtn">下一页</button></div></form>';
 		pagingDiv.html($.format(tmpl, obj));
+		//上一页
 		pagingDiv.off('click', '.prePageBtn');
 		pagingDiv.on('click', '.prePageBtn', function(){
 			var currPage = pagingDiv.find('input.currPage').val();
@@ -282,6 +242,7 @@ $.fn.extend({
 			var pageSize = parseInt(pagingDiv.find('.pageSize').val());
 			obj.callback(pageNum, pageSize);
 		});
+		//下一页
 		pagingDiv.off('click', '.nextPageBtn');
 		pagingDiv.on('click', '.nextPageBtn', function(){
 			var pageNum = parseInt(pagingDiv.find('input.currPage').val()) + 1;
@@ -291,6 +252,12 @@ $.fn.extend({
 			}
 			var pageSize = parseInt(pagingDiv.find('.pageSize').val());
 			obj.callback(pageNum, pageSize);
+		});
+		//选择每页数量
+		pagingDiv.off('change', '.pageSize');
+		pagingDiv.on('change', '.pageSize', function(){
+			var pageSize = parseInt(pagingDiv.find('.pageSize').val());
+			obj.callback(1, pageSize);
 		});
 	}
 });

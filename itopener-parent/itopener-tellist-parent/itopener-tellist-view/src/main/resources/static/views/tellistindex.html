@@ -11,8 +11,7 @@
 	<meta http-equiv="Cache-Control" content="no-siteapp" />
 	<link rel="stylesheet" href="../res/css/amazeui.min.css" />
 	<link rel="stylesheet" href="../res/datetimepicker/css/amazeui.datetimepicker.css" />
-	<link rel="stylesheet" href="../res/tree/amazeui.tree.min.css" />
-<!-- 	<link rel="stylesheet" href="../res/ztree/css/zTreeStyle/zTreeStyle.css" /> -->
+	<link rel="stylesheet" href="../res/ztree/css/zTreeStyle/zTreeStyle.css" />
 	<link rel="stylesheet" href="../res/css/admin.css" />
 </head>
 <body class="am-text-sm">
@@ -28,14 +27,18 @@
 
 	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
-			<li class="am-dropdown" data-am-dropdown>
+			<li class="am-dropdown am-hide" data-am-dropdown id="userInfo">
 				<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-					<span class="am-icon-user"></span> 路人甲
+					<span class="am-icon-user"></span>
+					<span id="userName">路人甲</span>
 					<span class="am-icon-caret-down"></span>
 				</a>
 				<ul class="am-dropdown-content">
-					<li><a href="#"><span class="am-icon-power-off"></span>退出</a></li>
+					<li><a href="javascript:void(0);" id="toLogout"><span class="am-icon-power-off"></span>退出</a></li>
 				</ul>
+			</li>
+			<li class="am-hide" id="userNotLogin">
+				<a href="javascript:void(0);">登录</a>
 			</li>
 		</ul>
 	</div>
@@ -73,25 +76,10 @@
 <script src="../res/datetimepicker/js/amazeui.datetimepicker.min.js"></script>
 <script src="../res/datetimepicker/js/locales/amazeui.datetimepicker.zh-CN.js"></script>
 <script src="../res/layer/layer.js"></script>
-<script src="../res/tree/amazeui.tree.min.js"></script>
-<!-- <script src="../res/ztree/jquery.ztree.all.js"></script> -->
+<script src="../res/ztree/jquery.ztree.all.js"></script>
 <script src="../res/js/app.js"></script>
 <script>
 	(function(){
-		var menus = [{
-			name: '通讯录',
-			icon: 'fa-tachometer',
-			url: 'views/tellist.html'
-		},{
-			name: '分部管理',
-			icon: 'fa-tachometer',
-			url: 'views/dept.html'
-		},{
-			name: '超级管理员',
-			icon: 'fa-tachometer',
-			url: 'views/manager.html'
-		}];
-		
 		function renderMenu(menus, ele){
 			var li = '<li><a href="javascript:void(0);" data-url="{{url}}"><span class="{{icon}}"></span>{{name}}</a></li>';
 			var liParent = '<li class="admin-parent"><a class="am-cf" data-am-collapse="{target: \'#collapse-nav{{name}}\'}">'
@@ -127,11 +115,69 @@
 			$('#breadcrumbs').text($(this).text());
 		});
 		
+		function getMenus(user){
+			var menus = [{
+				name: '通讯录',
+				icon: 'fa-tachometer',
+				url: 'views/tellist.html'
+			}];
+			
+			if(!user){
+				return menus;
+			}
+			if(user.role == 2){
+				menus.push({
+					name: '分部管理',
+					icon: 'fa-tachometer',
+					url: 'views/dept.html'
+				});
+			}
+			if(user.role == 3){
+				menus.push({
+					name: '分部管理',
+					icon: 'fa-tachometer',
+					url: 'views/dept.html'
+				});
+				menus.push({
+					name: '超级管理员',
+					icon: 'fa-tachometer',
+					url: 'views/manager.html'
+				});
+			}
+			return menus;
+		}
+		
 		$(function(){
-			$('#sidebarList').empty();
-			renderMenu(menus);
-			//默认加载第一个菜单页面
- 			$('#sidebarList a[data-url]:first').trigger('click');
+			$.ajax({
+				url: basePath + 'user/info',
+				type: 'get',
+				dataType: 'json',
+				success: function(data){
+					if(data.user){
+						$('#userInfo').removeClass('am-hide');
+						$('#userName').text(data.user.userName);
+					} else{
+						$('#userNotLogin a').attr('href', basePath + 'views/login.html');
+						$('#userNotLogin').removeClass('am-hide');
+					}
+					
+					$('#sidebarList').empty();
+					renderMenu(getMenus(data.user));
+					//默认加载第一个菜单页面
+		 			$('#sidebarList a[data-url]:first').trigger('click');
+				}
+			});
+		});
+		
+		$('#toLogout').on('click', function(){
+			$.ajax({
+				url: basePath + 'user/logout',
+				type: 'get',
+				dataType: 'json',
+				success: function(data){
+					location.href = basePath + 'views/login.html';
+				}
+			});
 		});
 	})();
 </script>
