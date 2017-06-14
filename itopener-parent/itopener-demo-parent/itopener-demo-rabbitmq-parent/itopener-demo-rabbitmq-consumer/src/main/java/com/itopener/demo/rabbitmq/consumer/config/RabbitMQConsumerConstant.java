@@ -14,4 +14,9 @@ public class RabbitMQConsumerConstant {
 	public static final String EXCHANGE_ITOPENER  = "exchange-itopener";
 	
 	public static final String ROUTINGKEY_ITOPENER = "routingKey-itopener";
+	
+	public static final String DEAD_EXCHANGE_ITOPENER  = "dead-exchange-itopener";
+	
+	public static final String DEAD_ROUTINGKEY_ITOPENER = "dead-routingKey-itopener";
+	
 }
