@@ -18,5 +18,6 @@
 		<module>itopener-druidstat-spring-boot-starter-parent</module>
 		<module>itopener-zklock-spring-boot-starter-parent</module>
     <module>itopener-tbschedule-spring-boot-starter-parent</module>
+    <module>itopener-redislock-spring-boot-starter-parent</module>
   </modules>
 </project>
