@@ -16,6 +16,9 @@ CREATE TABLE t_user (
 	update_user_id bigint(20) NOT NULL COMMENT '最后更新人ID'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
+INSERT INTO `t_user` (`id`, `login_name`, `login_pwd`, `state`, `role`, `create_time`, `create_user_id`, `update_time`, `update_user_id`) 
+VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '1', '3', '2017-06-13 20:47:14', '0', '2017-06-13 20:47:19', '0');
+
 /**
 分部表
 */
