@@ -19,5 +19,6 @@
     <module>itopener-demo-logback-kafka-parent</module>
     <module>itopener-demo-druid-parent</module>
     <module>itopener-demo-rabbitmq-parent</module>
+    <module>itopener-demo-redislock</module>
   </modules>
 </project>

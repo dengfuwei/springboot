@@ -36,33 +36,10 @@ public class DistributedLockAspectConfiguration {
 	@Autowired
 	private DistributedLock distributedLock;
 
-	@Pointcut("@annotation(com.msxf.lock.spring.boot.autoconfigure.annotations.RedisLock)")
+	@Pointcut("@annotation(com.itopener.redislock.spring.boot.autoconfigure.annotations.RedisLock)")
 	private void lockPoint(){
 		
 	}
-	
-//	@Around("lockPoint()")
-//	public Object around(ProceedingJoinPoint pjp) throws Throwable{
-//		Method method = ((MethodSignature) pjp.getSignature()).getMethod();
-//		RedisLock redisLock = method.getAnnotation(RedisLock.class);
-//		String key = redisLock.value();
-//		if(StringUtils.isEmpty(key)){
-//			Object[] args = pjp.getArgs();
-//			key = Arrays.toString(args);
-//		}
-//		int retryTimes = redisLock.action().equals(LockFailAction.CONTINUE) ? redisLock.retryTimes() : 1;
-//		boolean lock = distributedLock.lock(key, redisLock.keepMills(), retryTimes, redisLock.sleepMills());
-//		Object obj = null;
-//		if(lock){
-//			//得到锁,执行方法，释放锁
-//			logger.info("get lock success : " + key);
-//			obj = pjp.proceed();
-//			distributedLock.releaseLock(key);
-//		} else{
-//			logger.info("get lock failed : " + key);
-//		}
-//		return obj;
-//	}
 	
 	@Around("lockPoint()")
 	public Object around(ProceedingJoinPoint pjp) throws Throwable{
@@ -81,6 +58,7 @@ public class DistributedLockAspectConfiguration {
 			logger.info("get lock success : " + key);
 			obj = pjp.proceed();
 			distributedLock.releaseLock(key);
+			logger.info("release lock : " + key);
 		} else{
 			logger.info("get lock failed : " + key);
 		}
