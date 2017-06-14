@@ -20,5 +20,6 @@
     <module>itopener-demo-druid-parent</module>
     <module>itopener-demo-rabbitmq-parent</module>
     <module>itopener-demo-redislock</module>
+    <module>itopener-demo-zklock</module>
   </modules>
 </project>
