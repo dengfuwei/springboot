@@ -21,5 +21,6 @@
     <module>itopener-demo-rabbitmq-parent</module>
     <module>itopener-demo-redislock</module>
     <module>itopener-demo-zklock</module>
+    <module>itopener-demo-async</module>
   </modules>
 </project>
