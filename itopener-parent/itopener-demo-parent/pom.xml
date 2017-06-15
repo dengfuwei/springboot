@@ -24,5 +24,6 @@
     <module>itopener-demo-async</module>
     <module>itopener-demo-rest-parent</module>
     <module>itopener-demo-scheduling</module>
+    <module>itopener-demo-elasticjob</module>
   </modules>
 </project>
