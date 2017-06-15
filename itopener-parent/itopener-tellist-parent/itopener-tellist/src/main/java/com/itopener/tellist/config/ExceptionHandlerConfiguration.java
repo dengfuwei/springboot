@@ -12,9 +12,9 @@ import com.itopener.framework.ResultMap;
 import com.itopener.framework.base.BaseRuntimeException;
 
 @ControllerAdvice
-public class ExceptionHandlerConfigurer {
+public class ExceptionHandlerConfiguration {
 	
-	private final Logger logger = LoggerFactory.getLogger(ExceptionHandlerConfigurer.class);
+	private final Logger logger = LoggerFactory.getLogger(ExceptionHandlerConfiguration.class);
 
 	@ExceptionHandler(value = BaseRuntimeException.class)
     @ResponseBody

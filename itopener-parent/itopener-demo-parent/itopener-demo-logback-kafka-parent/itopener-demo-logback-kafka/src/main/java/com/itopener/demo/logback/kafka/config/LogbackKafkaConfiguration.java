@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0.0
  */
 @Configuration
-public class LogbackKafkaConfigure {
+public class LogbackKafkaConfiguration {
 
 }

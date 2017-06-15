@@ -18,9 +18,9 @@ import com.rabbitmq.client.Channel;
  * @version 1.0.0
  */
 @Component
-public class RabbitListenerConfigure {
+public class RabbitListenerConfiguration {
 	
-	private final Logger logger = LoggerFactory.getLogger(RabbitListenerConfigure.class);
+	private final Logger logger = LoggerFactory.getLogger(RabbitListenerConfiguration.class);
 
 //	@RabbitListener(queues=NormalConstant.DEFAULT_ROUTINGKEY)
 //	public AcknowledgeMode processDefaultQueueMessage(User user){

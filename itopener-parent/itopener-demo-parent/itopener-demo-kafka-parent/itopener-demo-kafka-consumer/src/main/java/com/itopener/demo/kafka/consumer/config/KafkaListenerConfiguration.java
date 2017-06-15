@@ -11,9 +11,9 @@ import org.springframework.kafka.annotation.KafkaListener;
  * @version 1.0.0
  */
 @Configuration
-public class KafkaListenerConfigurer {
+public class KafkaListenerConfiguration {
 	
-	private final Logger logger = LoggerFactory.getLogger(KafkaListenerConfigurer.class);
+	private final Logger logger = LoggerFactory.getLogger(KafkaListenerConfiguration.class);
 
 	@KafkaListener(topics = KafkaConsumerConstant.KAFKA_TOPIC_ITOPENER_DEMO)
 	public void process(String content) {

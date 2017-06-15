@@ -9,7 +9,7 @@ import org.springframework.scheduling.config.CronTask;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.itopener.demo.scheduling.config.ScheduledTaskRegistrarConfiguratiton;
+import com.itopener.demo.scheduling.config.ScheduledTaskRegistrarConfiguration;
 import com.itopener.framework.ResultMap;
 
 @RestController
@@ -19,12 +19,12 @@ public class SchedulingController {
 	private final Logger logger = LoggerFactory.getLogger(SchedulingController.class);
 	
 	@Autowired
-	private ScheduledTaskRegistrarConfiguratiton scheduledTaskRegistrarConfiguratiton;
+	private ScheduledTaskRegistrarConfiguration scheduledTaskRegistrarConfiguration;
 
 	@RequestMapping("list")
 	public ResultMap list(){
 		logger.info("get cron task list");
-		List<CronTask> cronTaskList = scheduledTaskRegistrarConfiguratiton.getCronTaskList();
+		List<CronTask> cronTaskList = scheduledTaskRegistrarConfiguration.getCronTaskList();
 		return ResultMap.buildSuccess().put("cronTaskList", cronTaskList);
 	}
 }

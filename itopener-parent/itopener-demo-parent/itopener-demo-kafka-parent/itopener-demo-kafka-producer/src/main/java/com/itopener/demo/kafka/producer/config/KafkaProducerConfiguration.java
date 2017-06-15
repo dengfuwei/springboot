@@ -1,4 +1,4 @@
-package com.itopener.demo.zklock.config;
+package com.itopener.demo.kafka.producer.config;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0.0
  */
 @Configuration
-public class ZookeeperLockConfigurer {
-	
+public class KafkaProducerConfiguration {
+
 }

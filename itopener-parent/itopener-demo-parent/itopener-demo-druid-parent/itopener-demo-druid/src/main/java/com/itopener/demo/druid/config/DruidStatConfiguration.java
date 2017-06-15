@@ -14,6 +14,6 @@ import com.itopener.druidstat.spring.boot.autoconfigure.DruidStatAutoConfigurati
 @Profile({"dev", "test"})
 @Configuration
 @Import(DruidStatAutoConfiguration.class)
-public class DruidStatConfigurer {
+public class DruidStatConfiguration {
 
 }

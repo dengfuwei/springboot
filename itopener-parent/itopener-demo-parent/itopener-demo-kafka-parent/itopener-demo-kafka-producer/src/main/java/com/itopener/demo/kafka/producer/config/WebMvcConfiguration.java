@@ -1,4 +1,4 @@
-package com.itopener.demo.logback.kafka.config;
+package com.itopener.demo.kafka.producer.config;
 
 import java.util.List;
 
@@ -18,9 +18,9 @@ import com.itopener.framework.interceptors.PerformanceInterceptor;
  * @version 1.0.0
  */
 @Configuration
-public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
+public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 	
-	private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
+	private final Logger logger = LoggerFactory.getLogger(WebMvcConfiguration.class);
 
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -29,7 +29,7 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		logger.info("add interceptor");
+		logger.info("添加拦截器");
 		registry.addInterceptor(new PerformanceInterceptor());
 	}
 }

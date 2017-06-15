@@ -17,7 +17,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
  * @version 1.0.0
  */
 @Configuration
-public class RestTemplateConfigurer {
+public class RestTemplateClientConfiguration {
 
 	/**
 	 * 1.使用RestTemplateBuilder来实例化RestTemplate对象，spring默认已经注入了RestTemplateBuilder实例

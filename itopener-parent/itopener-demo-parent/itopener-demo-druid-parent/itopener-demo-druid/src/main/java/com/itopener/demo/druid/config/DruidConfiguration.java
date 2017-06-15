@@ -11,7 +11,7 @@ import com.itopener.framework.base.BaseDao;
  * @version 1.0.0
  */
 @Configuration
-public class DruidConfigurer {
+public class DruidConfiguration {
 	
 	@Bean
 	public BaseDao baseDao(){

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 
 import com.rabbitmq.client.Channel;
 
-public class RabbitMQListenerConfigure2 {
+public class RabbitMQListenerConfiguration2 {
 
 	@Bean
 	public Queue queue() {

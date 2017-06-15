@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0.0
  */
 @Configuration
-public class RabbitConfigure {
+public class RabbitConfiguration {
 	
 //	@Bean
 //	public Queue queue(){

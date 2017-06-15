@@ -1,14 +1,12 @@
-package com.itopener.tools.redis.config;
+package com.itopener.demo.kafka.consumer.config;
 
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter4;
@@ -20,9 +18,9 @@ import com.itopener.framework.interceptors.PerformanceInterceptor;
  * @version 1.0.0
  */
 @Configuration
-public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
+public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
 	
-	private final Logger logger = LoggerFactory.getLogger(WebMvcConfigurer.class);
+	private final Logger logger = LoggerFactory.getLogger(WebMvcConfiguration.class);
 
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -34,11 +32,4 @@ public class WebMvcConfigurer extends WebMvcConfigurerAdapter {
 		logger.info("添加拦截器");
 		registry.addInterceptor(new PerformanceInterceptor());
 	}
-
-	@Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/views/redisindex.html");
-        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        super.addViewControllers(registry);
-    } 
 }

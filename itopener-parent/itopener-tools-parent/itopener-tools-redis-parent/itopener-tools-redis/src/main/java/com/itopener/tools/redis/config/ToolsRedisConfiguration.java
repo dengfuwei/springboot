@@ -12,7 +12,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @version 1.0.0
  */
 @Configuration
-public class ToolsRedisConfigurer {
+public class ToolsRedisConfiguration {
 
 	@Bean("redisTemplate")
 	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory){

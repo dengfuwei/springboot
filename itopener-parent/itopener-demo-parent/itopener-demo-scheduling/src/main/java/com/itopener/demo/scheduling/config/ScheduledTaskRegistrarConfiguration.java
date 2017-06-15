@@ -10,9 +10,9 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ScheduledTaskRegistrarConfiguratiton implements SchedulingConfigurer {
+public class ScheduledTaskRegistrarConfiguration implements SchedulingConfigurer {
 	
-	private final Logger logger = LoggerFactory.getLogger(ScheduledTaskRegistrarConfiguratiton.class);
+	private final Logger logger = LoggerFactory.getLogger(ScheduledTaskRegistrarConfiguration.class);
 	
 	private List<CronTask> cronTaskList;
 

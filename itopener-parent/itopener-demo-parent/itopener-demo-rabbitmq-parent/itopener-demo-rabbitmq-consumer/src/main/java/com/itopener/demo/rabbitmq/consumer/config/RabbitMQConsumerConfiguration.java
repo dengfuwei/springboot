@@ -1,4 +1,4 @@
-package com.itopener.demo.kafka.producer.config;
+package com.itopener.demo.rabbitmq.consumer.config;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
  * @version 1.0.0
  */
 @Configuration
-public class KafkaProducerConfigure {
+public class RabbitMQConsumerConfiguration {
 
 }
