@@ -23,5 +23,6 @@
     <module>itopener-demo-zklock</module>
     <module>itopener-demo-async</module>
     <module>itopener-demo-rest-parent</module>
+    <module>itopener-demo-scheduling</module>
   </modules>
 </project>
