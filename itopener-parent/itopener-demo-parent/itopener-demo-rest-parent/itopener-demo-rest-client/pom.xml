@@ -44,12 +44,19 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		
-		<!-- restTemplate如果不依赖此包，会出现消息头为text/html无法转换成对象的异常 -->
 		<dependency>
-			<groupId>org.springframework.amqp</groupId>
-			<artifactId>spring-rabbit</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<optional>true</optional>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>test</scope>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>

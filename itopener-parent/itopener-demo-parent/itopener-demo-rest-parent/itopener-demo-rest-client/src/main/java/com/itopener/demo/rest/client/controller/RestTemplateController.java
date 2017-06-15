@@ -2,8 +2,6 @@ package com.itopener.demo.rest.client.controller;
 
 import javax.annotation.Resource;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,13 +27,6 @@ public class RestTemplateController {
 
 	@RequestMapping("call/{id}")
 	public UserVO call(@PathVariable long id){
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept-Charset", "utf-8");  
-		headers.set("Content-type", "application/json; charset=utf-8");  //header的规定  
-		HttpEntity<String> formEntity = new HttpEntity<String>(headers);
-		
-		
-		return restTemplate.getForObject("http://localhost:8081/user/vo/1", UserVO.class, formEntity);
+		return restTemplate.getForObject("http://localhost:8081/user/vo/1", UserVO.class);
 	}
 }
