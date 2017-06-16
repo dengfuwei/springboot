@@ -25,5 +25,6 @@
     <module>itopener-demo-rest-parent</module>
     <module>itopener-demo-scheduling</module>
     <module>itopener-demo-elasticjob</module>
+    <module>itopener-demo-mongodb-parent</module>
   </modules>
 </project>
