@@ -28,6 +28,7 @@
 		<druid.version>1.0.29</druid.version>
 		<tbschedule.version>3.3.3.2</tbschedule.version>
 		<spring-boot-admin.version>1.5.0</spring-boot-admin.version>
+		<elastic-job-lite.version>2.1.4</elastic-job-lite.version>
 	</properties>
 
 	<dependencyManagement>
@@ -137,6 +138,12 @@
 				<groupId>com.dangdang</groupId>
 				<artifactId>sharding-jdbc-transaction</artifactId>
 				<version>${sharding-jdbc.version}</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>com.dangdang</groupId>
+			    <artifactId>elastic-job-lite-core</artifactId>
+			    <version>${elastic-job-lite.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

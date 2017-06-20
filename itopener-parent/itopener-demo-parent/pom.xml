@@ -26,5 +26,7 @@
     <module>itopener-demo-scheduling</module>
     <module>itopener-demo-elasticjob</module>
     <module>itopener-demo-mongodb-parent</module>
+    <module>itopener-demo-springcloud-parent</module>
+    <module>itopener-demo-eureka-parent</module>
   </modules>
 </project>

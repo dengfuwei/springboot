@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.itopener</groupId>
-		<artifactId>itopener-demo-parent</artifactId>
+		<artifactId>itopener-demo-eureka-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>itopener-demo-elasticjob</artifactId>
-	<name>itopener-demo-elasticjob</name>
+	<artifactId>itopener-demo-eureka-client2</artifactId>
+	<name>itopener-demo-eureka-client2</name>
 	<url>http://maven.apache.org</url>
 	<packaging>jar</packaging>
 	<properties>
@@ -37,10 +37,10 @@
 			<artifactId>itopener-framework</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>com.dangdang</groupId>
-		    <artifactId>elastic-job-lite-core</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
 		</dependency>
 
 		<dependency>
@@ -59,7 +59,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>itopener-demo-elasticjob</finalName>
+		<finalName>itopener-demo-eureka-client2</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

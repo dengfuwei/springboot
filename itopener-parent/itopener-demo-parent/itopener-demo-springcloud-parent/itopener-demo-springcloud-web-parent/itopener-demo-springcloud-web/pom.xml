@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.itopener</groupId>
-		<artifactId>itopener-demo-parent</artifactId>
+		<artifactId>itopener-demo-springcloud-web-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>itopener-demo-elasticjob</artifactId>
-	<name>itopener-demo-elasticjob</name>
+	<artifactId>itopener-demo-springcloud-web</artifactId>
+	<name>itopener-demo-springcloud-web</name>
 	<url>http://maven.apache.org</url>
 	<packaging>jar</packaging>
 	<properties>
@@ -39,9 +39,9 @@
 		</dependency>
 		
 		<dependency>
-		    <groupId>com.dangdang</groupId>
-		    <artifactId>elastic-job-lite-core</artifactId>
-		</dependency>
+	        <groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+	    </dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,7 +59,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>itopener-demo-elasticjob</finalName>
+		<finalName>itopener-demo-springcloud-web</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
