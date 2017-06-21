@@ -45,6 +45,7 @@ public class RibbonController {
 		}
 		UserVO user = null;
 		try {
+			//会报UnknowHostException
 			user = restTemplate.getForObject("http://" + RibbonClientConstant.EUREKA_SERVER_RIBBON + "/user/vo/1", UserVO.class);
 		} catch (RestClientException e) {
 			logger.error("rest exception", e);
