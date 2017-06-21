@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.itopener</groupId>
-		<artifactId>itopener-demo-ribbon-parent</artifactId>
+		<artifactId>itopener-demo-feign-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>itopener-demo-ribbon-client</artifactId>
-	<name>itopener-demo-ribbon-client</name>
+	<artifactId>itopener-demo-feign-eureka</artifactId>
+	<name>itopener-demo-feign-eureka</name>
 	<url>http://maven.apache.org</url>
 	<packaging>jar</packaging>
 	<properties>
@@ -17,41 +17,8 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.itopener</groupId>
-			<artifactId>itopener-framework</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.itopener</groupId>
-			<artifactId>itopener-demo-ribbon-sdk</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
-		
-		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-eureka</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-ribbon</artifactId>
+			<artifactId>spring-cloud-starter-eureka-server</artifactId>
 		</dependency>
 
 		<dependency>
@@ -68,9 +35,8 @@
 			<optional>true</optional>
 		</dependency>
 	</dependencies>
-
 	<build>
-		<finalName>itopener-demo-ribbon-client</finalName>
+		<finalName>itopener-demo-feign-eureka</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

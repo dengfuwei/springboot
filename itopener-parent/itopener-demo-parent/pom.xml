@@ -29,5 +29,6 @@
     <module>itopener-demo-springcloud-parent</module>
     <module>itopener-demo-eureka-parent</module>
     <module>itopener-demo-ribbon-parent</module>
+    <module>itopener-demo-feign-parent</module>
   </modules>
 </project>

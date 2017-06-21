@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.itopener</groupId>
-		<artifactId>itopener-demo-ribbon-parent</artifactId>
+		<artifactId>itopener-demo-feign-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>itopener-demo-ribbon-client</artifactId>
-	<name>itopener-demo-ribbon-client</name>
+	<artifactId>itopener-demo-feign-client</artifactId>
+	<name>itopener-demo-feign-client</name>
 	<url>http://maven.apache.org</url>
 	<packaging>jar</packaging>
 	<properties>
@@ -40,10 +40,10 @@
 
 		<dependency>
 			<groupId>com.itopener</groupId>
-			<artifactId>itopener-demo-ribbon-sdk</artifactId>
+			<artifactId>itopener-demo-feign-sdk</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-eureka</artifactId>
@@ -51,7 +51,7 @@
 		
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-ribbon</artifactId>
+			<artifactId>spring-cloud-starter-feign</artifactId>
 		</dependency>
 
 		<dependency>
@@ -70,7 +70,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>itopener-demo-ribbon-client</finalName>
+		<finalName>itopener-demo-feign-client</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
