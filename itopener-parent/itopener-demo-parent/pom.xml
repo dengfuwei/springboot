@@ -28,5 +28,6 @@
     <module>itopener-demo-mongodb-parent</module>
     <module>itopener-demo-springcloud-parent</module>
     <module>itopener-demo-eureka-parent</module>
+    <module>itopener-demo-ribbon-parent</module>
   </modules>
 </project>
