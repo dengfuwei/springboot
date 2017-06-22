@@ -34,5 +34,6 @@
 		<module>itopener-demo-es-parent</module>
     <module>itopener-demo-redis-parent</module>
     <module>itopener-demo-jsonp-parent</module>
+    <module>itopener-demo-tbschedule</module>
   </modules>
 </project>
