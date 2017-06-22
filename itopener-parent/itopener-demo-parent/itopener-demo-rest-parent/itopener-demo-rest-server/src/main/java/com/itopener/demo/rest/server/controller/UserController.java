@@ -24,11 +24,11 @@ public class UserController {
 	}
 	
 	@RequestMapping("vo/{id}")
-	public UserVO vo(@PathVariable long id) {
+	public ResultMap vo(@PathVariable long id) {
 		UserVO user = new UserVO();
 		user.setId(id);
 		user.setName("name" + user.getId());
 		user.setCreateTime(TimestampUtil.current());
-		return user;
+		return ResultMap.buildSuccess().put("user", user);
 	}
 }

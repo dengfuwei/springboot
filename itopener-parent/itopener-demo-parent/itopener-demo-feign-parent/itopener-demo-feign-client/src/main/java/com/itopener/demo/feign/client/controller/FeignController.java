@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itopener.demo.feign.client.api.IFeignService;
-import com.itopener.demo.feign.sdk.vo.UserVO;
 import com.itopener.framework.ResultMap;
 
 /**  
@@ -27,7 +26,6 @@ public class FeignController {
 
 	@RequestMapping("call/{id}")
 	public ResultMap call(@PathVariable long id){
-		UserVO user = feignService.vo(id);
-		return ResultMap.buildSuccess().put("user", user);
+		return feignService.vo(id);
 	}
 }

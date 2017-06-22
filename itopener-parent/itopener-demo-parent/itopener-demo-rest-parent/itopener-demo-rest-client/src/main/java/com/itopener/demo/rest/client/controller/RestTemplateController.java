@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import com.itopener.demo.rest.sdk.vo.UserVO;
+import com.itopener.framework.ResultMap;
 
 /**  
  * @ClassName:RestController <br/> 
@@ -26,7 +26,7 @@ public class RestTemplateController {
 	private RestTemplate restTemplate;
 
 	@RequestMapping("call/{id}")
-	public UserVO call(@PathVariable long id){
-		return restTemplate.getForObject("http://localhost:8081/user/vo/1", UserVO.class);
+	public ResultMap call(@PathVariable long id){
+		return restTemplate.getForObject("http://localhost:8081/user/vo/1", ResultMap.class);
 	}
 }
