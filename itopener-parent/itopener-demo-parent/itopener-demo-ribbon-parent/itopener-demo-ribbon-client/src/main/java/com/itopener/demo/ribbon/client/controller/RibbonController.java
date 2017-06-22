@@ -11,7 +11,6 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.itopener.demo.ribbon.client.config.RibbonClientConstant;
-import com.itopener.demo.ribbon.sdk.vo.UserVO;
 import com.itopener.framework.ResultMap;
 
 /**  
@@ -35,21 +34,25 @@ public class RibbonController {
 	@Resource
 	private RestTemplate restTemplate;
 
-	@RequestMapping("call/{id}")
-	public ResultMap call(@PathVariable long id){
-		UserVO balanced = null;
+	@RequestMapping("call/balanced/{id}")
+	public ResultMap callBalanced(@PathVariable long id){
 		try {
-			balanced = restTemplateBalanced.getForObject("http://" + RibbonClientConstant.EUREKA_SERVER_RIBBON + "/user/vo/1", UserVO.class);
+			return restTemplateBalanced.getForObject("http://" + RibbonClientConstant.EUREKA_SERVER_RIBBON + "/user/vo/1", ResultMap.class);
 		} catch (RestClientException e) {
 			logger.error("balanced rest exception", e);
 		}
-		UserVO user = null;
+		
+		return ResultMap.buildFailed("balanced rest failed");
+	}
+	
+	@RequestMapping("call/{id}")
+	public ResultMap call(@PathVariable long id){
 		try {
 			//会报UnknowHostException
-			user = restTemplate.getForObject("http://" + RibbonClientConstant.EUREKA_SERVER_RIBBON + "/user/vo/1", UserVO.class);
+			return restTemplate.getForObject("http://" + RibbonClientConstant.EUREKA_SERVER_RIBBON + "/user/vo/1", ResultMap.class);
 		} catch (RestClientException e) {
 			logger.error("rest exception", e);
 		}
-		return ResultMap.buildSuccess().put("balanced", balanced).put("user", user);
+		return ResultMap.buildFailed("rest failed");
 	}
 }

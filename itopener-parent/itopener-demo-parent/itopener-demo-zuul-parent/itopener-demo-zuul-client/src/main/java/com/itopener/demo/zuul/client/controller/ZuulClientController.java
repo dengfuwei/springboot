@@ -1,27 +1,23 @@
-package com.itopener.demo.ribbon.server.controller;
+package com.itopener.demo.zuul.client.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.itopener.demo.ribbon.sdk.vo.UserVO;
+import com.itopener.demo.zuul.sdk.vo.UserVO;
 import com.itopener.framework.ResultMap;
 import com.itopener.utils.TimestampUtil;
 
 @RestController
-@RequestMapping("user")
-public class UserController {
-	
-	@Value("${app.index}")
-	private String index;
+@RequestMapping("zuulclient")
+public class ZuulClientController {
 
-	@RequestMapping("vo/{id}")
-	public ResultMap vo(@PathVariable long id) {
+	@RequestMapping("call/{id}")
+	public ResultMap callBalanced(@PathVariable long id){
 		UserVO user = new UserVO();
-		user.setId(id);
-		user.setName("name" + index);
 		user.setCreateTime(TimestampUtil.current());
+		user.setId(id);
+		user.setName("name" + id);
 		return ResultMap.buildSuccess().put("user", user);
 	}
 }

@@ -31,5 +31,6 @@
     <module>itopener-demo-ribbon-parent</module>
     <module>itopener-demo-feign-parent</module>
     <module>itopener-demo-hystrix-parent</module>
+    <module>itopener-demo-zuul-parent</module>
   </modules>
 </project>
