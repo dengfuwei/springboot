@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>jsonp测试</title>
+	<meta name="description" content="jsonp测试">
+	<meta name="keywords" content="index">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+</head>
+<body>
+<button type="button" id="jsonpBtn">请求</button>
+<button type="button" id="corsBtn">服务端跨域请求(cors)</button>
+<br/>
+<div id="resultContent"></div>
+<!--[if lt IE 9]>
+	<script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<![endif]-->
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="./res/js/jquery.min.js"></script>
+<!--<![endif]-->
+<script>
+	(function(){
+		$('#jsonpBtn').on('click', function(){
+			$.ajax({
+				url: 'http://jsonp.itopener1.com:8081/jsonp/user/2',
+				type: 'get',
+				dataType: 'jsonp',
+				success: function(data){
+					$('#resultContent').text(JSON.stringify(data));
+				},
+				error: function(err){
+					$('#resultContent').text(JSON.stringify(err));
+				}
+			});
+		});
+		$('#corsBtn').on('click', function(){
+			$.ajax({
+				url: 'http://jsonp.itopener1.com:8081/jsonp/user/2',
+				type: 'get',
+				dataType: 'json',
+				success: function(data){
+					$('#resultContent').text(JSON.stringify(data));
+				},
+				error: function(err){
+					$('#resultContent').text(JSON.stringify(err));
+				}
+			});
+		});
+	})();
+</script>
+</body>
+</html>
