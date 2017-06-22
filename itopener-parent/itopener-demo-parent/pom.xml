@@ -32,5 +32,6 @@
 		<module>itopener-demo-feign-parent</module>
 		<module>itopener-demo-hystrix-parent</module>
 		<module>itopener-demo-zuul-parent</module>
+		<module>itopener-demo-es-parent</module>
 	</modules>
 </project>

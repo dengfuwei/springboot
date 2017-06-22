@@ -1,12 +1,12 @@
-package com.itopener.demo.mongodb.model;
+package com.itopener.demo.es.model;
 
 import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document
+@Document(indexName = "userid", type = "user", indexStoreType = "fs", shards = 5, replicas = 1, refreshInterval = "-1")
 public class User {
 
 	@Id

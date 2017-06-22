@@ -1,15 +1,9 @@
-package com.itopener.demo.mongodb.model;
+package com.itopener.demo.es.model;
 
 import java.sql.Timestamp;
-import java.util.List;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+public class Role {
 
-@Document
-public class User {
-
-	@Id
 	private long id;
 	
 	private String name;
@@ -19,8 +13,6 @@ public class User {
 	private Timestamp createTime;
 	
 	private Timestamp updateTime;
-	
-	private List<Role> roleList;
 
 	public long getId() {
 		return id;
@@ -60,14 +52,6 @@ public class User {
 
 	public void setUpdateTime(Timestamp updateTime) {
 		this.updateTime = updateTime;
-	}
-
-	public List<Role> getRoleList() {
-		return roleList;
-	}
-
-	public void setRoleList(List<Role> roleList) {
-		this.roleList = roleList;
 	}
 	
 }

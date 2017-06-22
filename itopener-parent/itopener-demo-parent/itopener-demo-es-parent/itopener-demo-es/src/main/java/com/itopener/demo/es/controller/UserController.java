@@ -1,4 +1,4 @@
-package com.itopener.demo.mongodb.controller;
+package com.itopener.demo.es.controller;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -9,11 +9,11 @@ import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.itopener.demo.mongodb.enums.RoleStateEnum;
-import com.itopener.demo.mongodb.enums.UserStateEnum;
-import com.itopener.demo.mongodb.model.Role;
-import com.itopener.demo.mongodb.model.User;
-import com.itopener.demo.mongodb.service.UserService;
+import com.itopener.demo.es.enums.RoleStateEnum;
+import com.itopener.demo.es.enums.UserStateEnum;
+import com.itopener.demo.es.model.Role;
+import com.itopener.demo.es.model.User;
+import com.itopener.demo.es.service.UserService;
 import com.itopener.framework.ResultMap;
 import com.itopener.utils.TimestampUtil;
 
