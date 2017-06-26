@@ -49,7 +49,7 @@ public class KafkaLogbackAppender<E> extends UnsynchronizedAppenderBase<E> {
 
 	private Ssl<E> ssl = new Ssl<E>();
 
-	private String topic = "kafkaLobackTopic";
+	private String topic = "kafkaLogbackTopic";
 	
 	private KafkaTemplate<Object, Object> kafkaTemplate;
 	
