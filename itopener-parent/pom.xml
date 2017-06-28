@@ -156,6 +156,7 @@
 		<module>itopener-demo-parent</module>
 		<module>itopener-tellist-parent</module>
     <module>itopener-authority-parent</module>
+    <module>itopener-tms-parent</module>
   </modules>
 
 	<repositories>
