@@ -76,7 +76,7 @@ ul {
 	margin-bottom: 0;
 	box-shadow: 0 16px 8px -15px #e2e2e2 inset;
 	background: #ececec;
-/*	padding-left: 10px; */
+	padding-left: 15px;
 }
 
 .admin-sidebar-sub li:first-child {

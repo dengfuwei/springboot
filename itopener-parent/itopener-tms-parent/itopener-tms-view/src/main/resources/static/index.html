@@ -84,29 +84,93 @@
 			icon: 'fa-tachometer',
 			url: 'views/home.html'
 		},{
-			name: '运单查询',
+			name: '运单管理',
 			icon: 'fa-tachometer',
-			url: 'views/waybillindex.html'
+			url: '',
+			list: [
+				{
+					name: '运单查询',
+					icon: 'fa-tachometer',
+					url: 'views/waybillindex.html'
+				},{
+					name: '运单录入',
+					icon: 'fa-tachometer',
+					url: 'views/waybilledit.html'
+				}
+			]
 		},{
-			name: '运单录入',
+			name: '配载运输',
 			icon: 'fa-tachometer',
-			url: 'views/waybilledit.html'
+			url: 'views/transport.html'
 		},{
-			name: '联系人管理',
+			name: '客户管理',
 			icon: 'fa-tachometer',
-			url: 'views/linkmanindex.html'
+			url: '',
+			list: [
+				{
+					name: '客户管理',
+					icon: 'fa-tachometer',
+					url: 'views/customerindex.html'
+				},{
+					name: '录入客户',
+					icon: 'fa-tachometer',
+					url: 'views/customeredit.html'
+				},{
+					name: '联系人管理',
+					icon: 'fa-tachometer',
+					url: 'views/linkmanindex.html'
+				},{
+					name: '录入联系人',
+					icon: 'fa-tachometer',
+					url: 'views/linkmanedit.html'
+				}
+			]
 		},{
-			name: '录入联系人',
+			name: '资料管理',
 			icon: 'fa-tachometer',
-			url: 'views/linkmanedit.html'
+			url: '',
+			list: [
+				{
+					name: '人员管理',
+					icon: 'fa-tachometer',
+					url: 'views/employeeindex.html'
+				},{
+					name: '车辆管理',
+					icon: 'fa-tachometer',
+					url: 'views/vehicleindex.html'
+				},{
+					name: '录入车辆',
+					icon: 'fa-tachometer',
+					url: 'views/vehicleedit.html'
+				},{
+					name: '个人资料',
+					icon: 'fa-tachometer',
+					url: 'views/personalinfo.html'
+				},{
+					name: '公司资料',
+					icon: 'fa-tachometer',
+					url: 'views/companyinfo.html'
+				}
+			]
 		},{
-			name: '车辆管理',
+			name: '统计报表',
 			icon: 'fa-tachometer',
-			url: 'views/vehicleindex.html'
-		},{
-			name: '录入车辆',
-			icon: 'fa-tachometer',
-			url: 'views/vehicleedit.html'
+			url: '',
+			list: [
+				{
+					name: '订单数统计',
+					icon: 'fa-tachometer',
+					url: 'views/orderstatistics.html'
+				},{
+					name: '运费统计',
+					icon: 'fa-tachometer',
+					url: 'views/freightstatistics.html'
+				},{
+					name: '应收应付',
+					icon: 'fa-tachometer',
+					url: 'views/feestatistics.html'
+				}
+			]
 		}];
 		
 		function renderMenu(menus, ele){
