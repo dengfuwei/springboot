@@ -30,10 +30,10 @@ public class ZuulClientFilter extends ZuulFilter {
         	logger.warn("param a is empty");
             ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(401);
-            return null;
+            return false;
         }
         logger.info("param a is : " + a);
-        return null;
+        return true;
 	}
 
 	@Override
