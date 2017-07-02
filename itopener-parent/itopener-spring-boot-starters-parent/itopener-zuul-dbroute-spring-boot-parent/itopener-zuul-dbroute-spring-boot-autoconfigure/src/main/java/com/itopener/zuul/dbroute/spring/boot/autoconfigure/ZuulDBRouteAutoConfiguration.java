@@ -11,8 +11,10 @@ import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
+@EnableScheduling
 @ConditionalOnBean(DataSource.class)
 @EnableConfigurationProperties(ZuulDBRouteProperties.class)
 public class ZuulDBRouteAutoConfiguration {
@@ -38,8 +40,13 @@ public class ZuulDBRouteAutoConfiguration {
 		return new ZuulDBRouteLocator(this.server.getServletPrefix(), this.zuulProperties);
 	}
 	
-	@Bean
-	public RefreshRouteService refreshRouteService(){
-		return new RefreshRouteService();
-	}
+//	@Bean
+//	public RefreshRouteService refreshRouteService(){
+//		return new RefreshRouteService();
+//	}
+	
+//	@Bean
+//	public AutoRefreshDBRouteJob autoRefreshDBRouteJob(){
+//		return new AutoRefreshDBRouteJob();
+//	}
 }

@@ -1,5 +1,6 @@
-package com.itopener.zuul.dbroute.spring.boot.autoconfigure;
+package com.itopener.zuul.zkroute.spring.boot.autoconfigure;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -15,29 +16,26 @@ import org.springframework.cloud.netflix.zuul.filters.Route;
 import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties.ZuulRoute;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import com.alibaba.fastjson.JSON;
 
 /**
  * @author fuwei.deng
  * @date 2017年6月30日 上午11:11:19
  * @version 1.0.0
  */
-public class ZuulDBRouteLocator extends SimpleRouteLocator implements RefreshableRouteLocator {
+public class ZuulZookeeperRouteLocator extends SimpleRouteLocator implements RefreshableRouteLocator {
 
-	public final static Logger logger = LoggerFactory.getLogger(ZuulDBRouteLocator.class);
+	public final static Logger logger = LoggerFactory.getLogger(ZuulZookeeperRouteLocator.class);
 
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private CuratorFrameworkClient curatorFrameworkClient;
 
 	private ZuulProperties properties;
 
-	@Autowired
-	private ZuulDBRouteProperties zuulDBRouteProperties;
-
-	public ZuulDBRouteLocator(String servletPath, ZuulProperties properties) {
+	public ZuulZookeeperRouteLocator(String servletPath, ZuulProperties properties) {
 		super(servletPath, properties);
 		this.properties = properties;
 		logger.info("servletPath:{}", servletPath);
@@ -54,7 +52,7 @@ public class ZuulDBRouteLocator extends SimpleRouteLocator implements Refreshabl
 		// 从application.properties中加载路由信息
 		// routesMap.putAll(super.locateRoutes());
 		// 从db中加载路由信息
-		routesMap.putAll(locateRoutesFromDB());
+		routesMap.putAll(locateRoutesFromZookeeper());
 		// 优化一下配置
 		LinkedHashMap<String, ZuulRoute> values = new LinkedHashMap<>();
 		for (Map.Entry<String, ZuulRoute> entry : routesMap.entrySet()) {
@@ -74,13 +72,22 @@ public class ZuulDBRouteLocator extends SimpleRouteLocator implements Refreshabl
 		return values;
 	}
 
-	private Map<String, ZuulRoute> locateRoutesFromDB() {
+	private Map<String, ZuulRoute> locateRoutesFromZookeeper() {
 		Map<String, ZuulRoute> routes = new LinkedHashMap<>();
-		List<ZuulRouteEntity> results = jdbcTemplate.query(
-				"select * from " + zuulDBRouteProperties.getTableName() + " where enabled = true",
-				new BeanPropertyRowMapper<>(ZuulRouteEntity.class));
+		
+		List<ZuulRouteEntity> results = new ArrayList<ZuulRouteEntity>();
+		List<String> keys = curatorFrameworkClient.getChildrenKeys("/");
+		for(String item : keys){
+			String value = curatorFrameworkClient.get("/" + item);
+			if(!StringUtils.isEmpty(value)){
+				results.add(JSON.parseObject(value, ZuulRouteEntity.class));
+			}
+		}
+		logger.info("load zuul route from zk : " + JSON.toJSONString(results));
+		
 		for (ZuulRouteEntity result : results) {
 			if (StringUtils.isEmpty(result.getPath())
+					|| !result.isEnable()
 					|| (StringUtils.isEmpty(result.getUrl()) && StringUtils.isEmpty(result.getServiceId()))) {
 				continue;
 			}
@@ -97,6 +104,7 @@ public class ZuulDBRouteLocator extends SimpleRouteLocator implements Refreshabl
 				zuulRoute.setServiceId(result.getServiceId());
 				zuulRoute.setStripPrefix(result.isStripPrefix());
 				zuulRoute.setUrl(result.getUrl());
+				logger.info("add zuul route: " + JSON.toJSONString(zuulRoute));
 			} catch (Exception e) {
 				logger.error("=============load zuul route info from db with error==============", e);
 			}

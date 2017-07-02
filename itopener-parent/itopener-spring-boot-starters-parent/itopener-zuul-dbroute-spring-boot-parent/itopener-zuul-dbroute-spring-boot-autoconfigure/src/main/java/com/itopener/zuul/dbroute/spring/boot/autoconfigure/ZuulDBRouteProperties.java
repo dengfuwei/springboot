@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ZuulDBRouteProperties {
 
 	private String tableName = "zuul_route_config";
-
+	
 	public String getTableName() {
 		return tableName;
 	}
