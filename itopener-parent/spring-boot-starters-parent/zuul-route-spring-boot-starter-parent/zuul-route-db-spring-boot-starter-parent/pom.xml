@@ -4,19 +4,18 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.itopener</groupId>
-		<artifactId>itopener-parent</artifactId>
+		<artifactId>zuul-route-spring-boot-starter-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>tools-parent</artifactId>
-	<name>tools-parent</name>
+	<artifactId>zuul-route-db-spring-boot-starter-parent</artifactId>
+	<name>zuul-route-db-spring-boot-starter-parent</name>
 	<url>http://maven.apache.org</url>
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<modules>
-		<module>tools-log-appender-parent</module>
-		<module>tools-redis-parent</module>
-		<module>tools-zuul-route-admin-parent</module>
+		<module>zuul-route-db-spring-boot-autoconfigure</module>
+		<module>zuul-route-db-spring-boot-starter</module>
 	</modules>
 </project>

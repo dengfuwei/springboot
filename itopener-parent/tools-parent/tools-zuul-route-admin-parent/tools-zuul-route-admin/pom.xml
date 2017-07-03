@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.itopener</groupId>
-		<artifactId>demo-zuul-parent</artifactId>
+		<artifactId>tools-zuul-route-admin-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>demo-zuul-client</artifactId>
-	<name>demo-zuul-client</name>
+	<artifactId>tools-zuul-route-admin</artifactId>
+	<name>tools-zuul-route-admin</name>
 	<url>http://maven.apache.org</url>
 	<packaging>jar</packaging>
 	<properties>
@@ -31,37 +31,37 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>com.itopener</groupId>
 			<artifactId>itopener-framework</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>com.itopener</groupId>
-			<artifactId>demo-zuul-sdk</artifactId>
+			<artifactId>zuul-route-spring-boot-common</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-
+		
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-eureka</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-zuul</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 		
 		<dependency>
-			<groupId>com.itopener</groupId>
-			<artifactId>zuul-route-redis-spring-boot-starter</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-			<type>pom</type>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-framework</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-recipes</artifactId>
 		</dependency>
 		
-		<!-- 数据库相关jar包是为了使用数据库的zuul route -->
 		<dependency>
 			<groupId>com.itopener</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
@@ -83,14 +83,14 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 			<optional>true</optional>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -100,7 +100,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>demo-zuul-client</finalName>
+		<finalName>tools-zuul-route-admin</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

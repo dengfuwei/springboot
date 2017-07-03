@@ -1,21 +1,33 @@
-package com.itopener.demo.zuul.client.config;
+package com.tools.zuul.route.admin.config;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.zuul.route.spring.boot.common.ZuulRouteEntity;
 
-/**
- * @author fuwei.deng
- * @date 2017年6月14日 下午4:55:27
- * @version 1.0.0
- */
 @Configuration
-public class RibbonClientConfiguration {
+public class ZuulRouteConfiguration {
 
+	@Autowired
+	DataSource dataSource;
+	
+	@Bean
+	public JdbcTemplate jdbcTemplate(){
+		return new JdbcTemplate(dataSource);
+	}
+	
+	@Bean(initMethod = "init")
+	public CuratorFrameworkClient curatorFrameworkClient(){
+		return new CuratorFrameworkClient();
+	}
+	
 	@Bean("redisTemplate")
 	public RedisTemplate<String, ZuulRouteEntity> redisTemplate(RedisConnectionFactory redisConnectionFactory){
 		RedisTemplate<String, ZuulRouteEntity> redisTmplate = new RedisTemplate<String, ZuulRouteEntity>();
