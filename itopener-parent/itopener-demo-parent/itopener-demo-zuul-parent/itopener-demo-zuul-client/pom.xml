@@ -56,7 +56,7 @@
 		
 		<dependency>
 			<groupId>com.itopener</groupId>
-			<artifactId>itopener-zuul-zkroute-spring-boot-starter</artifactId>
+			<artifactId>itopener-zuul-redisroute-spring-boot-starter</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 			<type>pom</type>
 		</dependency>

@@ -15,7 +15,7 @@ public class AutoRefreshDBRouteJob {
 
 	@Scheduled(cron = "${spring.zuul.route.db.refreshCron:0/30 * * * * ?}")
 	public void run() {
-		logger.info("refresh zuul db route config");
+		logger.info("refresh zuul route config from db");
 		refreshRouteService.refreshRoute();
 	}
 

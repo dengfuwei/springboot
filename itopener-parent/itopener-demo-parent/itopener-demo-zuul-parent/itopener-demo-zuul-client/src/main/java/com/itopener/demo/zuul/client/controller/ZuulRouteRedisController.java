@@ -4,15 +4,15 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.web.ZuulHandlerMapping;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.itopener.framework.ResultMap;
-import com.itopener.zuul.zkroute.spring.boot.autoconfigure.CuratorFrameworkClient;
-import com.itopener.zuul.zkroute.spring.boot.autoconfigure.RefreshRouteService;
-import com.itopener.zuul.zkroute.spring.boot.autoconfigure.ZuulZookeeperRouteLocator.ZuulRouteEntity;
+import com.itopener.zuul.redisroute.spring.boot.autoconfigure.RefreshRouteService;
+import com.itopener.zuul.redisroute.spring.boot.autoconfigure.ZuulRedisRouteLocator.ZuulRouteEntity;
+import com.itopener.zuul.redisroute.spring.boot.autoconfigure.ZuulRedisRouteProperties;
 
 /**
  * @author fuwei.deng
@@ -20,7 +20,8 @@ import com.itopener.zuul.zkroute.spring.boot.autoconfigure.ZuulZookeeperRouteLoc
  * @version 1.0.0
  */
 @RestController
-public class DemoController {
+@RequestMapping("redis")
+public class ZuulRouteRedisController {
 
 	@Autowired
 	RefreshRouteService refreshRouteService;
@@ -29,7 +30,10 @@ public class DemoController {
 	ZuulHandlerMapping zuulHandlerMapping;
 
 	@Resource
-	private CuratorFrameworkClient curatorFrameworkClient;
+	private RedisTemplate<String, ZuulRouteEntity> redisTemplate;
+	
+	@Autowired
+	private ZuulRedisRouteProperties zuulRedisRouteProperties;
 
 	@RequestMapping("/refreshRoute")
 	public ResultMap refreshRoute() {
@@ -51,13 +55,13 @@ public class DemoController {
 		entity.setServiceId("itopener-demo-zuul-server1");
 		entity.setStripPrefix(true);
 		entity.setUrl("");
-		curatorFrameworkClient.persist("/" + entity.getId(), JSON.toJSONString(entity));
+		redisTemplate.opsForHash().put(zuulRedisRouteProperties.getNamespace(), entity.getId(), entity);
 		return ResultMap.buildSuccess();
 	}
 
 	@RequestMapping("remove/{id}")
 	public ResultMap remove(@PathVariable String id) {
-		curatorFrameworkClient.remove("/" + id);
+		redisTemplate.opsForHash().delete(zuulRedisRouteProperties.getNamespace(), id);
 		return ResultMap.buildSuccess();
 	}
 
