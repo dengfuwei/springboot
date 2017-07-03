@@ -1,3 +1,0 @@
-# Auto Configure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.itopener.zuul.zkroute.spring.boot.autoconfigure.ZuulZookeeperRouteAutoConfiguration

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.itopener</groupId>
+		<artifactId>itopener-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>demo-parent</artifactId>
+	<name>demo-parent</name>
+	<url>http://maven.apache.org</url>
+	<packaging>pom</packaging>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<modules>
+		<module>demo-springboot-admin-parent</module>
+		<module>demo-kafka-parent</module>
+		<module>demo-logback-kafka-parent</module>
+		<module>demo-druid-parent</module>
+		<module>demo-rabbitmq-parent</module>
+		<module>demo-lock-redis</module>
+		<module>demo-lock-zk</module>
+		<module>demo-async</module>
+		<module>demo-rest-parent</module>
+		<module>demo-scheduling</module>
+		<module>demo-elasticjob</module>
+		<module>demo-mongodb-parent</module>
+		<module>demo-eureka-parent</module>
+		<module>demo-ribbon-parent</module>
+		<module>demo-feign-parent</module>
+		<module>demo-hystrix-parent</module>
+		<module>demo-zuul-parent</module>
+		<module>demo-es-parent</module>
+		<module>demo-redis-parent</module>
+		<module>demo-jsonp-parent</module>
+		<module>demo-tbschedule</module>
+		<module>demo-session-parent</module>
+	</modules>
+</project>

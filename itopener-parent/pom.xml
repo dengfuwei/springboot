@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -39,23 +40,23 @@
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>druid</artifactId>
 				<version>${druid.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.taobao.pamirs.schedule</groupId>
 				<artifactId>tbschedule</artifactId>
 				<version>${tbschedule.version}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>de.codecentric</groupId>
-			    <artifactId>spring-boot-admin-server</artifactId>
-			    <version>${spring-boot-admin.version}</version>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-server</artifactId>
+				<version>${spring-boot-admin.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>de.codecentric</groupId>
@@ -63,9 +64,9 @@
 				<version>${spring-boot-admin.version}</version>
 			</dependency>
 			<dependency>
-			    <groupId>de.codecentric</groupId>
-			    <artifactId>spring-boot-admin-server-ui-login</artifactId>
-			    <version>${spring-boot-admin.version}</version>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-server-ui-login</artifactId>
+				<version>${spring-boot-admin.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>de.codecentric</groupId>
@@ -140,11 +141,11 @@
 				<artifactId>sharding-jdbc-transaction</artifactId>
 				<version>${sharding-jdbc.version}</version>
 			</dependency>
-			
+
 			<dependency>
-			    <groupId>com.dangdang</groupId>
-			    <artifactId>elastic-job-lite-spring</artifactId>
-			    <version>${elastic-job-lite.version}</version>
+				<groupId>com.dangdang</groupId>
+				<artifactId>elastic-job-lite-spring</artifactId>
+				<version>${elastic-job-lite.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -152,13 +153,13 @@
 	<modules>
 		<module>itopener-framework</module>
 		<module>itopener-utils</module>
-		<module>itopener-spring-boot-starters-parent</module>
-		<module>itopener-tools-parent</module>
-		<module>itopener-demo-parent</module>
-		<module>itopener-tellist-parent</module>
-    <module>itopener-authority-parent</module>
-    <module>itopener-tms-parent</module>
-  </modules>
+		<module>spring-boot-starters-parent</module>
+		<module>tools-parent</module>
+		<module>demo-parent</module>
+		<module>tellist-parent</module>
+		<module>authority-parent</module>
+		<module>tms-parent</module>
+	</modules>
 
 	<repositories>
 		<repository>
