@@ -7,8 +7,8 @@
 		<artifactId>itopener-spring-boot-starters-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>itopener-zuul-dbroute-spring-boot-parent</artifactId>
-	<name>itopener-zuul-dbroute-spring-boot-parent</name>
+	<artifactId>itopener-zuul-dbroute-spring-boot-starter-parent</artifactId>
+	<name>itopener-zuul-dbroute-spring-boot-starter-parent</name>
 	<url>http://maven.apache.org</url>
 	<packaging>pom</packaging>
 	<properties>
