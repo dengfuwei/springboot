@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itopener.tools.zuul.route.admin.mapper.ZuulRouteConfigMapper">
+
+	<resultMap id="BaseResultMap" type="com.itopener.tools.zuul.route.admin.model.ZuulRouteConfig">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="path" property="path" jdbcType="VARCHAR" />
+		<result column="service_id" property="serviceId" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="strip_prefix" property="stripPrefix" jdbcType="BIT" />
+		<result column="retryable" property="retryable" jdbcType="BIT" />
+		<result column="sensitive_headers" property="sensitiveHeaders" jdbcType="VARCHAR" />
+		<result column="custom_sensitive_headers" property="customSensitiveHeaders" jdbcType="BIT" />
+		<result column="enabled" property="enabled" jdbcType="BIT" />
+		<result column="router_name" property="routerName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Insert_Column_List">
+		path, service_id, url, strip_prefix, retryable, sensitive_headers, custom_sensitive_headers, 
+		enabled, router_name
+	</sql>
+
+	<sql id="Column_List">
+		id, <include refid="Insert_Column_List" />
+	</sql>
+
+	<sql id="Where">
+		<where>
+			<if test="id != null and id != ''">
+				and id = #{id,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+
+	<select id="select" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition" resultMap="BaseResultMap">
+		select <include refid="Column_List" />
+		from ${tableName}
+		<include refid="Where" />
+	</select>
+
+	<select id="selectCount" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition" resultType="int">
+		select count(id)
+		from ${tableName}
+		<include refid="Where" />
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insert" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition" keyProperty="id" useGeneratedKeys="true">
+		insert into ${tableName}(<include refid="Insert_Column_List" />)
+		values (
+			#{path,jdbcType=VARCHAR},
+			#{serviceId,jdbcType=VARCHAR},
+			#{url,jdbcType=VARCHAR},
+			#{stripPrefix,jdbcType=BIT},
+			#{retryable,jdbcType=BIT},
+			#{sensitiveHeaders,jdbcType=VARCHAR},
+			#{customSensitiveHeaders,jdbcType=BIT},
+			#{enabled,jdbcType=BIT},
+			#{routerName,jdbcType=VARCHAR})
+	</insert>
+	
+	<update id="update" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition">
+		update ${tableName}
+		set
+			path = #{path,jdbcType=VARCHAR},
+			service_id = #{serviceId,jdbcType=VARCHAR},
+			url = #{url,jdbcType=VARCHAR},
+			strip_prefix = #{stripPrefix,jdbcType=BIT},
+			retryable = #{retryable,jdbcType=BIT},
+			sensitive_headers = #{sensitiveHeaders,jdbcType=VARCHAR},
+			custom_sensitive_headers = #{customSensitiveHeaders,jdbcType=BIT},
+			enabled = #{enabled,jdbcType=BIT},
+			router_name = #{routerName,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition">
+		delete from ${tableName}
+		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+</mapper>
