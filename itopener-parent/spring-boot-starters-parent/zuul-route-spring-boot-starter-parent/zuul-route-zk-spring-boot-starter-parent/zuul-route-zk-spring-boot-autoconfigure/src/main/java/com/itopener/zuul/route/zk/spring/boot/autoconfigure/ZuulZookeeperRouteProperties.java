@@ -16,7 +16,7 @@ public class ZuulZookeeperRouteProperties {
 		/**
 		 * 命名空间.
 		 */
-		private String namespace = "itopener_zuul_route_config";
+		private String namespace = "zuul_route_config";
 
 		/**
 		 * 等待重试的间隔时间的初始值. 单位毫秒.

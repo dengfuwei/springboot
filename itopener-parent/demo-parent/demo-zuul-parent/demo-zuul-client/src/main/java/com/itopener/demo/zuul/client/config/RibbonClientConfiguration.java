@@ -1,12 +1,6 @@
 package com.itopener.demo.zuul.client.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
-
-import com.zuul.route.spring.boot.common.ZuulRouteEntity;
 
 /**
  * @author fuwei.deng
@@ -16,12 +10,4 @@ import com.zuul.route.spring.boot.common.ZuulRouteEntity;
 @Configuration
 public class RibbonClientConfiguration {
 
-	@Bean("redisTemplate")
-	public RedisTemplate<String, ZuulRouteEntity> redisTemplate(RedisConnectionFactory redisConnectionFactory){
-		RedisTemplate<String, ZuulRouteEntity> redisTmplate = new RedisTemplate<String, ZuulRouteEntity>();
-		redisTmplate.setConnectionFactory(redisConnectionFactory);
-		redisTmplate.setKeySerializer(new StringRedisSerializer());
-		redisTmplate.setHashKeySerializer(new StringRedisSerializer());
-		return redisTmplate;
-	}
 }

@@ -11,24 +11,24 @@
 		<result column="retryable" property="retryable" jdbcType="BIT" />
 		<result column="sensitive_headers" property="sensitiveHeaders" jdbcType="VARCHAR" />
 		<result column="custom_sensitive_headers" property="customSensitiveHeaders" jdbcType="BIT" />
-		<result column="enabled" property="enabled" jdbcType="BIT" />
+		<result column="enable" property="enable" jdbcType="BIT" />
 		<result column="router_name" property="routerName" jdbcType="VARCHAR" />
 	</resultMap>
 
-	<sql id="Insert_Column_List">
-		path, service_id, url, strip_prefix, retryable, sensitive_headers, custom_sensitive_headers, 
-		enabled, router_name
-	</sql>
-
 	<sql id="Column_List">
-		id, <include refid="Insert_Column_List" />
+		id, path, service_id, url, strip_prefix, retryable, sensitive_headers, custom_sensitive_headers, 
+		enable, router_name
 	</sql>
 
 	<sql id="Where">
 		<where>
 			<if test="id != null and id != ''">
-				and id = #{id,jdbcType=VARCHAR}
+				and id like concat(#{id,jdbcType=VARCHAR}, '%') 
 			</if>
+			<if test="routerName != null and routerName != ''">
+				and router_name like concat(#{routerName,jdbcType=VARCHAR}, '%') 
+			</if>
+			and enable = #{enable,jdbcType=BIT}
 		</where>
 	</sql>
 
@@ -44,10 +44,22 @@
 		<include refid="Where" />
 	</select>
 
+	<select id="count" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition" resultType="int">
+		select count(id)
+		from ${tableName}
+	</select>
+
+	<select id="selectCountById" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition" resultType="int">
+		select count(id)
+		from ${tableName}
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
 	<!-- 新增 -->
 	<insert id="insert" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition" keyProperty="id" useGeneratedKeys="true">
-		insert into ${tableName}(<include refid="Insert_Column_List" />)
+		insert into ${tableName}(<include refid="Column_List" />)
 		values (
+			#{id,jdbcType=VARCHAR},
 			#{path,jdbcType=VARCHAR},
 			#{serviceId,jdbcType=VARCHAR},
 			#{url,jdbcType=VARCHAR},
@@ -55,7 +67,7 @@
 			#{retryable,jdbcType=BIT},
 			#{sensitiveHeaders,jdbcType=VARCHAR},
 			#{customSensitiveHeaders,jdbcType=BIT},
-			#{enabled,jdbcType=BIT},
+			#{enable,jdbcType=BIT},
 			#{routerName,jdbcType=VARCHAR})
 	</insert>
 	
@@ -69,8 +81,15 @@
 			retryable = #{retryable,jdbcType=BIT},
 			sensitive_headers = #{sensitiveHeaders,jdbcType=VARCHAR},
 			custom_sensitive_headers = #{customSensitiveHeaders,jdbcType=BIT},
-			enabled = #{enabled,jdbcType=BIT},
+			enable = #{enable,jdbcType=BIT},
 			router_name = #{routerName,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateState" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition">
+		update ${tableName}
+		set
+			enable = #{enable,jdbcType=BIT}
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 

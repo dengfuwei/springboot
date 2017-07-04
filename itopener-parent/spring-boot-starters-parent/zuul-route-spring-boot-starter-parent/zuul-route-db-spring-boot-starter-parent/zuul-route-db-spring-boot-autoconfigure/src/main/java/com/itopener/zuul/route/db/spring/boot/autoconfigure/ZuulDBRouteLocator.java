@@ -13,8 +13,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.zuul.route.spring.boot.common.ZuulRouteEntity;
-import com.zuul.route.spring.boot.common.ZuulRouteLocator;
+import com.itopener.zuul.route.spring.boot.common.ZuulRouteEntity;
+import com.itopener.zuul.route.spring.boot.common.ZuulRouteLocator;
 
 /**
  * @author fuwei.deng
@@ -40,7 +40,7 @@ public class ZuulDBRouteLocator extends ZuulRouteLocator {
 		List<ZuulRouteEntity> locateRouteList = new ArrayList<ZuulRouteEntity>();
 		try {
 			locateRouteList = jdbcTemplate.query(
-					"select * from " + zuulDBRouteProperties.getTableName() + " where enabled = true",
+					"select * from " + zuulDBRouteProperties.getTableName() + " where enable = true",
 					new BeanPropertyRowMapper<>(ZuulRouteEntity.class));
 		} catch (DataAccessException e) {
 			logger.error("load zuul route from db exception", e);

@@ -12,8 +12,8 @@ import org.springframework.cloud.netflix.zuul.filters.ZuulProperties.ZuulRoute;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
-import com.zuul.route.spring.boot.common.ZuulRouteEntity;
-import com.zuul.route.spring.boot.common.ZuulRouteLocator;
+import com.itopener.zuul.route.spring.boot.common.ZuulRouteEntity;
+import com.itopener.zuul.route.spring.boot.common.ZuulRouteLocator;
 
 /**
  * @author fuwei.deng
@@ -40,9 +40,13 @@ public class ZuulRedisRouteLocator extends ZuulRouteLocator {
 		List<ZuulRouteEntity> locateRouteList = new ArrayList<ZuulRouteEntity>();
 		try {
 			redisResult = redisTemplate.opsForHash().values(zuulRedisRouteProperties.getNamespace());
-			if (!CollectionUtils.isEmpty(locateRouteList)) {
+			if (!CollectionUtils.isEmpty(redisResult)) {
 				for (Object item : redisResult) {
-					locateRouteList.add((ZuulRouteEntity) item);
+					ZuulRouteEntity one = (ZuulRouteEntity) item;
+					if(!one.isEnable()){
+						continue;
+					}
+					locateRouteList.add(one);
 				}
 			}
 		} catch (Exception e) {

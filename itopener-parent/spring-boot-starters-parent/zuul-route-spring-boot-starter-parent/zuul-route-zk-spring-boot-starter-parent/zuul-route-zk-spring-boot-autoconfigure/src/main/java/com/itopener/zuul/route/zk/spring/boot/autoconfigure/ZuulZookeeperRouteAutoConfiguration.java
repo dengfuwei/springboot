@@ -7,7 +7,8 @@ import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.zuul.route.spring.boot.common.RefreshRouteService;
+import com.itopener.zuul.route.spring.boot.common.AutoRefreshRouteJob;
+import com.itopener.zuul.route.spring.boot.common.RefreshRouteService;
 
 @Configuration
 @EnableConfigurationProperties(ZuulZookeeperRouteProperties.class)
@@ -37,5 +38,10 @@ public class ZuulZookeeperRouteAutoConfiguration {
 	@Bean
 	public RefreshRouteService refreshRouteService(){
 		return new RefreshRouteService();
+	}
+	
+	@Bean
+	public AutoRefreshRouteJob autoRefreshRouteJob(){
+		return new AutoRefreshRouteJob();
 	}
 }

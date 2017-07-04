@@ -12,8 +12,8 @@ import org.springframework.cloud.netflix.zuul.filters.ZuulProperties.ZuulRoute;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.zuul.route.spring.boot.common.ZuulRouteEntity;
-import com.zuul.route.spring.boot.common.ZuulRouteLocator;
+import com.itopener.zuul.route.spring.boot.common.ZuulRouteEntity;
+import com.itopener.zuul.route.spring.boot.common.ZuulRouteLocator;
 
 /**
  * @author fuwei.deng
@@ -40,7 +40,11 @@ public class ZuulZookeeperRouteLocator extends ZuulRouteLocator {
 			for(String item : keys){
 				String value = curatorFrameworkClient.get("/" + item);
 				if(!StringUtils.isEmpty(value)){
-					locateRouteList.add(JSON.parseObject(value, ZuulRouteEntity.class));
+					ZuulRouteEntity one = JSON.parseObject(value, ZuulRouteEntity.class);
+					if(!one.isEnable()){
+						continue;
+					}
+					locateRouteList.add(one);
 				}
 			}
 		} catch (Exception e) {

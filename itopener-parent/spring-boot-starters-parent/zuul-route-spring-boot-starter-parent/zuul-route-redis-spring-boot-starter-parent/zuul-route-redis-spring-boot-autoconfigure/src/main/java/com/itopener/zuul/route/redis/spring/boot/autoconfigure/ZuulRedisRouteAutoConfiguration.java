@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.zuul.route.spring.boot.common.AutoRefreshRouteJob;
-import com.zuul.route.spring.boot.common.RefreshRouteService;
+import com.itopener.zuul.route.spring.boot.common.AutoRefreshRouteJob;
+import com.itopener.zuul.route.spring.boot.common.RefreshRouteService;
 
 @Configuration
 @EnableScheduling

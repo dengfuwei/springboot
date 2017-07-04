@@ -37,7 +37,7 @@ public class ZuulRouteConfig implements Serializable {
 	private boolean customSensitiveHeaders;
 
 	/** */
-	private boolean enabled;
+	private boolean enable;
 
 	/** */
 	private String routerName;
@@ -114,13 +114,12 @@ public class ZuulRouteConfig implements Serializable {
 		return this;
 	}
 
-	public boolean getEnabled() {
-		return enabled;
+	public boolean isEnable() {
+		return enable;
 	}
 
-	public ZuulRouteConfig setEnabled(boolean enabled) {
-		this.enabled = enabled;
-		return this;
+	public void setEnable(boolean enable) {
+		this.enable = enable;
 	}
 
 	public String getRouterName() {

@@ -13,6 +13,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.itopener.zuul.route.spring.boot.common.AutoRefreshRouteJob;
+import com.itopener.zuul.route.spring.boot.common.RefreshRouteService;
+
 @Configuration
 @EnableScheduling
 @ConditionalOnBean(DataSource.class)
@@ -40,13 +43,13 @@ public class ZuulDBRouteAutoConfiguration {
 		return new ZuulDBRouteLocator(this.server.getServletPrefix(), this.zuulProperties);
 	}
 	
-//	@Bean
-//	public RefreshRouteService refreshRouteService(){
-//		return new RefreshRouteService();
-//	}
+	@Bean
+	public RefreshRouteService refreshRouteService(){
+		return new RefreshRouteService();
+	}
 	
-//	@Bean
-//	public AutoRefreshRouteJob autoRefreshRouteJob(){
-//		return new AutoRefreshRouteJob();
-//	}
+	@Bean
+	public AutoRefreshRouteJob autoRefreshRouteJob(){
+		return new AutoRefreshRouteJob();
+	}
 }
