@@ -12,7 +12,7 @@ import com.netflix.zuul.context.RequestContext;
 
 @Component
 public class ZuulClientFilter extends ZuulFilter {
-	
+
 	private final Logger logger = LoggerFactory.getLogger(ZuulClientFilter.class);
 
 	@Override
@@ -23,17 +23,17 @@ public class ZuulClientFilter extends ZuulFilter {
 	@Override
 	public Object run() {
 		RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest request = ctx.getRequest();
-        logger.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
-        Object a = request.getParameter("a");
-        if(a != null) {
-        	logger.warn("param a is empty");
-            ctx.setSendZuulResponse(false);
-            ctx.setResponseStatusCode(401);
-            return false;
-        }
-        logger.info("param a is : " + a);
-        return true;
+		HttpServletRequest request = ctx.getRequest();
+		logger.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
+		Object a = request.getParameter("a");
+		if (a != null) {
+			logger.warn("param a is empty");
+			ctx.setSendZuulResponse(false);
+			ctx.setResponseStatusCode(401);
+			return false;
+		}
+		logger.info("param a is : " + a);
+		return true;
 	}
 
 	@Override

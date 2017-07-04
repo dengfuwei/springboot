@@ -4,6 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cloud.netflix.zuul.filters.RefreshableRouteLocator;
@@ -21,6 +24,9 @@ public class ZuulRouteLocator extends SimpleRouteLocator implements RefreshableR
 	public final static Logger logger = LoggerFactory.getLogger(ZuulRouteLocator.class);
 	
 	private ZuulProperties properties;
+	
+	@Resource
+	private HttpServletRequest request;
 	
 	public ZuulRouteLocator(String servletPath, ZuulProperties properties) {
 		super(servletPath, properties);
@@ -86,6 +92,12 @@ public class ZuulRouteLocator extends SimpleRouteLocator implements RefreshableR
 	 * @return
 	 */
 	public Route matchingRule(Route route){
+		logger.info(JSON.toJSONString(route));
+		String a = request.getParameter("a");
+		logger.info(a);
+		if("abc".equals(a)){
+			route.setLocation("demo-zuul-server2");
+		}
 		return route;
 	}
 
