@@ -4,19 +4,20 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.filters.RefreshableRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.Route;
 import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties.ZuulRoute;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRule;
+import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRuleMatcher;
 
 public class ZuulRouteLocator extends SimpleRouteLocator implements RefreshableRouteLocator {
 
@@ -24,8 +25,8 @@ public class ZuulRouteLocator extends SimpleRouteLocator implements RefreshableR
 	
 	private ZuulProperties properties;
 	
-	@Resource
-	private HttpServletRequest request;
+	@Autowired
+	private IZuulRouteRuleMatcher zuulRouteRuleMatcher;
 	
 	public ZuulRouteLocator(String servletPath, ZuulProperties properties) {
 		super(servletPath, properties);
@@ -75,31 +76,18 @@ public class ZuulRouteLocator extends SimpleRouteLocator implements RefreshableR
 		return null;
 	}
 	
+	public List<IZuulRouteRule> getRules(Route route){
+		return null;
+	}
+	
 	@Override
 	public Route getMatchingRoute(String path) {
 		Route route = super.getMatchingRoute(path);
 		// 增加自定义路由规则判断
-		return matchingRule(route);
+		List<IZuulRouteRule> rules = getRules(route);
+		return zuulRouteRuleMatcher.matchingRule(route, rules);
 	}
 	
-	/**
-	 * @description 自定义实现规则判断
-	 * @author fuwei.deng
-	 * @date 2017年7月3日 下午6:05:52
-	 * @version 1.0.0
-	 * @param route
-	 * @return
-	 */
-	public Route matchingRule(Route route){
-		logger.info(JSON.toJSONString(route));
-		String a = request.getParameter("a");
-		logger.info(a);
-		if("abc".equals(a)){
-			route.setLocation("demo-zuul-server2");
-		}
-		return route;
-	}
-
 	@Override
 	public int getOrder() {
 		return -1;
@@ -114,6 +102,9 @@ public class ZuulRouteLocator extends SimpleRouteLocator implements RefreshableR
 	 * @return
 	 */
 	public Map<String, ZuulRoute> handle(List<ZuulRouteEntity> locateRouteList){
+		if(CollectionUtils.isEmpty(locateRouteList)){
+			return null;
+		}
 		Map<String, ZuulRoute> routes = new LinkedHashMap<>();
 		for (ZuulRouteEntity locateRoute : locateRouteList) {
 			if (StringUtils.isEmpty(locateRoute.getPath())

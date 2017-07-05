@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.itopener.framework.ResultMap;
-import com.itopener.zuul.route.spring.boot.common.RefreshRouteService;
+import com.itopener.zuul.route.spring.boot.common.refresh.RefreshRouteService;
 
 /**
  * @author fuwei.deng

@@ -13,14 +13,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.itopener.zuul.route.spring.boot.common.AutoRefreshRouteJob;
-import com.itopener.zuul.route.spring.boot.common.RefreshRouteService;
+import com.itopener.zuul.route.spring.boot.common.refresh.AutoRefreshRouteJob;
+import com.itopener.zuul.route.spring.boot.common.refresh.RefreshRouteService;
+import com.itopener.zuul.route.spring.boot.common.rule.DefaultZuulRouteRuleMatcher;
+import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRuleMatcher;
 
 @Configuration
 @EnableScheduling
 @ConditionalOnBean(DataSource.class)
-@EnableConfigurationProperties(ZuulDBRouteProperties.class)
-public class ZuulDBRouteAutoConfiguration {
+@EnableConfigurationProperties(ZuulDatabaseRouteProperties.class)
+public class ZuulRouteDatabaseAutoConfiguration {
 
 	@Autowired
 	ZuulProperties zuulProperties;
@@ -39,8 +41,9 @@ public class ZuulDBRouteAutoConfiguration {
 
 	@Bean
 	@ConditionalOnBean(JdbcTemplate.class)
-	public ZuulDBRouteLocator zuulDBRouteLocator() {
-		return new ZuulDBRouteLocator(this.server.getServletPrefix(), this.zuulProperties);
+	@ConditionalOnMissingBean(ZuulRouteDatabaseLocator.class)
+	public ZuulRouteDatabaseLocator zuulRouteDatabaseLocator() {
+		return new ZuulRouteDatabaseLocator(this.server.getServletPrefix(), this.zuulProperties);
 	}
 	
 	@Bean
@@ -51,5 +54,11 @@ public class ZuulDBRouteAutoConfiguration {
 	@Bean
 	public AutoRefreshRouteJob autoRefreshRouteJob(){
 		return new AutoRefreshRouteJob();
+	}
+	
+	@Bean
+	@ConditionalOnMissingBean(IZuulRouteRuleMatcher.class)
+	public IZuulRouteRuleMatcher zuulRouteRuleMatcher(){
+		return new DefaultZuulRouteRuleMatcher();
 	}
 }

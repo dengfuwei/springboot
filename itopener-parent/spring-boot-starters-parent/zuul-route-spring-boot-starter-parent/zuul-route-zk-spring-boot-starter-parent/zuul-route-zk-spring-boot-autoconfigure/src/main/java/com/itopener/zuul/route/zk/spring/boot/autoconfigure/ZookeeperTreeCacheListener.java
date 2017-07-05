@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.itopener.zuul.route.spring.boot.common.RefreshRouteService;
+import com.itopener.zuul.route.spring.boot.common.refresh.RefreshRouteService;
 
 public class ZookeeperTreeCacheListener {
 	

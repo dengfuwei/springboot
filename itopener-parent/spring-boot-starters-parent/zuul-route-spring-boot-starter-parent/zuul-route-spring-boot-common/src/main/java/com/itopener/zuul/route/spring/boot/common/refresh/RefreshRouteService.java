@@ -1,4 +1,4 @@
-package com.itopener.zuul.route.spring.boot.common;
+package com.itopener.zuul.route.spring.boot.common.refresh;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.zuul.RoutesRefreshedEvent;
 import org.springframework.cloud.netflix.zuul.filters.RouteLocator;

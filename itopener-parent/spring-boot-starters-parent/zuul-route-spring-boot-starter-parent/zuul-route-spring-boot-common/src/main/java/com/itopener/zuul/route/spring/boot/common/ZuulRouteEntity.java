@@ -3,10 +3,13 @@ package com.itopener.zuul.route.spring.boot.common;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+
+import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRule;
 
 public class ZuulRouteEntity implements Serializable {
 
@@ -67,6 +70,9 @@ public class ZuulRouteEntity implements Serializable {
 
 	/** 路由器名称 */
 	private String routerName;
+	
+	/** 路由规则*/
+	private List<IZuulRouteRule> ruleList;
 
 	public String getId() {
 		return id;
@@ -170,4 +176,13 @@ public class ZuulRouteEntity implements Serializable {
 	public void setRouterName(String routerName) {
 		this.routerName = routerName;
 	}
+
+	public List<IZuulRouteRule> getRuleList() {
+		return ruleList;
+	}
+
+	public void setRuleList(List<IZuulRouteRule> ruleList) {
+		this.ruleList = ruleList;
+	}
+	
 }

@@ -2,6 +2,7 @@ package com.itopener.zuul.route.redis.spring.boot.autoconfigure;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
@@ -10,8 +11,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.itopener.zuul.route.spring.boot.common.AutoRefreshRouteJob;
-import com.itopener.zuul.route.spring.boot.common.RefreshRouteService;
+import com.itopener.zuul.route.spring.boot.common.refresh.AutoRefreshRouteJob;
+import com.itopener.zuul.route.spring.boot.common.refresh.RefreshRouteService;
+import com.itopener.zuul.route.spring.boot.common.rule.DefaultZuulRouteRuleMatcher;
+import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRuleMatcher;
 
 @Configuration
 @EnableScheduling
@@ -27,6 +30,7 @@ public class ZuulRedisRouteAutoConfiguration {
 
 	@Bean
 	@ConditionalOnBean(RedisTemplate.class)
+	@ConditionalOnMissingBean(ZuulRedisRouteLocator.class)
 	public ZuulRedisRouteLocator zuulRedisRouteLocator() {
 		return new ZuulRedisRouteLocator(this.server.getServletPrefix(), this.zuulProperties);
 	}
@@ -39,5 +43,11 @@ public class ZuulRedisRouteAutoConfiguration {
 	@Bean
 	public AutoRefreshRouteJob autoRefreshRouteJob(){
 		return new AutoRefreshRouteJob();
+	}
+	
+	@Bean
+	@ConditionalOnMissingBean(IZuulRouteRuleMatcher.class)
+	public IZuulRouteRuleMatcher zuulRouteRuleMatcher(){
+		return new DefaultZuulRouteRuleMatcher();
 	}
 }
