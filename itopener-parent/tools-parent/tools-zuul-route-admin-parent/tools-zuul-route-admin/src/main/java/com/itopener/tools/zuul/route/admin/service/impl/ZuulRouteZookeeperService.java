@@ -4,17 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.itopener.tools.zuul.route.admin.config.CuratorFrameworkClient;
 import com.itopener.tools.zuul.route.admin.config.ZuulRouteConstant;
+import com.itopener.tools.zuul.route.admin.config.zk.CuratorFrameworkClient;
 import com.itopener.tools.zuul.route.admin.service.IZuulRouteService;
 import com.itopener.zuul.route.spring.boot.common.ZuulRouteEntity;
 
-@Service
 public class ZuulRouteZookeeperService implements IZuulRouteService {
 	
 	@Autowired
@@ -88,4 +86,28 @@ public class ZuulRouteZookeeperService implements IZuulRouteService {
 		return CollectionUtils.isEmpty(list) ? 0 : list.size();
 	}
 
+	@Override
+	public void change(String namespace) {
+		curatorFrameworkClient.getCuratorFramework().usingNamespace(namespace);
+	}
+
+	@Override
+	public String count() {
+		int totalCount = curatorFrameworkClient.getNumChildren("/");
+		int enableCount = 0;
+		if(totalCount > 0){
+			List<String> keys = curatorFrameworkClient.getChildrenKeys("/");
+			for(String item : keys){
+				String value = curatorFrameworkClient.get("/" + item);
+				if(!StringUtils.isEmpty(value)){
+					ZuulRouteEntity one = JSON.parseObject(value, ZuulRouteEntity.class);
+					if(one.isEnable()){
+						enableCount ++;
+					}
+				}
+			}
+		}
+		return enableCount + "/" + totalCount;
+	}
+	
 }

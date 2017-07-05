@@ -52,7 +52,7 @@
 			dataType: 'json',
 			success: function(data){
 				$('.countView').each(function(){
-					$(this).text(data[$(this).attr('id')]);
+					$(this).text(data[$(this).attr('id')] || '暂不支持');
 				});
 			}
 		});

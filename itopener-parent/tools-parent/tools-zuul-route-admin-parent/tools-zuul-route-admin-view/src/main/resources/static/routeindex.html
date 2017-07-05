@@ -68,10 +68,12 @@
 <script src="./res/amazeui/js/jquery.min.js"></script>
 <!--<![endif]-->
 <script src="./res/amazeui/js/amazeui.min.js"></script>
-<script src="./res/jquery-form/jquery-form-v3.51.0.min.js"></script>
 <script src="./res/layer/layer.js"></script>
 <script src="./res/laytpl/laytpl.js"></script>
 <script src="./res/amazeui/js/app.js"></script>
+<script src="./res/route/common.js"></script>
+<!-- jquery-form放common.js后面，因为common.js有对ajax函数的重写，放jquery-form之前才会让ajaxSubmit生效 -->
+<script src="./res/jquery-form/jquery-form-v3.51.0.js"></script>
 <script>
 	(function(){
 		var menus = [{

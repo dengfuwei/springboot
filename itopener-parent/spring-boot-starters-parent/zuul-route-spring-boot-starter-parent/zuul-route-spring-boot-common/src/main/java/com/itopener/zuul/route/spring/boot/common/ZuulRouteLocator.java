@@ -14,7 +14,6 @@ import org.springframework.cloud.netflix.zuul.filters.Route;
 import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties.ZuulRoute;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -124,10 +123,8 @@ public class ZuulRouteLocator extends SimpleRouteLocator implements RefreshableR
 			}
 			ZuulRoute zuulRoute = new ZuulRoute();
 			try {
-				if(!CollectionUtils.isEmpty(locateRoute.getSensitiveHeaders())){
-					zuulRoute.setCustomSensitiveHeaders(locateRoute.isCustomSensitiveHeaders());
-					zuulRoute.setSensitiveHeaders(locateRoute.getSensitiveHeaders());
-				}
+				zuulRoute.setCustomSensitiveHeaders(locateRoute.isCustomSensitiveHeaders());
+				zuulRoute.setSensitiveHeaders(locateRoute.getSensitiveHeadersSet());
 				zuulRoute.setId(locateRoute.getId());
 //				zuulRoute.setLocation("");
 				zuulRoute.setPath(locateRoute.getPath());

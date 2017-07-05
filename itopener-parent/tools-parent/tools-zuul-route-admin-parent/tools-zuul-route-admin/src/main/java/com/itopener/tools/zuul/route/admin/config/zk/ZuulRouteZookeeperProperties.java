@@ -1,9 +1,9 @@
-package com.itopener.tools.zuul.route.admin.config;
+package com.itopener.tools.zuul.route.admin.config.zk;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix="spring.zuul.route.admin")
-public class ZuulZookeeperRouteProperties {
+public class ZuulRouteZookeeperProperties {
 
 	private Zookeeper zk = new Zookeeper();
 	

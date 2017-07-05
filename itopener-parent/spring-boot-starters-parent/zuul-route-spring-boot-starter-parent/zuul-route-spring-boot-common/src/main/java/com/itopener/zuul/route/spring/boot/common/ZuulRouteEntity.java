@@ -55,10 +55,10 @@ public class ZuulRouteEntity implements Serializable {
 	 * authentication data. If using a physical URL outside your own domain,
 	 * then generally it would be a bad idea to leak user credentials.
 	 */
-	private Set<String> sensitiveHeaders = new LinkedHashSet<>();
+	private Set<String> sensitiveHeadersSet = new LinkedHashSet<>();
 
 	/** 字符串格式，与sensitiveHeaders对应，多个用逗号隔开 */
-	private String sensitiveHeader;
+	private String sensitiveHeaders;
 
 	private boolean customSensitiveHeaders;
 
@@ -116,34 +116,34 @@ public class ZuulRouteEntity implements Serializable {
 		this.retryable = retryable;
 	}
 
-	public Set<String> getSensitiveHeaders() {
-		return sensitiveHeaders;
+	public Set<String> getSensitiveHeadersSet() {
+		return sensitiveHeadersSet;
 	}
 
-	public void setSensitiveHeaders(Set<String> sensitiveHeaders) {
-		this.sensitiveHeaders = sensitiveHeaders;
+	public void setSensitiveHeadersSet(Set<String> sensitiveHeadersSet) {
+		this.sensitiveHeadersSet = sensitiveHeadersSet;
 		StringBuilder sb = new StringBuilder("");
-		if (!CollectionUtils.isEmpty(sensitiveHeaders)) {
-			for (String item : sensitiveHeaders) {
+		if (!CollectionUtils.isEmpty(sensitiveHeadersSet)) {
+			for (String item : sensitiveHeadersSet) {
 				if (sb.length() > 0) {
 					sb.append(",");
 				}
 				sb.append(item);
 			}
 		}
-		this.sensitiveHeader = sb.toString();
+		this.sensitiveHeaders = sb.toString();
 	}
 
-	public String getSensitiveHeader() {
-		return sensitiveHeader;
+	public String getSensitiveHeaders() {
+		return sensitiveHeaders;
 	}
 
-	public void setSensitiveHeader(String sensitiveHeader) {
-		this.sensitiveHeader = sensitiveHeader;
-		if (!StringUtils.isEmpty(sensitiveHeader)) {
-			this.sensitiveHeaders = new LinkedHashSet<>(Arrays.asList(sensitiveHeader.split(",")));
+	public void setSensitiveHeaders(String sensitiveHeaders) {
+		this.sensitiveHeaders = sensitiveHeaders;
+		if (!StringUtils.isEmpty(sensitiveHeaders)) {
+			this.sensitiveHeadersSet = new LinkedHashSet<>(Arrays.asList(sensitiveHeaders.split(",")));
 		} else {
-			this.sensitiveHeaders = new LinkedHashSet<String>();
+			this.sensitiveHeadersSet = new LinkedHashSet<String>();
 		}
 	}
 

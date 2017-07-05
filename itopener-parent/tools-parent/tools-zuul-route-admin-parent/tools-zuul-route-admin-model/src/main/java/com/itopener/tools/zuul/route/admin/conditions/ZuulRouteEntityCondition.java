@@ -1,13 +1,13 @@
 package com.itopener.tools.zuul.route.admin.conditions;
 
-import com.itopener.tools.zuul.route.admin.model.ZuulRouteConfig;
+import com.itopener.zuul.route.spring.boot.common.ZuulRouteEntity;
 
 /**
  * @desc ZuulRouteConfig查询条件辅助类
  * @author fuwei.deng
  * @date 2017-07-03 19:22:13
  */
-public class ZuulRouteConfigCondition extends ZuulRouteConfig {
+public class ZuulRouteEntityCondition extends ZuulRouteEntity {
 	
 	/** */
 	private static final long serialVersionUID = -3152738792893289690L;
@@ -17,6 +17,12 @@ public class ZuulRouteConfigCondition extends ZuulRouteConfig {
 	private int pageSize;
 	
 	private String tableName;
+	
+	/** 模糊匹配ID*/
+	private String likeId;
+	
+	/** 模糊匹配路由名称*/
+	private String likeRouterName;
 
 	public int getPageNum() {
 		return pageNum;
@@ -40,6 +46,22 @@ public class ZuulRouteConfigCondition extends ZuulRouteConfig {
 
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
+	}
+
+	public String getLikeId() {
+		return likeId;
+	}
+
+	public void setLikeId(String likeId) {
+		this.likeId = likeId;
+	}
+
+	public String getLikeRouterName() {
+		return likeRouterName;
+	}
+
+	public void setLikeRouterName(String likeRouterName) {
+		this.likeRouterName = likeRouterName;
 	}
 	
 }

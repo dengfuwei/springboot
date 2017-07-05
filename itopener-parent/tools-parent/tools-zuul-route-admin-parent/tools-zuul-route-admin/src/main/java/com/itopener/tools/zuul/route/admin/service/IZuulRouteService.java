@@ -21,4 +21,8 @@ public interface IZuulRouteService {
 	public int totalCount();
 	
 	public int enableCount();
+	
+	public void change(String namespace);
+	
+	public String count();
 }

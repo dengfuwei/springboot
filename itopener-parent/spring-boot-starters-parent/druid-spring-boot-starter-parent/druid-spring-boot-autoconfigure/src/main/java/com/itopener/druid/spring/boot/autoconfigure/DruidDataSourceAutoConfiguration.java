@@ -2,6 +2,7 @@ package com.itopener.druid.spring.boot.autoconfigure;
 
 import javax.sql.DataSource;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +20,7 @@ public class DruidDataSourceAutoConfiguration {
 	
 	@Primary
 	@Bean(initMethod="init", destroyMethod="close")
+	@ConditionalOnProperty("spring.datasource.url")
 	@ConfigurationProperties(prefix = "spring.datasource")
 	public DataSource dataSource(){
 		return new DruidDataSource();

@@ -1,9 +1,9 @@
-package com.itopener.tools.zuul.route.admin.config;
+package com.itopener.tools.zuul.route.admin.config.db;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix="spring.zuul.route.admin.db")
-public class ZuulDBRouteProperties {
+public class ZuulRouteDatabaseProperties {
 
 	private String tableName = "zuul_route_config";
 	

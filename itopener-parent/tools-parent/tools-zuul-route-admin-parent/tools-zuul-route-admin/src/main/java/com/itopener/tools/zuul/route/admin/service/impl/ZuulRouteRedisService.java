@@ -7,23 +7,21 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import com.itopener.tools.zuul.route.admin.config.ZuulRedisRouteProperties;
 import com.itopener.tools.zuul.route.admin.config.ZuulRouteConstant;
+import com.itopener.tools.zuul.route.admin.config.redis.ZuulRouteRedisProperties;
 import com.itopener.tools.zuul.route.admin.service.IZuulRouteService;
 import com.itopener.zuul.route.spring.boot.common.ZuulRouteEntity;
 
-@Service
 public class ZuulRouteRedisService implements IZuulRouteService {
 	
 	@Resource
 	private RedisTemplate<String, ZuulRouteEntity> redisTemplate;
 	
 	@Autowired
-	private ZuulRedisRouteProperties zuulRedisRouteProperties;
+	private ZuulRouteRedisProperties zuulRedisRouteProperties;
 
 	@Override
 	public String key() {
@@ -88,6 +86,29 @@ public class ZuulRouteRedisService implements IZuulRouteService {
 		entity.setEnable(true);
 		List<ZuulRouteEntity> list = list(entity);
 		return CollectionUtils.isEmpty(list) ? 0 : list.size();
+	}
+	
+	@Override
+	public void change(String namespace) {
+		zuulRedisRouteProperties.setNamespace(namespace);
+	}
+
+	@Override
+	public String count() {
+		List<Object> list = redisTemplate.opsForHash().values(zuulRedisRouteProperties.getNamespace());
+		if(CollectionUtils.isEmpty(list)){
+			return "0/0";
+		}
+		int totalCount = list.size();
+		int enableCount = 0;
+		for (Object item : list) {
+			ZuulRouteEntity one = (ZuulRouteEntity) item;
+			if(one.isEnable()){
+				enableCount ++;
+			}
+		}
+		
+		return enableCount + "/" + totalCount;
 	}
 
 }

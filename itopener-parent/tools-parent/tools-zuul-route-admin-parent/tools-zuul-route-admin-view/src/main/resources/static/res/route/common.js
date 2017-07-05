@@ -247,7 +247,7 @@ $.extend({
         		}
         		_option.beforeSend();
         	},
-            error: function(XMLHttpRequest, textStatus, errorThrown){  
+            error: function(XMLHttpRequest, textStatus, errorThrown){
                 //错误方法增强处理  
             	if(_option.shade == 1){
             		layer.close(loadDialogIndex);
@@ -262,7 +262,7 @@ $.extend({
             	console.log("errorThrown:" + JSON.stringify(errorThrown));
             	_option.error(XMLHttpRequest, textStatus, errorThrown);  
             },  
-            success: function(data){  
+            success: function(data){
             	if(_option.shade == 1){
             		layer.close(loadDialogIndex);
             	}
@@ -274,7 +274,12 @@ $.extend({
             		return false;
             	}
             	_option.success(data);  
-            }  
+            },
+            complete: function(){
+            	if(_option.shade == 1){
+            		layer.close(loadDialogIndex);
+            	}
+            }
         });  
         return _ajax(_opt);  
     };  

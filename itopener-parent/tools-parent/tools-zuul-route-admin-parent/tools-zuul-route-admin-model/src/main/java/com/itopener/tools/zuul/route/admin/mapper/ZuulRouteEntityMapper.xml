@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.itopener.tools.zuul.route.admin.mapper.ZuulRouteConfigMapper">
+<mapper namespace="com.itopener.tools.zuul.route.admin.mapper.ZuulRouteEntityMapper">
 
-	<resultMap id="BaseResultMap" type="com.itopener.tools.zuul.route.admin.model.ZuulRouteConfig">
+	<resultMap id="BaseResultMap" type="com.itopener.zuul.route.spring.boot.common.ZuulRouteEntity">
 		<id column="id" property="id" jdbcType="VARCHAR" />
 		<result column="path" property="path" jdbcType="VARCHAR" />
 		<result column="service_id" property="serviceId" jdbcType="VARCHAR" />
@@ -22,41 +22,41 @@
 
 	<sql id="Where">
 		<where>
-			<if test="id != null and id != ''">
-				and id like concat(#{id,jdbcType=VARCHAR}, '%') 
+			<if test="likeId != null and likeId != ''">
+				and id like concat(#{likeId,jdbcType=VARCHAR}, '%') 
 			</if>
-			<if test="routerName != null and routerName != ''">
-				and router_name like concat(#{routerName,jdbcType=VARCHAR}, '%') 
+			<if test="likeRouterName != null and likeRouterName != ''">
+				and router_name like concat(#{likeRouterName,jdbcType=VARCHAR}, '%') 
 			</if>
 			and enable = #{enable,jdbcType=BIT}
 		</where>
 	</sql>
 
-	<select id="select" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition" resultMap="BaseResultMap">
+	<select id="select" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition" resultMap="BaseResultMap">
 		select <include refid="Column_List" />
 		from ${tableName}
 		<include refid="Where" />
 	</select>
 
-	<select id="selectCount" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition" resultType="int">
+	<select id="selectCount" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition" resultType="int">
 		select count(id)
 		from ${tableName}
 		<include refid="Where" />
 	</select>
 
-	<select id="count" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition" resultType="int">
+	<select id="count" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition" resultType="int">
 		select count(id)
 		from ${tableName}
 	</select>
 
-	<select id="selectCountById" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition" resultType="int">
+	<select id="selectCountById" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition" resultType="int">
 		select count(id)
 		from ${tableName}
 		where id = #{id,jdbcType=VARCHAR}
 	</select>
 
 	<!-- 新增 -->
-	<insert id="insert" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition" keyProperty="id" useGeneratedKeys="true">
+	<insert id="insert" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition" keyProperty="id" useGeneratedKeys="true">
 		insert into ${tableName}(<include refid="Column_List" />)
 		values (
 			#{id,jdbcType=VARCHAR},
@@ -71,7 +71,7 @@
 			#{routerName,jdbcType=VARCHAR})
 	</insert>
 	
-	<update id="update" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition">
+	<update id="update" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition">
 		update ${tableName}
 		set
 			path = #{path,jdbcType=VARCHAR},
@@ -86,15 +86,19 @@
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 	
-	<update id="updateState" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition">
+	<update id="updateEnable" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition">
 		update ${tableName}
 		set
 			enable = #{enable,jdbcType=BIT}
 		where id = #{id,jdbcType=VARCHAR}
 	</update>
 
-	<delete id="delete" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteConfigCondition">
+	<delete id="delete" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition">
 		delete from ${tableName}
 		where id = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="clear" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition">
+		delete from ${tableName}
 	</delete>
 </mapper>

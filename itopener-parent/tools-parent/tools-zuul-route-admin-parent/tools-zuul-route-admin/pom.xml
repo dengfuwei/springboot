@@ -46,6 +46,12 @@
 		
 		<dependency>
 			<groupId>com.itopener</groupId>
+			<artifactId>tools-zuul-route-admin-model</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.itopener</groupId>
 			<artifactId>tools-zuul-route-admin-view</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
