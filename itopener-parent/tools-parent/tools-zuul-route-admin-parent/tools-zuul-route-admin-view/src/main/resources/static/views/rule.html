@@ -1,22 +1,22 @@
 <div class="am-cf am-padding-left-xs">
-	<strong class="am-text-primary am-text-default">zuul动态路由配置管理</strong> / <small>路由配置管理</small>
+	<strong class="am-text-primary am-text-default">zuul动态路由配置管理</strong> / <small>路由规则管理</small>
 </div>
 <hr class="am-margin-0" />
 <form class="am-form am-form-horizontal am-margin-xs" role="form" method="post" action="" id="conditionForm">
 	<ul class="am-avg-sm-1 am-avg-md-2 am-avg-lg-4 am-thumbnails">
 		<li class="am-padding-0">
 			<div class="am-form-group am-form-group-sm">
-				<label for="likeId" class="am-u-sm-4 am-form-label">id</label>
+				<label for="routeId" class="am-u-sm-4 am-form-label">路由ID</label>
 				<div class="am-u-sm-8">
-					<input type="text" class="am-form-field" name="likeId" />
+					<select class="am-input-sm" name="routeId" id="routeId"></select>
 				</div>
 			</div>
 		</li>
 		<li class="am-padding-0">
 			<div class="am-form-group am-form-group-sm">
-				<label for="likeRouterName" class="am-u-sm-4 am-form-label">名称</label>
+				<label for="likeId" class="am-u-sm-4 am-form-label">规则ID</label>
 				<div class="am-u-sm-8">
-					<input type="text" class="am-form-field" name="likeRouterName" />
+					<input type="text" class="am-form-field" name="likeId" />
 				</div>
 			</div>
 		</li>
@@ -53,15 +53,12 @@
 			    	<th><input type="checkbox"/></th>
 			    	<th>操作</th>
 			        <th>id</th>
-			        <th>名称</th>
-			        <th>enable</th>
-			        <th>path</th>
-			        <th>serviceId</th>
-			        <th>url</th>
-			        <th>stripPrefix</th>
-			        <th>retryable</th>
-			        <th>sensitiveHeaders</th>
-			        <th>customSensitiveHeaders</th>
+			        <th>路由ID</th>
+			        <th>规则</th>
+			        <th>期望规则执行结果</th>
+			        <th>规则匹配成功后的路由目的地址</th>
+			        <th>是否启用</th>
+			        <th>序号（优先级）</th>
 			    </tr>
 			</thead>
 			<tbody id="dataList"></tbody>
@@ -72,7 +69,7 @@
 <div id="editDialog" style="display: none;">
 	<form class="am-form am-form-horizontal am-margin-xs" role="form" method="post" action="" id="editForm">
 		<div class="am-panel am-panel-default">
-			<div class="am-panel-hd">基本信息<small class="am-margin-left-xs am-text-grey">serviceId和url选填其一</small></div>
+			<div class="am-panel-hd">基本信息<small class="am-margin-left-xs am-text-grey"></small></div>
 			<div class="am-panel-bd am-padding-xs am-padding-bottom-0">
 				<ul class="am-avg-sm-1 am-avg-md-2 am-avg-lg-2 am-thumbnails">
 					<li class="am-padding-0">
@@ -85,25 +82,33 @@
 					</li>
 					<li class="am-padding-0">
 						<div class="am-form-group am-form-group-sm">
-							<label for="path" class="am-u-sm-4 am-form-label"><i class="am-text-danger">*&nbsp;</i>path</label>
+							<label for="routeId" class="am-u-sm-4 am-form-label"><i class="am-text-danger">*&nbsp;</i>路由ID</label>
 							<div class="am-u-sm-8">
-								<input type="text" class="am-form-field" name="path" />
+								<input type="text" class="am-form-field" name="routeId" readonly="readonly" />
 							</div>
 						</div>
 					</li>
 					<li class="am-padding-0">
 						<div class="am-form-group am-form-group-sm">
-							<label for="serviceId" class="am-u-sm-4 am-form-label">serviceId</label>
+							<label for="expectedResult" class="am-u-sm-4 am-form-label">期望规则结果</label>
 							<div class="am-u-sm-8">
-								<input type="text" class="am-form-field" name="serviceId" />
+								<input type="text" class="am-form-field" name="expectedResult" />
 							</div>
 						</div>
 					</li>
 					<li class="am-padding-0">
 						<div class="am-form-group am-form-group-sm">
-							<label for="url" class="am-u-sm-4 am-form-label">url</label>
+							<label for="location" class="am-u-sm-4 am-form-label">路由目的地址</label>
 							<div class="am-u-sm-8">
-								<input type="text" class="am-form-field" name="url" />
+								<input type="text" class="am-form-field" name="location" />
+							</div>
+						</div>
+					</li>
+					<li class="am-padding-0">
+						<div class="am-form-group am-form-group-sm">
+							<label for="sortNum" class="am-u-sm-4 am-form-label">序号（优先级）</label>
+							<div class="am-u-sm-8">
+								<input type="text" class="am-form-field" name="sortNum" />
 							</div>
 						</div>
 					</li>
@@ -120,66 +125,11 @@
 							</div>
 						</div>
 					</li>
-				</ul>
-			</div>
-		</div>
-		
-		<div class="am-panel am-panel-default am-border-top-0">
-			<div class="am-panel-hd">辅助信息<small class="am-margin-left-xs am-text-grey"></small></div>
-			<div class="am-panel-bd am-padding-xs am-padding-bottom-0">
-				<ul class="am-avg-sm-1 am-avg-md-2 am-avg-lg-2 am-thumbnails">
 					<li class="am-padding-0">
 						<div class="am-form-group am-form-group-sm">
-							<label for="routerName" class="am-u-sm-4 am-form-label">名称</label>
+							<label for="rule" class="am-u-sm-4 am-form-label">规则</label>
 							<div class="am-u-sm-8">
-								<input type="text" class="am-form-field" name="routerName" />
-							</div>
-						</div>
-					</li>
-					<li class="am-padding-0">
-						<div class="am-form-group am-form-group-sm">
-							<label for="sensitiveHeaders" class="am-u-sm-4 am-form-label">sensitiveHeaders</label>
-							<div class="am-u-sm-8">
-								<input type="text" class="am-form-field" name="sensitiveHeaders" />
-							</div>
-						</div>
-					</li>
-					<li class="am-padding-0">
-						<div class="am-form-group am-form-group-sm">
-							<label for="stripPrefix" class="am-u-sm-4 am-form-label">stripPrefix</label>
-							<div class="am-u-sm-8">
-								<label class="am-radio-inline">
-									<input type="radio" name="stripPrefix" value="true" checked="checked"> true
-								</label>
-								<label class="am-radio-inline">
-									<input type="radio" name="stripPrefix" value="false"> false
-								</label>
-							</div>
-						</div>
-					</li>
-					<li class="am-padding-0">
-						<div class="am-form-group am-form-group-sm">
-							<label for="retryable" class="am-u-sm-4 am-form-label">retryable</label>
-							<div class="am-u-sm-8">
-								<label class="am-radio-inline">
-									<input type="radio" name="retryable" value="true"> true
-								</label>
-								<label class="am-radio-inline">
-									<input type="radio" name="retryable" value="false" checked="checked"> false
-								</label>
-							</div>
-						</div>
-					</li>
-					<li class="am-padding-0">
-						<div class="am-form-group am-form-group-sm">
-							<label for="customSensitiveHeaders" class="am-u-sm-4 am-form-label">customSensitiveHeaders</label>
-							<div class="am-u-sm-8">
-								<label class="am-radio-inline">
-									<input type="radio" name="customSensitiveHeaders" value="true"> true
-								</label>
-								<label class="am-radio-inline">
-									<input type="radio" name="customSensitiveHeaders" value="false" checked="checked"> false
-								</label>
+								<textarea class="am-form-field" name="rule" rows="8"></textarea>
 							</div>
 						</div>
 					</li>
@@ -216,7 +166,7 @@
 						<div class="am-form-group am-form-group-sm">
 							<label for="storeNamespace" class="am-u-sm-4 am-form-label"><i class="am-text-danger">*&nbsp;</i>存储空间</label>
 							<div class="am-u-sm-8">
-								<input type="text" class="am-form-field" id="storeNamespace" value="zuul_route_config" />
+								<input type="text" class="am-form-field" id="storeNamespace" value="zuul_route_config_rule" />
 							</div>
 						</div>
 					</li>
@@ -241,27 +191,47 @@
 		{{# } }}
 	</td>
 	<td class="">{{ d.list[i].id }}</td>
-	<td class="">{{ d.list[i].routerName }}</td>
+	<td class="">{{ d.list[i].routeId }}</td>
+	<td class="">{{ d.list[i].rule }}</td>
+	<td class="">{{ d.list[i].expectedResult }}</td>
+	<td class="">{{ d.list[i].location }}</td>
 	<td class="">{{ d.list[i].enable }}</td>
-	<td class="">{{ d.list[i].path }}</td>
-	<td class="">{{ d.list[i].serviceId }}</td>
-	<td class="">{{ d.list[i].url }}</td>
-	<td class="">{{ d.list[i].stripPrefix }}</td>
-	<td class="">{{ d.list[i].retryable }}</td>
-	<td class="">{{ d.list[i].sensitiveHeaders }}</td>
-	<td class="">{{ d.list[i].customSensitiveHeaders }}</td>
+	<td class="">{{ d.list[i].sortNum }}</td>
 </tr>
 {{# } }}
 </script>
 <script>
 (function(){
-	var storeType = $.store('zuul_store_type');
+	var storeType = $.store('zuul_rule_store_type');
 	if(!storeType){
 		storeType = 'db';
 	}
 	
 	$(function(){
 		$('#currStore').text('当前数据源:' + storeType);
+		loadRoute();
+	});
+	
+	function loadRoute(){
+		$.ajax({
+			url: '/route/' + storeType + '/listall',
+			type: 'get',
+			dataType: 'json',
+			success: function(data){
+				$('#routeId').empty();
+				$('#dataList').empty();
+				if(!data.list || data.list.length < 1){
+					return false;
+				}
+				for(var i=0; i<data.list.length; i++){
+					$('#routeId').append('<option value="' + data.list[i].id + '">' + data.list[i].id + '</option>');
+				}
+				query();
+			}
+		});
+	}
+	
+	$('#routeId').on('change', function(){
 		query();
 	});
 	
@@ -271,7 +241,7 @@
 	
 	function query(page, size){
 		$('#conditionForm').ajaxSubmit({
-			url: '/route/' + storeType + '/list',
+			url: '/rule/' + storeType + '/list',
 			type: 'get',
 			dataType: 'json',
 			success: function(data){
@@ -293,12 +263,13 @@
 		    layer.close(index);
 		    
 		    $.ajax({
-				url: '/route/' + storeType + '/enable',
+				url: '/rule/' + storeType + '/enable',
 				type: 'put',
 				dataType: 'json',
 				data: {
 					id: id,
-					enable: true
+					enable: true,
+					routeId: $('#routeId').val()
 				},
 				success: function(data){
 					query();
@@ -313,12 +284,13 @@
 		    layer.close(index);
 		    
 		    $.ajax({
-				url: '/route/' + storeType + '/enable',
+				url: '/rule/' + storeType + '/enable',
 				type: 'put',
 				dataType: 'json',
 				data: {
 					id: id,
-					enable: false
+					enable: false,
+					routeId: $('#routeId').val()
 				},
 				success: function(data){
 					query();
@@ -333,7 +305,7 @@
 		    layer.close(index);
 		    
 		    $.ajax({
-				url: '/route/' + storeType + '/' + id,
+				url: '/rule/' + storeType + '/' + $('#routeId').val() + '/' + id,
 				type: 'delete',
 				dataType: 'json',
 				success: function(data){
@@ -346,7 +318,7 @@
 	$('#dataList').on('click', '.toUpdate', function(){
 		var obj = $(this).find('.json').text();
 		obj = JSON.parse(obj);
-		$('#editForm').find('input[type="text"], select').each(function(){
+		$('#editForm').find('input[type="text"], select, textarea').each(function(){
 			$(this).val(obj[$(this).attr('name')]);
 		});
 		$('#editForm').find('input[type="radio"]').each(function(){
@@ -358,13 +330,13 @@
 	function openEditForm(){
 		layer.open({
 			type: 1,
-			title: '编辑路由配置(' + storeType + ')',
+			title: '编辑路由规则配置(' + storeType + ')',
 			area: '70%',
 			btn: ['保存', '取消'],
 			content: $('#editDialog'),
 			yes: function(index, layero){
 				$('#editForm').ajaxSubmit({
- 					url:'/route/' + storeType + '/save',
+ 					url:'/rule/' + storeType + '/save',
  					type:'put',
  					dataType: 'json',
  					success: function(data){
@@ -378,6 +350,12 @@
 	
 	$('#toAddBtn').on('click', function(){
 		$('#editForm')[0].reset();
+		var routeId = $('#routeId').val();
+		if(!routeId){
+			layer.alert('请先添加路由配置');
+			return false;
+		}
+		$('#editForm input[name="routeId"]').val($('#routeId').val());
 		openEditForm();
 	});
 	
@@ -391,7 +369,7 @@
 			yes: function(index, layero){
 				var temp = $('#storeType').val();
 				$.ajax({
- 					url:'/route/' + temp + '/change',
+ 					url:'/rule/' + temp + '/change',
  					type:'put',
  					data: {
  						value: $('#storeNamespace').val()
@@ -399,10 +377,10 @@
  					dataType: 'json',
  					success: function(data){
  						storeType = temp;
- 						$.store('zuul_store_type', storeType);
+ 						$.store('zuul_rule_store_type', storeType);
  						$('#currStore').text('当前数据源:' + storeType);
+ 						loadRoute();
  						layer.closeAll();
- 						query();
  					}
 				});
 			}
@@ -410,7 +388,7 @@
 	});
 	
 	var store = {
-			db: 'zuul_route_config',
+			db: 'zuul_route_config_rule',
 			redis: 'zuul_route_config',
 			zk: 'zuul_route_config'
 	}
@@ -421,11 +399,11 @@
 	});
 	
 	$('#clearBtn').on('click', function(){
-		layer.confirm('确定要清空' + storeType + '的所有路由配置吗？', function(index){
+		layer.confirm('确定要清空' + storeType + '的所有路由规则吗？', function(index){
 		    layer.close(index);
 		    
 		    $.ajax({
-				url: '/route/' + storeType + '/clear',
+				url: '/rule/' + storeType + '/clear',
 				type: 'put',
 				dataType: 'json',
 				success: function(data){
@@ -434,6 +412,7 @@
 			});
 		});
 	});
+	
 })();
 </script>
 </body>

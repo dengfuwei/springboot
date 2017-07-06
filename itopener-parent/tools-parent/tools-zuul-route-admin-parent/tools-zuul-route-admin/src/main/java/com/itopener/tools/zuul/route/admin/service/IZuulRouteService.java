@@ -2,6 +2,7 @@ package com.itopener.tools.zuul.route.admin.service;
 
 import java.util.List;
 
+import com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition;
 import com.itopener.zuul.route.spring.boot.common.ZuulRouteEntity;
 
 public interface IZuulRouteService {
@@ -12,7 +13,9 @@ public interface IZuulRouteService {
 	
 	public void delete(String id);
 	
-	public List<ZuulRouteEntity> list(ZuulRouteEntity entity);
+	public List<ZuulRouteEntity> list(ZuulRouteEntityCondition condition);
+	
+	public List<ZuulRouteEntity> listAll();
 	
 	public void clear();
 	

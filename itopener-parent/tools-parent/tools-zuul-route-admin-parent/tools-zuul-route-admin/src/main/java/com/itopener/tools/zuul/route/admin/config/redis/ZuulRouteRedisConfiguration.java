@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import com.itopener.tools.zuul.route.admin.service.impl.ZuulRouteRedisService;
+import com.itopener.tools.zuul.route.admin.service.impl.ZuulRouteRuleRedisService;
 import com.itopener.zuul.route.spring.boot.common.ZuulRouteEntity;
 
 @Configuration
@@ -28,5 +29,10 @@ public class ZuulRouteRedisConfiguration {
 	@Bean
 	public ZuulRouteRedisService zuulRouteRedisService(){
 		return new ZuulRouteRedisService();
+	}
+	
+	@Bean
+	public ZuulRouteRuleRedisService zuulRouteRuleRedisService(){
+		return new ZuulRouteRuleRedisService();
 	}
 }

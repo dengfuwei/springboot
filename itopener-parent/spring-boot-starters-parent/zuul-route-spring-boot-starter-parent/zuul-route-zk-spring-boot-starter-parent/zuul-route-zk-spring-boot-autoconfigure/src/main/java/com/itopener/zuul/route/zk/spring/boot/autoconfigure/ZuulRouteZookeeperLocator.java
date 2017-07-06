@@ -7,8 +7,10 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.netflix.zuul.filters.Route;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties.ZuulRoute;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -22,20 +24,22 @@ import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRule;
  * @date 2017年6月30日 上午11:11:19
  * @version 1.0.0
  */
-public class ZuulZookeeperRouteLocator extends ZuulRouteLocator {
+public class ZuulRouteZookeeperLocator extends ZuulRouteLocator {
 
-	public final static Logger logger = LoggerFactory.getLogger(ZuulZookeeperRouteLocator.class);
+	public final static Logger logger = LoggerFactory.getLogger(ZuulRouteZookeeperLocator.class);
 
 	@Autowired
 	private CuratorFrameworkClient curatorFrameworkClient;
+	
+	private List<ZuulRouteEntity> locateRouteList;
 
-	public ZuulZookeeperRouteLocator(String servletPath, ZuulProperties properties) {
+	public ZuulRouteZookeeperLocator(String servletPath, ZuulProperties properties) {
 		super(servletPath, properties);
 	}
 
 	@Override
 	public Map<String, ZuulRoute> loadLocateRoute() {
-		List<ZuulRouteEntity> locateRouteList = new ArrayList<ZuulRouteEntity>();
+		locateRouteList = new ArrayList<ZuulRouteEntity>();
 		try {
 			locateRouteList = new ArrayList<ZuulRouteEntity>();
 			//获取所有路由配置的id
@@ -72,6 +76,19 @@ public class ZuulZookeeperRouteLocator extends ZuulRouteLocator {
 		}
 		logger.info("load zuul route from zk : " + JSON.toJSONString(locateRouteList));
 		return handle(locateRouteList);
+	}
+
+	@Override
+	public List<IZuulRouteRule> getRules(Route route) {
+		if(CollectionUtils.isEmpty(locateRouteList)){
+			return null;
+		}
+		for(ZuulRouteEntity item : locateRouteList){
+			if(item.getId().equals(route.getId())){
+				return item.getRuleList();
+			}
+		}
+		return super.getRules(route);
 	}
 
 }

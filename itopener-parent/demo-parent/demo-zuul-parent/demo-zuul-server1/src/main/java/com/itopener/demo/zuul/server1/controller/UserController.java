@@ -21,7 +21,7 @@ public class UserController {
 		logger.info("zuul server 1 : " + id);
 		UserVO user = new UserVO();
 		user.setId(id);
-		user.setName("name" + id);
+		user.setName("server1-" + id);
 		user.setCreateTime(TimestampUtil.current());
 		return ResultMap.buildSuccess().put("user", user);
 	}

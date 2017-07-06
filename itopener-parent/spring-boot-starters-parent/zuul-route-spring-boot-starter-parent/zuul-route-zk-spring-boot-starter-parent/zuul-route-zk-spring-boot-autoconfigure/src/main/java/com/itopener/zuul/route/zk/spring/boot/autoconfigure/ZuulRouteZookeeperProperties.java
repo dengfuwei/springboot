@@ -3,7 +3,7 @@ package com.itopener.zuul.route.zk.spring.boot.autoconfigure;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix="spring.zuul.route")
-public class ZuulZookeeperRouteProperties {
+public class ZuulRouteZookeeperProperties {
 
 	private Zookeeper zk = new Zookeeper();
 	

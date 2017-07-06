@@ -1,15 +1,6 @@
 package com.itopener.zuul.route.spring.boot.common;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
-
-import javax.script.Bindings;
-import javax.script.Compilable;
-import javax.script.CompiledScript;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,29 +44,8 @@ public class ZuulRouteRuleEntity implements IZuulRouteRule {
 		if(ruleResult == null){
 			return false;
 		}
-		logger.info("freemarker执行结果:" + ruleResult);
+		logger.info("规则执行结果:{}，期望结果:{}", ruleResult, expectedResult);
 		return ruleResult.equals(expectedResult);
-	}
-	
-	public static void main(String[] args) throws ScriptException {
-		ScriptEngine engine = new ScriptEngineManager().getEngineByName("javascript");
-		Compilable compilable = (Compilable) engine;
-		Bindings bindings = engine.createBindings(); //Local级别的Binding
-		String script = "function rule(obj){return new Date().getHours()<12?'true':'false'} rule(obj)"; //定义函数并调用
-		CompiledScript JSFunction = compilable.compile(script); //解析编译脚本函数
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("currDate", new Date());
-		map.put("abc", "123");
-		bindings.put("obj", map); //通过Bindings加入参数
-		Object result = JSFunction.eval(bindings);
-		System.out.println(result); //调用缓存着的脚本函数对象，Bindings作为参数容器传入
-		
-		
-		
-		
-//		System.out.println(RuleUtil.format("${.now?string('HH') == '18')}", null));
-//		System.out.println(RuleUtil.format("<#if .now?int('HH') == 18>true</#if>", null));
 	}
 	
 	@Override

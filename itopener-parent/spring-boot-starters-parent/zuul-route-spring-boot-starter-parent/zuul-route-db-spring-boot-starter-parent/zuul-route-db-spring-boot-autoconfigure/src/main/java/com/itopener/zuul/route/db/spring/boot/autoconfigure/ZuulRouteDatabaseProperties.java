@@ -3,7 +3,7 @@ package com.itopener.zuul.route.db.spring.boot.autoconfigure;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix="spring.zuul.route.db")
-public class ZuulDatabaseRouteProperties {
+public class ZuulRouteDatabaseProperties {
 
 	private String tableName = "zuul_route_config";
 	

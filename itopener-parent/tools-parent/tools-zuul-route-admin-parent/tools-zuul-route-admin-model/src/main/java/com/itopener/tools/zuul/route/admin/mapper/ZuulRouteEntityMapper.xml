@@ -38,6 +38,11 @@
 		<include refid="Where" />
 	</select>
 
+	<select id="listAll" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition" resultMap="BaseResultMap">
+		select <include refid="Column_List" />
+		from ${tableName}
+	</select>
+
 	<select id="selectCount" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition" resultType="int">
 		select count(id)
 		from ${tableName}

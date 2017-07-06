@@ -24,7 +24,7 @@ public class DefaultZuulRouteRuleMatcher implements IZuulRouteRuleMatcher {
 	@Override
 	public Route matchingRule(Route route, List<IZuulRouteRule> rules) {
 		if(route == null || CollectionUtils.isEmpty(rules)){
-			return null;
+			return route;
 		}
 		
 		rules.sort(new Comparator<IZuulRouteRule>() {

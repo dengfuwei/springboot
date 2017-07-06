@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Configuration;
 
 import com.itopener.framework.base.BaseDao;
 import com.itopener.tools.zuul.route.admin.dao.ZuulRouteEntityDao;
+import com.itopener.tools.zuul.route.admin.dao.ZuulRouteRuleEntityDao;
 import com.itopener.tools.zuul.route.admin.service.impl.ZuulRouteDatabaseService;
+import com.itopener.tools.zuul.route.admin.service.impl.ZuulRouteRuleDatabaseService;
 
 @Configuration
 @ConditionalOnProperty("spring.datasource.url")
@@ -30,5 +32,15 @@ public class ZuulRouteDatabaseConfiguration {
 	@Bean
 	public ZuulRouteEntityDao zuulRouteEntityDao(){
 		return new ZuulRouteEntityDao();
+	}
+	
+	@Bean
+	public ZuulRouteRuleDatabaseService zuulRouteRuleDatabaseService(){
+		return new ZuulRouteRuleDatabaseService();
+	}
+	
+	@Bean
+	public ZuulRouteRuleEntityDao zuulRouteRueEntityDao(){
+		return new ZuulRouteRuleEntityDao();
 	}
 }

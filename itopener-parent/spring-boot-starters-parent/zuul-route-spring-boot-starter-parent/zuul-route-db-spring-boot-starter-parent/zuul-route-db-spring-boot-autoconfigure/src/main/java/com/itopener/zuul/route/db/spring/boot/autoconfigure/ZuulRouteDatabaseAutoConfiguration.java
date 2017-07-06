@@ -21,7 +21,7 @@ import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRuleMatcher;
 @Configuration
 @EnableScheduling
 @ConditionalOnBean(DataSource.class)
-@EnableConfigurationProperties(ZuulDatabaseRouteProperties.class)
+@EnableConfigurationProperties(ZuulRouteDatabaseProperties.class)
 public class ZuulRouteDatabaseAutoConfiguration {
 
 	@Autowired

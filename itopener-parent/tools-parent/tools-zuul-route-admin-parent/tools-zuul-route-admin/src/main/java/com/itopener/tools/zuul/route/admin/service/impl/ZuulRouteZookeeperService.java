@@ -8,6 +8,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition;
 import com.itopener.tools.zuul.route.admin.config.ZuulRouteConstant;
 import com.itopener.tools.zuul.route.admin.config.zk.CuratorFrameworkClient;
 import com.itopener.tools.zuul.route.admin.service.IZuulRouteService;
@@ -34,7 +35,7 @@ public class ZuulRouteZookeeperService implements IZuulRouteService {
 	}
 
 	@Override
-	public List<ZuulRouteEntity> list(ZuulRouteEntity entity) {
+	public List<ZuulRouteEntity> list(ZuulRouteEntityCondition condition) {
 		List<ZuulRouteEntity> locateRouteList = new ArrayList<ZuulRouteEntity>();
 		locateRouteList = new ArrayList<ZuulRouteEntity>();
 		List<String> keys = curatorFrameworkClient.getChildrenKeys("/");
@@ -42,16 +43,31 @@ public class ZuulRouteZookeeperService implements IZuulRouteService {
 			String value = curatorFrameworkClient.get("/" + item);
 			if(!StringUtils.isEmpty(value)){
 				ZuulRouteEntity one = JSON.parseObject(value, ZuulRouteEntity.class);
-				if(entity.isEnable() != one.isEnable()){
+				if(condition.isEnable() != one.isEnable()){
 					continue;
 				}
-				if(!StringUtils.isEmpty(entity.getId()) && !one.getId().startsWith(entity.getId())){
+				if(!StringUtils.isEmpty(condition.getLikeId()) && !one.getId().startsWith(condition.getLikeId())){
 					continue;
 				}
-				if(!StringUtils.isEmpty(entity.getRouterName()) && !one.getRouterName().startsWith(entity.getRouterName())){
+				if(!StringUtils.isEmpty(condition.getLikeRouterName()) && !one.getRouterName().startsWith(condition.getLikeRouterName())){
 					continue;
 				}
 				
+				locateRouteList.add(one);
+			}
+		}
+		return locateRouteList;
+	}
+
+	@Override
+	public List<ZuulRouteEntity> listAll() {
+		List<ZuulRouteEntity> locateRouteList = new ArrayList<ZuulRouteEntity>();
+		locateRouteList = new ArrayList<ZuulRouteEntity>();
+		List<String> keys = curatorFrameworkClient.getChildrenKeys("/");
+		for(String item : keys){
+			String value = curatorFrameworkClient.get("/" + item);
+			if(!StringUtils.isEmpty(value)){
+				ZuulRouteEntity one = JSON.parseObject(value, ZuulRouteEntity.class);
 				locateRouteList.add(one);
 			}
 		}
@@ -80,9 +96,9 @@ public class ZuulRouteZookeeperService implements IZuulRouteService {
 
 	@Override
 	public int enableCount() {
-		ZuulRouteEntity entity = new ZuulRouteEntity();
-		entity.setEnable(true);
-		List<ZuulRouteEntity> list = list(entity);
+		ZuulRouteEntityCondition condition = new ZuulRouteEntityCondition();
+		condition.setEnable(true);
+		List<ZuulRouteEntity> list = list(condition);
 		return CollectionUtils.isEmpty(list) ? 0 : list.size();
 	}
 

@@ -19,8 +19,8 @@ import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRuleMatcher;
 @Configuration
 @EnableScheduling
 @ConditionalOnBean(RedisTemplate.class)
-@EnableConfigurationProperties(ZuulRedisRouteProperties.class)
-public class ZuulRedisRouteAutoConfiguration {
+@EnableConfigurationProperties(ZuulRouteRedisProperties.class)
+public class ZuulRouteRedisAutoConfiguration {
 
 	@Autowired
 	ZuulProperties zuulProperties;
@@ -30,9 +30,9 @@ public class ZuulRedisRouteAutoConfiguration {
 
 	@Bean
 	@ConditionalOnBean(RedisTemplate.class)
-	@ConditionalOnMissingBean(ZuulRedisRouteLocator.class)
-	public ZuulRedisRouteLocator zuulRedisRouteLocator() {
-		return new ZuulRedisRouteLocator(this.server.getServletPrefix(), this.zuulProperties);
+	@ConditionalOnMissingBean(ZuulRouteRedisLocator.class)
+	public ZuulRouteRedisLocator zuulRedisRouteLocator() {
+		return new ZuulRouteRedisLocator(this.server.getServletPrefix(), this.zuulProperties);
 	}
 	
 	@Bean

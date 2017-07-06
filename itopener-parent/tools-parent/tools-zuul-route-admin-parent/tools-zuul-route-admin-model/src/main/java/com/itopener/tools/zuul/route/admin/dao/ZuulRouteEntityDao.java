@@ -25,6 +25,11 @@ public class ZuulRouteEntityDao {
 //		PageHelper.clearPage();
 		return baseDao.selectList(NAMESPACE + "select", condition);
 	}
+	
+	public List<ZuulRouteEntity> listAll(ZuulRouteEntityCondition condition) {
+		PageHelper.startPage(1, 9999, false);
+		return baseDao.selectList(NAMESPACE + "listAll", condition);
+	}
 
 	public List<ZuulRouteEntity> selectPage(ZuulRouteEntityCondition condition) {
 		PageHelper.startPage(condition.getPageNum(), condition.getPageSize(), false);

@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.itopener.tools.zuul.route.admin.service.impl.ZuulRouteRuleZookeeperService;
 import com.itopener.tools.zuul.route.admin.service.impl.ZuulRouteZookeeperService;
 
 @Configuration
@@ -20,5 +21,10 @@ public class ZuulRouteZookeeperConfiguration {
 	@Bean
 	public ZuulRouteZookeeperService zuulRouteZookeeperService(){
 		return new ZuulRouteZookeeperService();
+	}
+	
+	@Bean
+	public ZuulRouteRuleZookeeperService zuulRouteRuleZookeeperService(){
+		return new ZuulRouteRuleZookeeperService();
 	}
 }

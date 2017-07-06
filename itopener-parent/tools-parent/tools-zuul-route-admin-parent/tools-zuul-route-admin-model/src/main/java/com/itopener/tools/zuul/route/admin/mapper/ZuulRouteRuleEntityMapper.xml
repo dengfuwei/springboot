@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itopener.tools.zuul.route.admin.mapper.ZuulRouteRuleEntityMapper">
+
+	<resultMap id="BaseResultMap" type="com.itopener.zuul.route.spring.boot.common.ZuulRouteRuleEntity">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<id column="route_id" property="routeId" jdbcType="VARCHAR" />
+		<result column="rule" property="rule" jdbcType="VARCHAR" />
+		<result column="expected_result" property="expectedResult" jdbcType="VARCHAR" />
+		<result column="location" property="location" jdbcType="VARCHAR" />
+		<result column="enable" property="enable" jdbcType="BIT" />
+		<result column="sort_num" property="sortNum" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Column_List">
+		id, route_id, rule, expected_result, location, enable, sort_num
+	</sql>
+
+	<sql id="Where">
+		<where>
+			<if test="likeId != null and likeId != ''">
+				and id like concat(#{likeId,jdbcType=VARCHAR}, '%') 
+			</if>
+			<if test="routeId != null and routeId != ''">
+				and route_id = #{routeId,jdbcType=VARCHAR}
+			</if>
+			and enable = #{enable,jdbcType=BIT}
+		</where>
+	</sql>
+
+	<select id="select" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteRuleEntityCondition" resultMap="BaseResultMap">
+		select <include refid="Column_List" />
+		from ${tableName}
+		<include refid="Where" />
+	</select>
+
+	<select id="selectCount" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteRuleEntityCondition" resultType="int">
+		select count(id)
+		from ${tableName}
+		<include refid="Where" />
+	</select>
+
+	<select id="count" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteRuleEntityCondition" resultType="int">
+		select count(id)
+		from ${tableName}
+	</select>
+
+	<select id="selectCountById" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteRuleEntityCondition" resultType="int">
+		select count(id)
+		from ${tableName}
+		where id = #{id,jdbcType=VARCHAR}
+			and route_id = #{routeId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insert" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteRuleEntityCondition" keyProperty="id" useGeneratedKeys="true">
+		insert into ${tableName}(<include refid="Column_List" />)
+		values (
+			#{id,jdbcType=VARCHAR},
+			#{routeId,jdbcType=VARCHAR},
+			#{rule,jdbcType=VARCHAR},
+			#{expectedResult,jdbcType=VARCHAR},
+			#{location,jdbcType=VARCHAR},
+			#{enable,jdbcType=BIT},
+			#{sortNum,jdbcType=INTEGER})
+	</insert>
+	
+	<update id="update" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteRuleEntityCondition">
+		update ${tableName}
+		set
+			rule = #{rule,jdbcType=VARCHAR},
+			expected_result = #{expectedResult,jdbcType=VARCHAR},
+			location = #{location,jdbcType=VARCHAR},
+			enable = #{enable,jdbcType=BIT},
+			sort_num = #{sortNum,jdbcType=INTEGER}
+		where id = #{id,jdbcType=VARCHAR}
+			and route_id = #{routeId,jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateEnable" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteRuleEntityCondition">
+		update ${tableName}
+		set
+			enable = #{enable,jdbcType=BIT}
+		where id = #{id,jdbcType=VARCHAR}
+			and route_id = #{routeId,jdbcType=VARCHAR}
+	</update>
+
+	<delete id="delete" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteRuleEntityCondition">
+		delete from ${tableName}
+		where id = #{id,jdbcType=VARCHAR}
+			and route_id = #{routeId,jdbcType=VARCHAR}
+	</delete>
+
+	<delete id="clear" parameterType="com.itopener.tools.zuul.route.admin.conditions.ZuulRouteRuleEntityCondition">
+		delete from ${tableName}
+		where route_id = #{routeId,jdbcType=VARCHAR}
+	</delete>
+</mapper>

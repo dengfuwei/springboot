@@ -38,10 +38,10 @@ public class CuratorFrameworkClient {
 	private TreeCache treeCache;
 	
 	@Autowired
-	private ZuulZookeeperRouteProperties zuulZookeeperRouteProperties;
+	private ZuulRouteZookeeperProperties zuulZookeeperRouteProperties;
 
 	public void init() {
-		ZuulZookeeperRouteProperties.Zookeeper zkConfig = zuulZookeeperRouteProperties.getZk();
+		ZuulRouteZookeeperProperties.Zookeeper zkConfig = zuulZookeeperRouteProperties.getZk();
 		logger.debug("zookeeper registry center init, server lists is: {}.", zkConfig.getServerLists());
 		CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder()
 				.connectString(zkConfig.getServerLists())

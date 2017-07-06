@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition;
 import com.itopener.tools.zuul.route.admin.config.ZuulRouteConstant;
 import com.itopener.tools.zuul.route.admin.config.redis.ZuulRouteRedisProperties;
 import com.itopener.tools.zuul.route.admin.service.IZuulRouteService;
@@ -39,21 +40,33 @@ public class ZuulRouteRedisService implements IZuulRouteService {
 	}
 
 	@Override
-	public List<ZuulRouteEntity> list(ZuulRouteEntity entity) {
+	public List<ZuulRouteEntity> list(ZuulRouteEntityCondition condition) {
 		List<ZuulRouteEntity> locateRouteList = new ArrayList<ZuulRouteEntity>();
 		List<Object> redisResult = redisTemplate.opsForHash().values(zuulRedisRouteProperties.getNamespace());
 		if (!CollectionUtils.isEmpty(redisResult)) {
 			for (Object item : redisResult) {
 				ZuulRouteEntity one = (ZuulRouteEntity) item;
-				if(entity.isEnable() != one.isEnable()){
+				if(condition.isEnable() != one.isEnable()){
 					continue;
 				}
-				if(!StringUtils.isEmpty(entity.getId()) && !one.getId().startsWith(entity.getId())){
+				if(!StringUtils.isEmpty(condition.getLikeId()) && !one.getId().startsWith(condition.getLikeId())){
 					continue;
 				}
-				if(!StringUtils.isEmpty(entity.getRouterName()) && !one.getRouterName().startsWith(entity.getRouterName())){
+				if(!StringUtils.isEmpty(condition.getLikeRouterName()) && !one.getRouterName().startsWith(condition.getLikeRouterName())){
 					continue;
 				}
+				locateRouteList.add(one);
+			}
+		}
+		return locateRouteList;
+	}
+
+	@Override
+	public List<ZuulRouteEntity> listAll() {
+		List<ZuulRouteEntity> locateRouteList = new ArrayList<ZuulRouteEntity>();
+		List<Object> redisResult = redisTemplate.opsForHash().values(zuulRedisRouteProperties.getNamespace());
+		if (!CollectionUtils.isEmpty(redisResult)) {
+			for (Object item : redisResult) {
 				locateRouteList.add((ZuulRouteEntity) item);
 			}
 		}
@@ -82,9 +95,9 @@ public class ZuulRouteRedisService implements IZuulRouteService {
 
 	@Override
 	public int enableCount() {
-		ZuulRouteEntity entity = new ZuulRouteEntity();
-		entity.setEnable(true);
-		List<ZuulRouteEntity> list = list(entity);
+		ZuulRouteEntityCondition condition = new ZuulRouteEntityCondition();
+		condition.setEnable(true);
+		List<ZuulRouteEntity> list = list(condition);
 		return CollectionUtils.isEmpty(list) ? 0 : list.size();
 	}
 	

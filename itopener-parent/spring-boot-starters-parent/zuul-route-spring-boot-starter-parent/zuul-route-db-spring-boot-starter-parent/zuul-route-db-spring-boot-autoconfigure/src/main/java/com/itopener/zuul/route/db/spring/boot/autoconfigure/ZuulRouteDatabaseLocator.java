@@ -33,7 +33,7 @@ public class ZuulRouteDatabaseLocator extends ZuulRouteLocator {
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	private ZuulDatabaseRouteProperties zuulDatabaseRouteProperties;
+	private ZuulRouteDatabaseProperties zuulRouteDatabaseProperties;
 	
 	private List<ZuulRouteEntity> locateRouteList;
 
@@ -45,11 +45,11 @@ public class ZuulRouteDatabaseLocator extends ZuulRouteLocator {
 	public Map<String, ZuulRoute> loadLocateRoute() {
 		locateRouteList = new ArrayList<ZuulRouteEntity>();
 		try {
-			String sql = "select * from " + zuulDatabaseRouteProperties.getTableName() + " where enable = true";
+			String sql = "select * from " + zuulRouteDatabaseProperties.getTableName() + " where enable = true";
 			locateRouteList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(ZuulRouteEntity.class));
 			if(!CollectionUtils.isEmpty(locateRouteList)){
 				for(ZuulRouteEntity zuulRoute : locateRouteList){
-					sql = "select * from " + zuulDatabaseRouteProperties.getRuleTableName() + " where enable = true and route_id = ?";
+					sql = "select * from " + zuulRouteDatabaseProperties.getRuleTableName() + " where enable = true and route_id = ?";
 					List<ZuulRouteRuleEntity> ruleList = jdbcTemplate.query(sql, new String[]{zuulRoute.getId()}, new BeanPropertyRowMapper<>(ZuulRouteRuleEntity.class));
 					zuulRoute.setRuleList(new ArrayList<IZuulRouteRule>());
 					if(!CollectionUtils.isEmpty(ruleList)){

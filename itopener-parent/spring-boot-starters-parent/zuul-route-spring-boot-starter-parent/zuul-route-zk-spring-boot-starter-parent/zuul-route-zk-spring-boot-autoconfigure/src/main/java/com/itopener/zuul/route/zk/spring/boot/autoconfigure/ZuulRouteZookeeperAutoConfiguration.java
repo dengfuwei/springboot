@@ -13,8 +13,8 @@ import com.itopener.zuul.route.spring.boot.common.rule.DefaultZuulRouteRuleMatch
 import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRuleMatcher;
 
 @Configuration
-@EnableConfigurationProperties(ZuulZookeeperRouteProperties.class)
-public class ZuulZookeeperRouteAutoConfiguration {
+@EnableConfigurationProperties(ZuulRouteZookeeperProperties.class)
+public class ZuulRouteZookeeperAutoConfiguration {
 
 	@Autowired
 	ZuulProperties zuulProperties;
@@ -33,9 +33,9 @@ public class ZuulZookeeperRouteAutoConfiguration {
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(ZuulZookeeperRouteLocator.class)
-	public ZuulZookeeperRouteLocator zuulZookeeperRouteLocator() {
-		return new ZuulZookeeperRouteLocator(this.server.getServletPrefix(), this.zuulProperties);
+	@ConditionalOnMissingBean(ZuulRouteZookeeperLocator.class)
+	public ZuulRouteZookeeperLocator zuulZookeeperRouteLocator() {
+		return new ZuulRouteZookeeperLocator(this.server.getServletPrefix(), this.zuulProperties);
 	}
 	
 	@Bean
