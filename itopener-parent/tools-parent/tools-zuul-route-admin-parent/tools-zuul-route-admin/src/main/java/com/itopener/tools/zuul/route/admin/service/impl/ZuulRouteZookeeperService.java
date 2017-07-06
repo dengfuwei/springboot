@@ -3,6 +3,9 @@ package com.itopener.tools.zuul.route.admin.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -11,6 +14,7 @@ import com.alibaba.fastjson.JSON;
 import com.itopener.tools.zuul.route.admin.conditions.ZuulRouteEntityCondition;
 import com.itopener.tools.zuul.route.admin.config.ZuulRouteConstant;
 import com.itopener.tools.zuul.route.admin.config.zk.CuratorFrameworkClient;
+import com.itopener.tools.zuul.route.admin.config.zk.ZuulRouteZookeeperProperties;
 import com.itopener.tools.zuul.route.admin.service.IZuulRouteService;
 import com.itopener.zuul.route.spring.boot.common.ZuulRouteEntity;
 
@@ -18,6 +22,12 @@ public class ZuulRouteZookeeperService implements IZuulRouteService {
 	
 	@Autowired
 	private CuratorFrameworkClient curatorFrameworkClient;
+	
+	@Autowired
+	private ZuulRouteZookeeperProperties zuulRouteZookeeperProperties;
+	
+	@Resource
+	private HttpServletRequest request;
 
 	@Override
 	public String key() {
@@ -26,16 +36,22 @@ public class ZuulRouteZookeeperService implements IZuulRouteService {
 
 	@Override
 	public void save(ZuulRouteEntity entity) {
+		namespace();
+		
 		curatorFrameworkClient.persist("/" + entity.getId(), JSON.toJSONString(entity));
 	}
 
 	@Override
 	public void delete(String id) {
+		namespace();
+		
 		curatorFrameworkClient.remove("/" + id);
 	}
 
 	@Override
 	public List<ZuulRouteEntity> list(ZuulRouteEntityCondition condition) {
+		namespace();
+		
 		List<ZuulRouteEntity> locateRouteList = new ArrayList<ZuulRouteEntity>();
 		locateRouteList = new ArrayList<ZuulRouteEntity>();
 		List<String> keys = curatorFrameworkClient.getChildrenKeys("/");
@@ -61,6 +77,8 @@ public class ZuulRouteZookeeperService implements IZuulRouteService {
 
 	@Override
 	public List<ZuulRouteEntity> listAll() {
+		namespace();
+		
 		List<ZuulRouteEntity> locateRouteList = new ArrayList<ZuulRouteEntity>();
 		locateRouteList = new ArrayList<ZuulRouteEntity>();
 		List<String> keys = curatorFrameworkClient.getChildrenKeys("/");
@@ -76,11 +94,15 @@ public class ZuulRouteZookeeperService implements IZuulRouteService {
 
 	@Override
 	public void clear() {
+		namespace();
+		
 		curatorFrameworkClient.remove("/");
 	}
 
 	@Override
 	public void updateEnable(ZuulRouteEntity entity) {
+		namespace();
+		
 		String resultStr = curatorFrameworkClient.get("/" + entity.getId());
 		if(!StringUtils.isEmpty(resultStr)){
 			ZuulRouteEntity result = JSON.parseObject(resultStr, ZuulRouteEntity.class);
@@ -91,6 +113,8 @@ public class ZuulRouteZookeeperService implements IZuulRouteService {
 
 	@Override
 	public int totalCount() {
+		namespace();
+		
 		return curatorFrameworkClient.getNumChildren("/");
 	}
 
@@ -104,11 +128,14 @@ public class ZuulRouteZookeeperService implements IZuulRouteService {
 
 	@Override
 	public void change(String namespace) {
-		curatorFrameworkClient.getCuratorFramework().usingNamespace(namespace);
+		request.getSession().setAttribute("namespace", namespace);
+//		curatorFrameworkClient.getCuratorFramework().usingNamespace(namespace);
 	}
 
 	@Override
 	public String count() {
+		namespace();
+		
 		int totalCount = curatorFrameworkClient.getNumChildren("/");
 		int enableCount = 0;
 		if(totalCount > 0){
@@ -126,4 +153,11 @@ public class ZuulRouteZookeeperService implements IZuulRouteService {
 		return enableCount + "/" + totalCount;
 	}
 	
+	private void namespace(){
+		String namespace = (String) request.getSession().getAttribute("namespace");
+		namespace = StringUtils.isEmpty(namespace) ? zuulRouteZookeeperProperties.getZk().getNamespace() : namespace;
+		if(!curatorFrameworkClient.getCuratorFramework().getNamespace().equals(namespace)){
+			curatorFrameworkClient.setCuratorFramework(curatorFrameworkClient.getCuratorFramework().usingNamespace(namespace));
+		}
+	}
 }

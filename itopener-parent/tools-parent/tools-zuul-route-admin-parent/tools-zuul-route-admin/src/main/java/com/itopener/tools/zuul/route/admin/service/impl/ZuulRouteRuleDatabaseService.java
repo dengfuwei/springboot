@@ -3,10 +3,12 @@ package com.itopener.tools.zuul.route.admin.service.impl;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.itopener.tools.zuul.route.admin.conditions.ZuulRouteRuleEntityCondition;
 import com.itopener.tools.zuul.route.admin.config.ZuulRouteConstant;
@@ -22,6 +24,9 @@ public class ZuulRouteRuleDatabaseService implements IZuulRouteRuleService {
 	
 	@Autowired
 	private ZuulRouteDatabaseProperties zuulRouteDatabaseProperties;
+	
+	@Resource
+	private HttpServletRequest request;
 
 	@Override
 	public String key() {
@@ -31,7 +36,7 @@ public class ZuulRouteRuleDatabaseService implements IZuulRouteRuleService {
 	@Override
 	public void save(ZuulRouteRuleEntity entity) {
 		ZuulRouteRuleEntityCondition condition = handle(entity);
-		condition.setTableName(zuulRouteDatabaseProperties.getRuleTableName());
+		condition.setTableName(getRuleTableName());
 		int count = zuulRouteRuleEntityDao.selectCountById(condition);
 		if(count > 0){
 			zuulRouteRuleEntityDao.update(condition);
@@ -52,7 +57,7 @@ public class ZuulRouteRuleDatabaseService implements IZuulRouteRuleService {
 	@Override
 	public void delete(ZuulRouteRuleEntity entity) {
 		ZuulRouteRuleEntityCondition condition = new ZuulRouteRuleEntityCondition();
-		condition.setTableName(zuulRouteDatabaseProperties.getRuleTableName());
+		condition.setTableName(getRuleTableName());
 		condition.setId(entity.getId());
 		condition.setRouteId(entity.getRouteId());
 		zuulRouteRuleEntityDao.delete(condition);
@@ -61,14 +66,14 @@ public class ZuulRouteRuleDatabaseService implements IZuulRouteRuleService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<ZuulRouteRuleEntity> list(ZuulRouteRuleEntityCondition condition) {
-		condition.setTableName(zuulRouteDatabaseProperties.getRuleTableName());
+		condition.setTableName(getRuleTableName());
 		return zuulRouteRuleEntityDao.selectList(condition);
 	}
 
 	@Override
 	public void clear(ZuulRouteRuleEntity entity) {
 		ZuulRouteRuleEntityCondition condition = new ZuulRouteRuleEntityCondition();
-		condition.setTableName(zuulRouteDatabaseProperties.getRuleTableName());
+		condition.setTableName(getRuleTableName());
 		condition.setRouteId(entity.getRouteId());
 		zuulRouteRuleEntityDao.clear(condition);
 	}
@@ -76,7 +81,7 @@ public class ZuulRouteRuleDatabaseService implements IZuulRouteRuleService {
 	@Override
 	public void updateEnable(ZuulRouteRuleEntity entity) {
 		ZuulRouteRuleEntityCondition condition = new ZuulRouteRuleEntityCondition();
-		condition.setTableName(zuulRouteDatabaseProperties.getRuleTableName());
+		condition.setTableName(getRuleTableName());
 		condition.setId(entity.getId());
 		condition.setRouteId(entity.getRouteId());
 		condition.setEnable(entity.isEnable());
@@ -87,7 +92,7 @@ public class ZuulRouteRuleDatabaseService implements IZuulRouteRuleService {
 	@Transactional(readOnly = true)
 	public int totalCount() {
 		ZuulRouteRuleEntityCondition condition = new ZuulRouteRuleEntityCondition();
-		condition.setTableName(zuulRouteDatabaseProperties.getRuleTableName());
+		condition.setTableName(getRuleTableName());
 		return zuulRouteRuleEntityDao.count(condition);
 	}
 
@@ -95,24 +100,29 @@ public class ZuulRouteRuleDatabaseService implements IZuulRouteRuleService {
 	@Transactional(readOnly = true)
 	public int enableCount() {
 		ZuulRouteRuleEntityCondition condition = new ZuulRouteRuleEntityCondition();
-		condition.setTableName(zuulRouteDatabaseProperties.getRuleTableName());
+		condition.setTableName(getRuleTableName());
 		condition.setEnable(true);
 		return zuulRouteRuleEntityDao.selectCount(condition);
 	}
 
 	@Override
 	public void change(String namespace) {
-		zuulRouteDatabaseProperties.setRuleTableName(namespace);
+		request.getSession().setAttribute("ruleTableName", namespace);
+//		zuulRouteDatabaseProperties.setRuleTableName(namespace);
 	}
 
 	@Override
 	public String count() {
 		ZuulRouteRuleEntityCondition condition = new ZuulRouteRuleEntityCondition();
-		condition.setTableName(zuulRouteDatabaseProperties.getRuleTableName());
+		condition.setTableName(getRuleTableName());
 		int totalCount = zuulRouteRuleEntityDao.count(condition);
 		condition.setEnable(true);
 		int enableCount = zuulRouteRuleEntityDao.selectCount(condition);
 		return enableCount + "/" + totalCount;
 	}
 
+	private String getRuleTableName(){
+		String ruleTableName = (String) request.getSession().getAttribute("ruleTableName");
+		return StringUtils.isEmpty(ruleTableName) ? zuulRouteDatabaseProperties.getRuleTableName() : ruleTableName;
+	}
 }

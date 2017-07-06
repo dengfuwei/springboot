@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -22,7 +23,10 @@ public class ZuulRouteRedisService implements IZuulRouteService {
 	private RedisTemplate<String, ZuulRouteEntity> redisTemplate;
 	
 	@Autowired
-	private ZuulRouteRedisProperties zuulRedisRouteProperties;
+	private ZuulRouteRedisProperties zuulRouteRedisProperties;
+	
+	@Resource
+	private HttpServletRequest request;
 
 	@Override
 	public String key() {
@@ -31,18 +35,18 @@ public class ZuulRouteRedisService implements IZuulRouteService {
 
 	@Override
 	public void save(ZuulRouteEntity entity) {
-		redisTemplate.opsForHash().put(zuulRedisRouteProperties.getNamespace(), entity.getId(), entity);
+		redisTemplate.opsForHash().put(getNamespace(), entity.getId(), entity);
 	}
 
 	@Override
 	public void delete(String id) {
-		redisTemplate.opsForHash().delete(zuulRedisRouteProperties.getNamespace(), id);
+		redisTemplate.opsForHash().delete(getNamespace(), id);
 	}
 
 	@Override
 	public List<ZuulRouteEntity> list(ZuulRouteEntityCondition condition) {
 		List<ZuulRouteEntity> locateRouteList = new ArrayList<ZuulRouteEntity>();
-		List<Object> redisResult = redisTemplate.opsForHash().values(zuulRedisRouteProperties.getNamespace());
+		List<Object> redisResult = redisTemplate.opsForHash().values(getNamespace());
 		if (!CollectionUtils.isEmpty(redisResult)) {
 			for (Object item : redisResult) {
 				ZuulRouteEntity one = (ZuulRouteEntity) item;
@@ -64,7 +68,7 @@ public class ZuulRouteRedisService implements IZuulRouteService {
 	@Override
 	public List<ZuulRouteEntity> listAll() {
 		List<ZuulRouteEntity> locateRouteList = new ArrayList<ZuulRouteEntity>();
-		List<Object> redisResult = redisTemplate.opsForHash().values(zuulRedisRouteProperties.getNamespace());
+		List<Object> redisResult = redisTemplate.opsForHash().values(getNamespace());
 		if (!CollectionUtils.isEmpty(redisResult)) {
 			for (Object item : redisResult) {
 				locateRouteList.add((ZuulRouteEntity) item);
@@ -75,12 +79,12 @@ public class ZuulRouteRedisService implements IZuulRouteService {
 
 	@Override
 	public void clear() {
-		redisTemplate.delete(zuulRedisRouteProperties.getNamespace());
+		redisTemplate.delete(getNamespace());
 	}
 
 	@Override
 	public void updateEnable(ZuulRouteEntity entity) {
-		ZuulRouteEntity result = (ZuulRouteEntity) redisTemplate.opsForHash().get(zuulRedisRouteProperties.getNamespace(), entity.getId());
+		ZuulRouteEntity result = (ZuulRouteEntity) redisTemplate.opsForHash().get(getNamespace(), entity.getId());
 		if(result != null){
 			result.setEnable(entity.isEnable());
 			save(result);
@@ -89,7 +93,7 @@ public class ZuulRouteRedisService implements IZuulRouteService {
 
 	@Override
 	public int totalCount() {
-		List<Object> list = redisTemplate.opsForHash().values(zuulRedisRouteProperties.getNamespace());
+		List<Object> list = redisTemplate.opsForHash().values(getNamespace());
 		return CollectionUtils.isEmpty(list) ? 0 : list.size();
 	}
 
@@ -103,12 +107,13 @@ public class ZuulRouteRedisService implements IZuulRouteService {
 	
 	@Override
 	public void change(String namespace) {
-		zuulRedisRouteProperties.setNamespace(namespace);
+		request.getSession().setAttribute("namespace", namespace);
+//		zuulRedisRouteProperties.setNamespace(namespace);
 	}
 
 	@Override
 	public String count() {
-		List<Object> list = redisTemplate.opsForHash().values(zuulRedisRouteProperties.getNamespace());
+		List<Object> list = redisTemplate.opsForHash().values(getNamespace());
 		if(CollectionUtils.isEmpty(list)){
 			return "0/0";
 		}
@@ -124,4 +129,8 @@ public class ZuulRouteRedisService implements IZuulRouteService {
 		return enableCount + "/" + totalCount;
 	}
 
+	private String getNamespace(){
+		String namespace = (String) request.getSession().getAttribute("namespace");
+		return StringUtils.isEmpty(namespace) ? zuulRouteRedisProperties.getNamespace() : namespace;
+	}
 }

@@ -221,6 +221,10 @@ public class CuratorFrameworkClient {
 		return curatorFramework;
 	}
 
+	public void setCuratorFramework(CuratorFramework curatorFramework) {
+		this.curatorFramework = curatorFramework;
+	}
+
 	public TreeCache getTreeCache() {
 		return treeCache;
 	}

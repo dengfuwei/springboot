@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,7 +24,10 @@ public class ZuulRouteRuleRedisService implements IZuulRouteRuleService {
 	private RedisTemplate<String, ZuulRouteRuleEntity> redisTemplate;
 	
 	@Autowired
-	private ZuulRouteRedisProperties zuulRedisRouteProperties;
+	private ZuulRouteRedisProperties zuulRouteRedisProperties;
+	
+	@Resource
+	private HttpServletRequest request;
 
 	@Override
 	public String key() {
@@ -32,18 +36,18 @@ public class ZuulRouteRuleRedisService implements IZuulRouteRuleService {
 
 	@Override
 	public void save(ZuulRouteRuleEntity entity) {
-		redisTemplate.opsForHash().put(zuulRedisRouteProperties.getNamespace() + "_" + entity.getRouteId(), entity.getId(), entity);
+		redisTemplate.opsForHash().put(getNamespace() + "_" + entity.getRouteId(), entity.getId(), entity);
 	}
 
 	@Override
 	public void delete(ZuulRouteRuleEntity entity) {
-		redisTemplate.opsForHash().delete(zuulRedisRouteProperties.getNamespace() + "_" + entity.getRouteId(), entity.getId());
+		redisTemplate.opsForHash().delete(getNamespace() + "_" + entity.getRouteId(), entity.getId());
 	}
 
 	@Override
 	public List<ZuulRouteRuleEntity> list(ZuulRouteRuleEntityCondition condition) {
 		List<ZuulRouteRuleEntity> locateRouteList = new ArrayList<ZuulRouteRuleEntity>();
-		List<Object> redisResult = redisTemplate.opsForHash().values(zuulRedisRouteProperties.getNamespace() + "_" + condition.getRouteId());
+		List<Object> redisResult = redisTemplate.opsForHash().values(getNamespace() + "_" + condition.getRouteId());
 		if (!CollectionUtils.isEmpty(redisResult)) {
 			for (Object item : redisResult) {
 				ZuulRouteRuleEntity one = (ZuulRouteRuleEntity) item;
@@ -61,12 +65,12 @@ public class ZuulRouteRuleRedisService implements IZuulRouteRuleService {
 
 	@Override
 	public void clear(ZuulRouteRuleEntity entity) {
-		redisTemplate.delete(zuulRedisRouteProperties.getNamespace() + "_" + entity.getRouteId());
+		redisTemplate.delete(getNamespace() + "_" + entity.getRouteId());
 	}
 
 	@Override
 	public void updateEnable(ZuulRouteRuleEntity entity) {
-		ZuulRouteRuleEntity result = (ZuulRouteRuleEntity) redisTemplate.opsForHash().get(zuulRedisRouteProperties.getNamespace() + "_" + entity.getRouteId(), entity.getId());
+		ZuulRouteRuleEntity result = (ZuulRouteRuleEntity) redisTemplate.opsForHash().get(getNamespace() + "_" + entity.getRouteId(), entity.getId());
 		if(result != null){
 			result.setEnable(entity.isEnable());
 			save(result);
@@ -75,19 +79,19 @@ public class ZuulRouteRuleRedisService implements IZuulRouteRuleService {
 
 	@Override
 	public int totalCount() {
-		Set<Object> set = redisTemplate.opsForHash().keys(zuulRedisRouteProperties.getNamespace() + "_*");
+		Set<Object> set = redisTemplate.opsForHash().keys(getNamespace() + "_*");
 		return CollectionUtils.isEmpty(set) ? 0 : set.size();
 	}
 
 	@Override
 	public int enableCount() {
-		Set<String> set = redisTemplate.keys(zuulRedisRouteProperties.getNamespace() + "_*");
+		Set<String> set = redisTemplate.keys(getNamespace() + "_*");
 		if(CollectionUtils.isEmpty(set)){
 			return 0;
 		}
 		int enableCount = 0;
 		for (Object item : set) {
-			List<Object> rules = redisTemplate.opsForHash().values(zuulRedisRouteProperties.getNamespace() + "_" + item);
+			List<Object> rules = redisTemplate.opsForHash().values(getNamespace() + "_" + item);
 			if(CollectionUtils.isEmpty(rules)){
 				continue;
 			}
@@ -103,19 +107,20 @@ public class ZuulRouteRuleRedisService implements IZuulRouteRuleService {
 	
 	@Override
 	public void change(String namespace) {
-		zuulRedisRouteProperties.setNamespace(namespace);
+		request.getSession().setAttribute("namespace", namespace);
+//		zuulRedisRouteProperties.setNamespace(namespace);
 	}
 
 	@Override
 	public String count() {
-		Set<String> set = redisTemplate.keys(zuulRedisRouteProperties.getNamespace() + "_*");
+		Set<String> set = redisTemplate.keys(getNamespace() + "_*");
 		if(CollectionUtils.isEmpty(set)){
 			return "0/0";
 		}
 		int totalCount = set.size();
 		int enableCount = 0;
 		for (Object item : set) {
-			List<Object> rules = redisTemplate.opsForHash().values(zuulRedisRouteProperties.getNamespace() + "_" + item);
+			List<Object> rules = redisTemplate.opsForHash().values(getNamespace() + "_" + item);
 			if(CollectionUtils.isEmpty(rules)){
 				continue;
 			}
@@ -128,6 +133,11 @@ public class ZuulRouteRuleRedisService implements IZuulRouteRuleService {
 		}
 		
 		return enableCount + "/" + totalCount;
+	}
+	
+	private String getNamespace(){
+		String namespace = (String) request.getSession().getAttribute("namespace");
+		return StringUtils.isEmpty(namespace) ? zuulRouteRedisProperties.getNamespace() : namespace;
 	}
 
 }
