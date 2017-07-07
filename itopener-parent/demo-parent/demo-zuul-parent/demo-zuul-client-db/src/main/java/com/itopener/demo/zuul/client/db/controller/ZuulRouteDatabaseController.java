@@ -1,4 +1,4 @@
-package com.itopener.demo.zuul.client.redis.controller;
+package com.itopener.demo.zuul.client.db.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +13,8 @@ import com.itopener.zuul.route.spring.boot.common.refresh.RefreshRouteService;
  * @version 1.0.0
  */
 @RestController
-@RequestMapping("redis")
-public class ZuulRouteRedisController {
+@RequestMapping("db")
+public class ZuulRouteDatabaseController {
 
 	@Autowired
 	RefreshRouteService refreshRouteService;

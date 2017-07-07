@@ -14,7 +14,7 @@ import com.itopener.zuul.route.spring.boot.common.ZuulRouteEntity;
  * @version 1.0.0
  */
 @Configuration
-public class RibbonClientConfiguration {
+public class ZuulClientConfiguration {
 
 	@Bean("redisTemplate")
 	public RedisTemplate<String, ZuulRouteEntity> redisTemplate(RedisConnectionFactory redisConnectionFactory){
