@@ -81,7 +81,7 @@ public class ZuulRouteRedisLocator extends ZuulRouteLocator {
 				return item.getRuleList();
 			}
 		}
-		return super.getRules(route);
+		return null;
 	}
 
 }

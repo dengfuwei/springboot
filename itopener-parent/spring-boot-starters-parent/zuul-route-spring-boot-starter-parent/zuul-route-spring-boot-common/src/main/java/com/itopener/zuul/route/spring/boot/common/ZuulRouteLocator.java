@@ -19,7 +19,7 @@ import com.alibaba.fastjson.JSON;
 import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRule;
 import com.itopener.zuul.route.spring.boot.common.rule.IZuulRouteRuleMatcher;
 
-public class ZuulRouteLocator extends SimpleRouteLocator implements RefreshableRouteLocator {
+public abstract class ZuulRouteLocator extends SimpleRouteLocator implements RefreshableRouteLocator {
 
 	public final static Logger logger = LoggerFactory.getLogger(ZuulRouteLocator.class);
 	
@@ -66,19 +66,23 @@ public class ZuulRouteLocator extends SimpleRouteLocator implements RefreshableR
 	}
 	
 	/**
-	 * @description 自定义实现加载路由配置
+	 * @description 加载路由配置，由子类去实现
 	 * @author fuwei.deng
 	 * @date 2017年7月3日 下午6:04:42
 	 * @version 1.0.0
 	 * @return
 	 */
-	public Map<String, ZuulRoute> loadLocateRoute(){
-		return null;
-	}
+	public abstract Map<String, ZuulRoute> loadLocateRoute();
 	
-	public List<IZuulRouteRule> getRules(Route route){
-		return null;
-	}
+	/**
+	 * @description 获取路由规则，由子类去实现
+	 * @author fuwei.deng
+	 * @date 2017年7月7日 下午4:59:12
+	 * @version 1.0.0
+	 * @param route
+	 * @return
+	 */
+	public abstract List<IZuulRouteRule> getRules(Route route);
 	
 	@Override
 	public Route getMatchingRoute(String path) {
