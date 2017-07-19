@@ -1,7 +1,11 @@
 package com.itopener.demo.rabbitmq.consumer.config;
 
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.retry.MessageRecoverer;
 import org.springframework.amqp.rabbit.retry.RepublishMessageRecoverer;
@@ -22,9 +26,28 @@ public class RabbitConfiguration {
 //		return new Queue(NormalConstant.DEFAULT_ROUTINGKEY);
 //	}
 //
+	/**
+	 * @description 动态声明queue、exchange、routing
+	 * @author fuwei.deng
+	 * @date 2017年7月19日 下午4:18:33
+	 * @version 1.0.0
+	 * @param connectionFactory
+	 * @return
+	 */
+	@Bean
+	public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
+		RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory);
+		Queue queue = new Queue(RabbitMQConsumerConstant.QUEUE_ITOPENER);
+		DirectExchange exchange = new DirectExchange(RabbitMQConsumerConstant.EXCHANGE_ITOPENER);
+		rabbitAdmin.declareQueue(queue);
+		rabbitAdmin.declareExchange(exchange);
+		rabbitAdmin.declareBinding(BindingBuilder.bind(queue).to(exchange).with(RabbitMQConsumerConstant.ROUTINGKEY_ITOPENER));
+		return rabbitAdmin;
+	}
+	
 //	@Bean
 //	public Binding binding() {
-//		return BindingBuilder.bind(new Queue(NormalConstant.QUEUE_ACTIVITY)).to(new DirectExchange(NormalConstant.EXCHANGE_ACTIVITY)).with(NormalConstant.ROUTINGKEY_ACTIVITY);
+//		return BindingBuilder.bind(new Queue(RabbitMQConsumerConstant.QUEUE_ITOPENER)).to(new DirectExchange(RabbitMQConsumerConstant.EXCHANGE_ITOPENER)).with(RabbitMQConsumerConstant.ROUTINGKEY_ITOPENER);
 //	}
 	
 	@Bean
