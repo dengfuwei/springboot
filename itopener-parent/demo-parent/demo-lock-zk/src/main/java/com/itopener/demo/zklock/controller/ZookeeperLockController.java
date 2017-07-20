@@ -32,7 +32,7 @@ public class ZookeeperLockController {
 		@Override
 		public void run() {
 			String key = "lockKey";
-			boolean result = zookeeperDistributedLock.lock(key, 0);
+			boolean result = zookeeperDistributedLock.lock(key, 10000);
 			logger.info(result ? "get lock success : " + key : "get lock failed : " + key);
 			try {
 				Thread.sleep(5000);

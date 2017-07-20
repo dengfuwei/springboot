@@ -20,13 +20,10 @@ public class ZookeeperDistributedLock extends AbstractDistributedLock {
 
 	private CuratorFramework curatorFramework;
 	
-	private String lockPath;
-	
 	private Map<Long, InterProcessMutex> lockMap = new ConcurrentHashMap<Long, InterProcessMutex>();
 	
-	public ZookeeperDistributedLock(CuratorFramework curatorFramework, String lockPath) {
+	public ZookeeperDistributedLock(CuratorFramework curatorFramework) {
 		this.curatorFramework = curatorFramework;
-		this.lockPath = lockPath;
 	}
 
 	@Override
@@ -38,12 +35,12 @@ public class ZookeeperDistributedLock extends AbstractDistributedLock {
 				if(lockMap.containsKey(threadId)){
 					interProcessMutex = lockMap.get(threadId);
 				} else{
-					interProcessMutex = new InterProcessMutex(curatorFramework, buildLockPath(key));
+					interProcessMutex = new InterProcessMutex(curatorFramework, "/" + key);
 					lockMap.put(threadId, interProcessMutex);
 				}
 				boolean lock = interProcessMutex.acquire(expire, TimeUnit.SECONDS);
 				if(lock){
-					logger.info(threadId + " hold lock");
+					logger.info(threadId + " hold lock:" + key);
 				}
 				return lock;
 			} catch (Exception e) {
@@ -51,10 +48,6 @@ public class ZookeeperDistributedLock extends AbstractDistributedLock {
 				throw new RuntimeException(e);
 			}
 		}
-	}
-	
-	private String buildLockPath(String key){
-		return lockPath + "/" + key;
 	}
 
 	@Override
@@ -66,10 +59,10 @@ public class ZookeeperDistributedLock extends AbstractDistributedLock {
 				interProcessMutex = lockMap.get(threadId);
 				lockMap.remove(threadId);
 			} else{
-				interProcessMutex = new InterProcessMutex(curatorFramework, buildLockPath(key));
+				interProcessMutex = new InterProcessMutex(curatorFramework, "/" + key);
 			}
 			interProcessMutex.release();
-			logger.info(threadId + " release lock");
+			logger.info(threadId + " release lock:" + key);
 		} catch (Exception e) {
 //			throw new RuntimeException(e);
 		} finally {
