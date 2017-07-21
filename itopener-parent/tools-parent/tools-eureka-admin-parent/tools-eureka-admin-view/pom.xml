@@ -5,18 +5,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.itopener</groupId>
-		<artifactId>tools-parent</artifactId>
+		<artifactId>tools-eureka-admin-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>tools-eureka-admin-parent</artifactId>
-	<name>tools-eureka-admin-parent</name>
+	<artifactId>tools-eureka-admin-view</artifactId>
+	<name>tools-eureka-admin-view</name>
 	<url>http://maven.apache.org</url>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<modules>
-		<module>tools-eureka-admin</module>
-		<module>tools-eureka-admin-view</module>
-	</modules>
 </project>
