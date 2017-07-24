@@ -37,10 +37,17 @@ public class EurekaClientController {
 		List<Application> apps = eurekaClient.getApplications().getRegisteredApplications();
 		int appCount = apps.size();
 		int nodeCount = 0;
+		int enableNodeCount = 0;
 		for(Application app : apps){
 			nodeCount += app.getInstancesAsIsFromEureka().size();
+			List<InstanceInfo> instances = app.getInstances();
+			for(InstanceInfo instance : instances){
+				if(instance.getStatus().name().equals(InstanceStatus.UP.name())){
+					enableNodeCount ++;
+				}
+			}
 		}
-		return ResultMap.buildSuccess().put("appCount", appCount).put("nodeCount", nodeCount);
+		return ResultMap.buildSuccess().put("appCount", appCount).put("nodeCount", nodeCount).put("enableNodeCount", enableNodeCount);
 	}
 	
 	/**
