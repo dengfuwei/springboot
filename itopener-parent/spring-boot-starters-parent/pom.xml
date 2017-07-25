@@ -22,5 +22,6 @@
 		<module>elasticjob-spring-boot-starter-parent</module>
 		<module>zuul-route-spring-boot-starter-parent</module>
     <module>eureka-spring-boot-starter-parent</module>
+    <module>hadoop-spring-boot-starter-parent</module>
   </modules>
 </project>
