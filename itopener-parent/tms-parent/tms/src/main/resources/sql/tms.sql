@@ -37,7 +37,6 @@ CREATE TABLE t_linkman(
 	address VARCHAR(128) NOT NULL COMMENT '详细地址',
 	id_card_no VARCHAR(18) NOT NULL COMMENT '身份证号码',
 	mobile VARCHAR(32) NOT NULL COMMENT '手机号',
-	telephone VARCHAR(32) NOT NULL COMMENT '座机',
 	pinyin VARCHAR(128) NOT NULL COMMENT '姓名全拼',
 	pinyin_abbr VARCHAR(32) NOT NULL COMMENT '姓名拼音首字母',
 	remarks VARCHAR(128) NOT NULL COMMENT '备注',
@@ -68,10 +67,10 @@ CREATE TABLE t_waybill(
 	sender_id_card_no VARCHAR(18) NOT NULL COMMENT '发货人身份证号码',
 	sender_mobile VARCHAR(32) NOT NULL COMMENT '发货人手机号',
 	receiver VARCHAR(64) NOT NULL COMMENT '收货人',
-	receiver_code VARCHAR(20) NOT NULL COMMENT '发货人编号',
-	receiver_id BIGINT(20) NOT NULL COMMENT '发货人ID',
-	receiver_customer_id BIGINT(20) NOT NULL COMMENT '发货客户ID',
-	receiver_customer_name BIGINT(20) NOT NULL COMMENT '发货客户名称',
+	receiver_code VARCHAR(20) NOT NULL COMMENT '收货人编号',
+	receiver_id BIGINT(20) NOT NULL COMMENT '收货人ID',
+	receiver_customer_id BIGINT(20) NOT NULL COMMENT '收货客户ID',
+	receiver_customer_name BIGINT(20) NOT NULL COMMENT '收货客户名称',
 	receiver_pro_id BIGINT(20) NOT NULL COMMENT '收货省份ID',
 	receiver_pro_name VARCHAR(32) NOT NULL COMMENT '收货省份姓名',
 	receiver_city_id BIGINT(20) NOT NULL COMMENT '收货城市ID',
@@ -100,7 +99,7 @@ CREATE TABLE t_waybill(
 	
 	payed decimal(12,2) NOT NULL COMMENT '现付',
 	to_pay decimal(12,2) NOT NULL COMMENT '到付',
-	sign_return_pay decimal(12,2) NOT NULL COMMENT '回单付',
+	sign_pay decimal(12,2) NOT NULL COMMENT '回单付',
 	
 	month_pay decimal(12,2) NOT NULL COMMENT '月结',
 	
