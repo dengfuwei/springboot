@@ -37,5 +37,6 @@
 		<module>demo-tbschedule</module>
 		<module>demo-session-parent</module>
     <module>demo-zipkin-parent</module>
+    <module>demo-springcloud-config-parent</module>
   </modules>
 </project>
