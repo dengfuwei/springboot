@@ -36,5 +36,6 @@
 		<module>demo-jsonp-parent</module>
 		<module>demo-tbschedule</module>
 		<module>demo-session-parent</module>
+    <module>demo-zipkin-parent</module>
   </modules>
 </project>
