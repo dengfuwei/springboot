@@ -16,9 +16,5 @@
   <modules>
     <module>eureka-client-spring-boot-starter</module>
     <module>eureka-client-spring-boot-autoconfigure</module>
-    <module>eureka-server-spring-boot-starter</module>
-    <module>eureka-server</module>
-    <module>eureka-server-admin</module>
-    <module>eureka-server-admin-view</module>
   </modules>
 </project>
