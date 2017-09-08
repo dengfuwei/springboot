@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itopener.memo.mapper.UserMapper">
+
+	<resultMap id="BaseResultMap" type="com.itopener.memo.model.User">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="open_id" property="openId" jdbcType="VARCHAR" />
+		<result column="union_id" property="unionId" jdbcType="VARCHAR" />
+		<result column="user_info" property="userInfo" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Column_List">
+		id, open_id, union_id, user_info, create_time, update_time
+	</sql>
+
+	<sql id="Where">
+		<where>
+			<if test="id > 0">
+				and id = #{id,jdbcType=BIGINT}
+			</if>
+			<if test="openId != null and openId != ''">
+				and open_id = #{openId,jdbcType=VARCHAR}
+			</if>
+			<if test="unionId != null and unionId != ''">
+				and union_id = #{unionId,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</sql>
+
+	<select id="select" parameterType="com.itopener.memo.conditions.UserCondition" resultMap="BaseResultMap">
+		select <include refid="Column_List" />
+		from t_user
+		<include refid="Where" />
+	</select>
+
+	<select id="selectCount" parameterType="com.itopener.memo.conditions.UserCondition" resultType="int">
+		select count(id)
+		from t_user
+		<include refid="Where" />
+	</select>
+
+	<select id="selectById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select <include refid="Column_List" />
+		from t_user
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<select id="selectByOpenId" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select <include refid="Column_List" />
+		from t_user
+		where open_id = #{openId,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insert" parameterType="com.itopener.memo.model.User">
+		insert into t_user(<include refid="Column_List" />)
+		values (
+			#{id,jdbcType=BIGINT},
+			#{openId,jdbcType=VARCHAR},
+			#{unionId,jdbcType=VARCHAR},
+			#{userInfo,jdbcType=VARCHAR},
+			#{createTime,jdbcType=TIMESTAMP},
+			#{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+
+	<update id="update" parameterType="com.itopener.memo.model.User">
+		update t_user
+		set
+			open_id = #{openId,jdbcType=VARCHAR},
+			union_id = #{unionId,jdbcType=VARCHAR},
+			user_info = #{userInfo,jdbcType=VARCHAR},
+			update_time = #{updateTime,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<delete id="delete" parameterType="com.itopener.memo.model.User">
+		delete from t_user
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+</mapper>

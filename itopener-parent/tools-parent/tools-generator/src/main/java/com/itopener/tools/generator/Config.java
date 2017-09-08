@@ -52,6 +52,12 @@ public class Config {
 	/** 实现接口*/
 	private String implementsInterface;
 	
+	/** 条件类实现的接口*/
+	private String conditionInterface;
+	
+	/** 条件类引入接口或类*/
+	private Set<String> conditionImports = new HashSet<String>();
+	
 	/** 是否生成serialVersionUID，默认为true*/
 	private boolean generateSerialVersionUID = true;
 	
@@ -231,6 +237,22 @@ public class Config {
 
 	public void setImplementsInterface(String implementsInterface) {
 		this.implementsInterface = implementsInterface;
+	}
+
+	public String getConditionInterface() {
+		return conditionInterface;
+	}
+
+	public void setConditionInterface(String conditionInterface) {
+		this.conditionInterface = conditionInterface;
+	}
+
+	public Set<String> getConditionImports() {
+		return conditionImports;
+	}
+
+	public void setConditionImports(Set<String> conditionImports) {
+		this.conditionImports = conditionImports;
 	}
 
 	public boolean isGenerateSerialVersionUID() {

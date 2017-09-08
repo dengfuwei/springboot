@@ -334,6 +334,9 @@ public class Generator {
 		}
 		
 		condition.append("\nimport ").append(Utils.config.getBasePackageModel()).append(".").append(table.getClassName()).append(";\n");
+		for(String item : Utils.config.getConditionImports()){
+			condition.append("\nimport ").append(item).append(";\n");
+		}
 		
 		//类注释
 		condition.append("\n/**\n");
@@ -344,11 +347,14 @@ public class Generator {
 		//类声明
 		condition.append("public class ").append(table.getConditionClassName());
 		condition.append(" extends ").append(table.getClassName());
+		if(!StringUtils.isNullOrEmpty(Utils.config.getConditionInterface())){
+			condition.append(" implements ").append(Utils.config.getConditionInterface());
+		}
 		condition.append(" {\n");
 		//serialVersionUID
 		if(Utils.config.isGenerateSerialVersionUID()){
 			condition.append("\n\t/** SerialVersionUID*/\n");
-			condition.append("\tprivate static final long serialVersionUID = 1L;\n");
+			condition.append("\tprivate static final long serialVersionUID = " + new Random().nextLong() + "L;\n");
 		}
 		
 		StringBuilder fields = new StringBuilder();
@@ -779,6 +785,7 @@ public class Generator {
 		dao.append("\nimport java.util.List;\n");
 		dao.append("import javax.annotation.Resource;\n");
 		dao.append("import org.springframework.stereotype.Repository;\n");
+		dao.append("import com.github.pagehelper.PageHelper;\n");
 		dao.append("\nimport ").append(Utils.config.getBaseDao()).append(";\n");
 		dao.append("import ").append(table.getFullName()).append(";\n");
 		dao.append("import ").append(Utils.config.getBasePackageCondition()).append(".").append(table.getConditionClassName()).append(";\n");
@@ -811,7 +818,8 @@ public class Generator {
 		
 		//selectPage
 		dao.append("\n\tpublic List<").append(table.getClassName()).append("> selectPage(").append(table.getConditionClassName()).append(" condition) {\n");
-		dao.append("\t\treturn ").append(baseDaoFieldName).append(".selectPage(NAMESPACE + \"").append("select\", condition);\n");
+		dao.append("\t\tPageHelper.startPage(condition.getPage(), condition.getSize(), false);\n");
+		dao.append("\t\treturn ").append(baseDaoFieldName).append(".selectList(NAMESPACE + \"").append("select\", condition);\n");
 		dao.append("\t}\n");
 		
 		//selectCount
