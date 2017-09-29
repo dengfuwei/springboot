@@ -23,10 +23,10 @@ public class Memo implements Serializable {
 	private String eventName;
 
 	/** 提醒周期*/
-	private byte cycle;
+	private int cycle;
 
 	/** 农历/阳历*/
-	private byte calendarType;
+	private int calendarType;
 
 	/** 下次提醒时间*/
 	private Timestamp nextTime;
@@ -64,20 +64,20 @@ public class Memo implements Serializable {
 		return this;
 	}
 
-	public byte getCycle() {
+	public int getCycle() {
 		return cycle;
 	}
 
-	public Memo setCycle(byte cycle) {
+	public Memo setCycle(int cycle) {
 		this.cycle = cycle;
 		return this;
 	}
 
-	public byte getCalendarType() {
+	public int getCalendarType() {
 		return calendarType;
 	}
 
-	public Memo setCalendarType(byte calendarType) {
+	public Memo setCalendarType(int calendarType) {
 		this.calendarType = calendarType;
 		return this;
 	}
