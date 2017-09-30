@@ -19,18 +19,20 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.itopener.framework.ResultMap;
 import com.itopener.tools.redis.vo.ClusterNode;
 
-/**  
+/**
  * @author fuwei.deng
- * @Date 2017年6月9日 下午3:10:58
+ * @date 2017年9月30日 下午3:04:28
  * @version 1.0.0
  */
 @RestController
@@ -42,7 +44,7 @@ public class RedisController {
 	@Resource
 	private RedisTemplate<String, Object> redisTemplate;
 	
-	@RequestMapping("index")
+	@GetMapping("index")
 	public ResultMap index(){
 		int keySize = redisTemplate.keys("*").size();
 		int clientSize = redisTemplate.getClientList().size();
@@ -60,19 +62,25 @@ public class RedisController {
 				.put("slaveSize", slaveSize);
 	}
 	
-	@RequestMapping("keys")
-	public ResultMap keys(){
+	@GetMapping("allkeys")
+	public ResultMap allKeys(){
 		Set<String> keys = redisTemplate.keys("*");
 		return ResultMap.buildSuccess().put("keys", keys);
 	}
 	
-	@RequestMapping("info")
+	@GetMapping("keys")
+	public ResultMap keys(String pattern){
+		Set<String> keys = redisTemplate.keys(pattern);
+		return ResultMap.buildSuccess().put("keys", keys);
+	}
+	
+	@GetMapping("info")
 	public ResultMap info(){
 		Properties info = redisTemplate.getConnectionFactory().getClusterConnection().info();
 		return ResultMap.buildSuccess().put("info", info);
 	}
 	
-	@RequestMapping("cluster")
+	@GetMapping("cluster")
 	public ResultMap cluster(){
 		Map<RedisClusterNode, Collection<RedisClusterNode>> masterSlaveMap = redisTemplate.getConnectionFactory().getClusterConnection().clusterGetMasterSlaveMap();
 		List<ClusterNode> cluster = new ArrayList<ClusterNode>();
@@ -107,25 +115,25 @@ public class RedisController {
 		return clusterNode;
 	}
 	
-	@RequestMapping("clients")
+	@GetMapping("clients")
 	public ResultMap clients(){
 		List<RedisClientInfo> clients = redisTemplate.getClientList();
 		return ResultMap.buildSuccess().put("clients", clients);
 	}
 	
-	@RequestMapping("save")
+	@PostMapping("save")
 	public ResultMap save(String key, String value, long timeout){
 		redisTemplate.opsForValue().set(key, value, timeout, TimeUnit.SECONDS);
 		return ResultMap.buildSuccess();
 	}
 	
-	@RequestMapping(value = "keys/{key}", method = RequestMethod.DELETE)
+	@DeleteMapping("keys/{key}")
 	public ResultMap delete(@PathVariable String key){
 		redisTemplate.delete(key);
 		return ResultMap.buildSuccess();
 	}
 	
-	@RequestMapping("keys/{key}")
+	@GetMapping("keys/{key}")
 	public ResultMap query(@PathVariable String key){
 		long expire = redisTemplate.getExpire(key);
 		DataType dataType = redisTemplate.type(key);
