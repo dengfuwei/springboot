@@ -2,19 +2,12 @@
 	<div class="am-fl am-cf">
 		<strong class="am-text-primary am-text-lg">redis管理工具</strong> / <small>集群关系</small>
 	</div>
+	<div class="am-fr am-cf">
+		<button type="button" class="am-btn am-btn-sm am-btn-primary" id="refreshBtn">
+			<i class="am-icon-refresh"></i>&nbsp;刷新
+		</button>
+	</div>
 </div>
-<hr class="am-margin-xs"/>
-<form class="am-form am-form-horizontal am-margin-right-sm" role="form" id="queryForm">
-	<ul class="am-avg-sm-1 am-avg-md-2 am-avg-lg-4 am-thumbnails">
-		<li class="am-padding-bottom-0">
-			<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
-				<div class="am-u-sm-12 am-padding-left-xs am-padding-right-0">
-					<button type="button" id="refreshBtn" class="am-btn am-btn-sm am-btn-primary"><i class="am-icon-refresh"></i>&nbsp;刷新</button>
-				</div>
-			</div>
-		</li>
-	</ul>
-</form>
 <hr class="am-margin-xs"/>
 <div class="am-scrollable-horizontal">
 	<table class="am-table am-table-bordered am-table-striped am-table-hover am-table-compact am-text-nowrap am-table-centered am-margin-bottom-xs">
@@ -47,7 +40,7 @@
 					return a.hostPort - b.hostPort;
 				});
 				for(var key in data.cluster[0]){
-					$('#tableHead').append('<td>' + ($.getjson(redisClientMapping, key) || key) + "</td>");
+					$('#tableHead').append('<th>' + ($.getjson(redisClientMapping, key) || key) + "</th>");
 					$('#tableTmpl').append('<td>{{' + key + "}}</td>");
 				}
 				$('#tableBody').empty();

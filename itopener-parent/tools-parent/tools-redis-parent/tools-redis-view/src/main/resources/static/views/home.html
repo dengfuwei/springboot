@@ -1,8 +1,14 @@
-<div class="am-cf am-padding-xs">
+<div class="am-cf am-padding-xs am-padding-bottom-0">
 	<div class="am-fl am-cf">
 		<strong class="am-text-primary am-text-lg">redis管理工具</strong> / <small>首页</small>
 	</div>
+	<div class="am-fr am-cf">
+		<button type="button" class="am-btn am-btn-sm am-btn-primary" id="refreshBtn">
+			<i class="am-icon-refresh"></i>&nbsp;刷新
+		</button>
+	</div>
 </div>
+<hr class="am-margin-xs"/>
 <ul class="am-avg-sm-1 am-avg-md-4 am-margin-xs am-padding-xs am-text-center admin-content-list ">
 	<li>
 		<a href="javascript:void(0);" class="am-text-success">
@@ -42,8 +48,19 @@
 			<div id="collapse-panel-4" class="am-panel-bd am-collapse am-in">
 				<ul class="am-list admin-content-task">
 					<li>
+						<div class="admin-task-meta">2017-09-30 15:48:29 admin</div>
+						<div class="admin-task-bd">
+							v1.1版本：<br/>
+							1. 部分页面内容手动触发查询，避免进入页面后因为查询缓慢导致不能操作<br/>
+							2. 增加根据key正则进行查询的功能
+						</div>
+					</li>
+					<li>
 						<div class="admin-task-meta">2017-05-12 17:35:23 admin</div>
-						<div class="admin-task-bd">v1.0试用</div>
+						<div class="admin-task-bd">
+							v1.0版本：<br/>
+							基本信息的查询
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -52,7 +69,7 @@
 </div>
 <script>
 (function(){
-	$(function(){
+	$('#refreshBtn').on('click', function(){
 		$.ajax({
 			url: basePath + 'redis/index',
 			type: 'get',
