@@ -105,6 +105,9 @@
 <script>
 (function(){
 	$('#showAllKeysBtn').on('click', function(){
+		keys = [];
+		keysIndex = 0;
+		$('#tableBody').empty();
 		$.ajax({
 			url: basePath + 'redis/allkeys',
 			type: 'get',
