@@ -10,7 +10,7 @@
 			<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
 				<label for="name" class="am-u-sm-4 am-form-label am-text-right am-padding-left-0 am-padding-right-0">keys：</label>
 				<div class="am-u-sm-8 am-padding-left-0 am-padding-right-0">
-					<input type="text" class="am-form-field keyPattern" />
+					<input type="text" class="am-form-field keyPattern" placeholder="注意：jdk序列化只支持全匹配" />
 				</div>
 			</div>
 		</li>
@@ -68,6 +68,7 @@
 					layer.msg("没有对应的key");
 					return false;
 				}
+				$('#tableBody').empty();
 				for(var i=0; i<data.keys.length; i++){
 					var html = $.format($('#tableTmpl').html(), {key: data.keys[i], index: i + 1});
 					$('#tableBody').append('<tr>' + html + '</tr>');

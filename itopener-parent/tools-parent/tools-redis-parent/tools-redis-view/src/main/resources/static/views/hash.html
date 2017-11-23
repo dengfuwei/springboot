@@ -1,11 +1,8 @@
 <div class="am-cf am-padding-xs am-padding-bottom-0">
 	<div class="am-fl am-cf">
-		<strong class="am-text-primary am-text-lg">redis管理工具</strong> / <small>key-value</small>
+		<strong class="am-text-primary am-text-lg">redis管理工具</strong> / <small>hash</small>
 	</div>
 	<div class="am-fr am-cf">
-		<button type="button" class="am-btn am-btn-xs am-btn-primary" id="showAllKeysBtn">
-			<i class="am-icon-refresh"></i>&nbsp;显示所有key
-		</button>
 		<button type="button" class="am-btn am-btn-xs am-btn-primary" data-am-modal="{target: '#editModal'}">
 			<i class="am-icon-plus"></i>&nbsp;新增
 		</button>
@@ -19,6 +16,14 @@
 				<label for="name" class="am-u-sm-4 am-form-label am-text-right am-padding-left-0 am-padding-right-0">key：</label>
 				<div class="am-u-sm-8 am-padding-left-0 am-padding-right-0">
 					<input type="text" class="am-form-field redisKey" />
+				</div>
+			</div>
+		</li>
+		<li class="am-padding-0">
+			<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
+				<label for="name" class="am-u-sm-4 am-form-label am-text-right am-padding-left-0 am-padding-right-0">hashKey：</label>
+				<div class="am-u-sm-8 am-padding-left-0 am-padding-right-0">
+					<input type="text" class="am-form-field redisHashKey" />
 				</div>
 			</div>
 		</li>
@@ -43,16 +48,16 @@
 		<thead>
 			<tr class="am-text-nowrap">
 				<th>序号</th>
-				<th>key</th>
+				<th>hashKey</th>
 				<th>操作</th>
 			</tr>
 			<tr class="am-hide" id="tableTmpl">
 				<td class="am-text-nowrap">{{index}}</td>
-				<td class="am-text-nowrap">{{key}}</td>
+				<td class="am-text-nowrap">{{hashKey}}</td>
 				<td>
 					<div class="am-btn-toolbar">
 						<div class="am-btn-group am-btn-group-xs">
-							<button type="button" class="am-btn am-btn-primary queryValueBtn" data-key="{{key}}"><i class="am-icon-search"></i>&nbsp;查询</button>
+							<button type="button" class="am-btn am-btn-primary queryValueBtn" data-key="{{key}}" data-hashkey="{{hashKey}}"><i class="am-icon-search"></i>&nbsp;查询</button>
 						</div>
 					</div>
 				</td>
@@ -60,7 +65,6 @@
 		</thead>
 		<tbody id="tableBody"></tbody>
 	</table>
-	<button type="button" class="am-btn am-btn-sm am-btn-primary am-btn-block" id="toShowMore">显示更多</button>
 </div>
 <div class="am-modal am-modal-no-btn" tabindex="-1" id="editModal">
 	<div class="am-modal-dialog">
@@ -74,6 +78,12 @@
 					<label for="name" class="am-u-sm-4 am-form-label am-text-right am-padding-left-0 am-padding-right-0">key：</label>
 					<div class="am-u-sm-6 am-padding-left-0 am-padding-right-0 am-u-end">
 						<input type="text" class="am-form-field" name="key" />
+					</div>
+				</div>
+				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
+					<label for="name" class="am-u-sm-4 am-form-label am-text-right am-padding-left-0 am-padding-right-0">hashKey：</label>
+					<div class="am-u-sm-6 am-padding-left-0 am-padding-right-0 am-u-end">
+						<input type="text" class="am-form-field" name="hashKey" />
 					</div>
 				</div>
 				<div class="am-form-group am-form-group-sm am-margin-bottom-xs">
@@ -104,47 +114,20 @@
 </div>
 <script>
 (function(){
-	$('#showAllKeysBtn').on('click', function(){
-		keys = [];
-		keysIndex = 0;
-		$('#tableBody').empty();
-		$.ajax({
-			url: basePath + 'redis/allkeys',
-			type: 'get',
-			dataType: 'json',
-			success: function(data){
-				keys = data.keys.sort();
-				showKeys(0);
-			}
-		});
-	});
-	
-	var keysIndex = 0;
-	var keys = [];
-	function showKeys(index, size){
-		index = index || 0;
-		size = size || 20;
-		if(keys.length <= index){
-			layer.msg("已经全部显示");
-			return false;
-		}
-		for(; index < keys.length && size > 0; size --){
-			var html = $.format($('#tableTmpl').html(), {key: keys[index], index: index + 1});
-			$('#tableBody').append('<tr>' + html + '</tr>');
-			index ++;
-		}
-		keysIndex = index;
-	}
-	
 	$('#tableBody').on('click', '.queryValueBtn', function(){
 		var key = $(this).data('key');
+		var hashKey = $(this).data('hashkey');
 		var td = $(this).parent();
 		$.ajax({
-			url: basePath + 'redis/keys/' + key,
+			url: basePath + 'redis/hash',
 			type: 'get',
 			dataType: 'json',
+			data: {
+				key: key,
+				hashKey: hashKey
+			},
 			success: function(data){
-				td.html('查询结果：过期时间：[' + data.expire + ']秒; 数据类型：[' + data.dataType + ']; 数据：[' + (decode(data.value) || '') + ']');
+				td.html('查询结果：过期时间：[' + data.expire + ']秒; 数据类型：[' + data.dataType + ']; 数据：[' + (decode(data.content) || '') + ']');
 			}
 		});
 	});
@@ -187,12 +170,64 @@
 			$('#queryForm .redisKey').focus();
 			return false;
 		}
+		var redisHashKey = $('#queryForm .redisHashKey').val();
+// 		if(!redisHashKey){
+// 			$('#queryForm .redisHashKey').focus();
+// 			return false;
+// 		}
 		$.ajax({
-			url: basePath + 'redis/keys/' + redisKey,
+			url: basePath + 'redis/hash',
 			type: 'get',
 			dataType: 'json',
+			data: {
+				key: redisKey,
+				hashKey: redisHashKey
+			},
 			success: function(data){
-				$('#queryResult').html('key：[' + redisKey + ']<br/>查询结果：过期时间：[' + data.expire + ']秒; 数据类型：[' + data.dataType + ']; 数据：[' + (data.value || '') + ']; ');
+				$('#queryResult').html('key：[' + redisKey + ']<br/>查询结果：过期时间：[' + data.expire + ']秒; 数据类型：[' + data.dataType + ']; 数据：[' + (data.content || '') + ']; ');
+				
+				if(!data.hashKeys){
+					layer.msg("没有对应的hashKey");
+					return null;
+				}
+				$('#tableBody').empty();
+				for(var i=0; i<data.hashKeys.length; i++){
+					var html = $.format($('#tableTmpl').html(), {key: redisKey, hashKey: data.hashKeys[i], index: i + 1});
+					$('#tableBody').append('<tr>' + html + '</tr>');
+				}
+			}
+		});
+	});
+	
+	$('#addBtn').on('click', function(){
+		var key = $('#addForm input[name="key"]').val();
+		if(!key){
+			$('#addForm input[name="key"]').focus();
+			return false;
+		}
+		var hashKey = $('#addForm input[name="hashKey"]').val();
+// 		if(!hashKey){
+// 			$('#addForm input[name="hashKey"]').focus();
+// 			return false;
+// 		}
+		var value = $('#addForm input[name="value"]').val();
+		if(!value){
+			$('#addForm input[name="value"]').focus();
+			return false;
+		}
+		var timeout = $('#addForm input[name="timeout"]').val();
+		if(!timeout){
+			$('#addForm input[name="timeout"]').focus();
+			return false;
+		}
+		$('#addForm').ajaxSubmit({
+			url: basePath + 'redis/save',
+			type: 'post',
+			dataType: 'json',
+			success: function(data){
+				$('#editModal').modal('close');
+				layer.msg('保存成功');
+				$('#queryResult').text('');
 			}
 		});
 	});
@@ -211,10 +246,6 @@
 				$('#queryResult').text('删除结果：操作成功');
 			}
 		});
-	});
-	
-	$('#toShowMore').on('click', function(){
-		showKeys(keysIndex);
 	});
 })();
 </script>

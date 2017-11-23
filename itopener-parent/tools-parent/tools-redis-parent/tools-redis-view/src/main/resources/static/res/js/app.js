@@ -350,6 +350,9 @@ $.fn.extend({
             	if(_option.shade == 1){
             		layer.close(loadDialogIndex);
             	}
+            	if(xhr && xhr.responseJSON && xhr.responseJSON.exception){
+            		layer.msg(xhr.responseJSON.status + '<br/>' + xhr.responseJSON.exception + '<br/>' + xhr.responseJSON.message);
+            	}
             	console.log("XMLHttpRequest:" + JSON.stringify(xhr));
             	console.log("textStatus:" + JSON.stringify(textStatus));
             	console.log("errorThrown:" + JSON.stringify(errorThrown));

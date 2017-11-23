@@ -48,9 +48,18 @@
 			<div id="collapse-panel-4" class="am-panel-bd am-collapse am-in">
 				<ul class="am-list admin-content-task">
 					<li>
+						<div class="admin-task-meta">2017-11-23 16:20:00 admin</div>
+						<div class="admin-task-bd">
+							v1.2.0：<br/>
+							1. 增加hash结构数据的查询<br/>
+							2. 增加key序列化的切换<br/>
+							3. 正则查询keys时，避免jdk序列化的key数据显示乱码的问题
+						</div>
+					</li>
+					<li>
 						<div class="admin-task-meta">2017-09-30 15:48:29 admin</div>
 						<div class="admin-task-bd">
-							v1.1版本：<br/>
+							v1.1.0：<br/>
 							1. 部分页面内容手动触发查询，避免进入页面后因为查询缓慢导致不能操作<br/>
 							2. 增加根据key正则进行查询的功能
 						</div>
@@ -58,7 +67,7 @@
 					<li>
 						<div class="admin-task-meta">2017-05-12 17:35:23 admin</div>
 						<div class="admin-task-bd">
-							v1.0版本：<br/>
+							v1.0.0：<br/>
 							基本信息的查询
 						</div>
 					</li>
@@ -71,7 +80,7 @@
 (function(){
 	$('#refreshBtn').on('click', function(){
 		$.ajax({
-			url: basePath + 'redis/index',
+			url: basePath + 'redis/home',
 			type: 'get',
 			dataType: 'json',
 			success: function(data){

@@ -23,16 +23,32 @@
 		<span class="am-sr-only">导航切换</span>
 		<span class="am-icon-bars"></span>
 	</button>
-
+	
 	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+		<ul class="am-nav am-nav-pills am-topbar-nav admin-header-list">
+			<li class="am-dropdown" data-am-dropdown>
+				<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:void(0);">
+					<span class="am-icon-cube"></span> 切换序列化
+					<span class="am-icon-caret-down"></span>
+				</a>
+				<ul class="am-dropdown-content" id="switchSerializer">
+<!-- 					<li><a href="javascript:void(0);" class="serializer"><span class="am-icon-list-ul"></span>&nbsp;JdkSerializationRedisSerializer</a></li> -->
+				</ul>
+			</li>
+		</ul>
+		
+		<div class="am-topbar-brand">
+			<small>&nbsp;&nbsp;当前序列化：</small><strong id="currSerializer"></strong>
+		</div>
+		
 		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
 			<li class="am-dropdown" data-am-dropdown>
-				<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+				<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:void(0);">
 					<span class="am-icon-user"></span> 路人甲
 					<span class="am-icon-caret-down"></span>
 				</a>
 				<ul class="am-dropdown-content">
-					<li><a href="#"><span class="am-icon-power-off"></span>退出</a></li>
+					<li><a href="javascript:void(0);"><span class="am-icon-power-off"></span>退出</a></li>
 				</ul>
 			</li>
 		</ul>
@@ -87,6 +103,10 @@
 			icon: 'fa-tachometer',
 			url: 'views/keyvalues.html'
 		},{
+			name: 'hash',
+			icon: 'fa-tachometer',
+			url: 'views/hash.html'
+		},{
 			name: '客户端',
 			icon: 'fa-tachometer',
 			url: 'views/clients.html'
@@ -135,7 +155,42 @@
 			$('#breadcrumbs').text($(this).text());
 		});
 		
+		$('#switchSerializer').on('click', '.serializer', function(){
+			var code = $(this).data('code');
+			var name = $(this).text();
+			$.ajax({
+				url: basePath + 'redis/serializer/' + code,
+				type: 'put',
+				dataType: 'json',
+				success: function(data){
+					layer.msg("切换序列化成功，当前序列化：<br/>" + name);
+					$('#currSerializer').text(name).data('code', code);
+				}
+			});
+		});
+		
 		$(function(){
+			$.ajax({
+				url: basePath + 'redis/index',
+				type: 'get',
+				dataType: 'json',
+				success: function(data){
+					if(!data || !data.serializers){
+						return false;
+					}
+					
+					$('#switchSerializer').empty();
+					for(var i=0; i<data.serializers.length; i++){
+						var li = $('<li><a href="javascript:void(0);" class="serializer" data-code="' + data.serializers[i].code + '"><span class="am-icon-list-ul"></span>&nbsp;' + data.serializers[i].name + '</a></li>');
+						$('#switchSerializer').append(li);
+						if(data.serializers[i].code == data.currSerializer){
+							layer.msg("当前序列化：<br/>" + data.serializers[i].name);
+							$('#currSerializer').text(data.serializers[i].name).data('code', data.serializers[i].code);
+						}
+					}
+				}
+			});
+			
 			$('#sidebarList').empty();
 			renderMenu(menus);
 			//默认加载第一个菜单页面
