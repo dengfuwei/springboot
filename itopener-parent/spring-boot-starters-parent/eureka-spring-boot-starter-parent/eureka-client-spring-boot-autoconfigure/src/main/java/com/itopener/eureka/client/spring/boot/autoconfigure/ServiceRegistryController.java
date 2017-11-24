@@ -30,8 +30,7 @@ public class ServiceRegistryController {
 	
 	@RequestMapping(value = "status", method = RequestMethod.GET)
 	public ResultMap getStatus(){
-		Application application = eurekaClient.getApplication("DEMO-EUREKA-CLIENT2");
-		return ResultMap.buildSuccess().put("status", serviceRegistry.getStatus(registration)).put("status2", application.getByInstanceId("NCDFUWEI-DENG.msxf.com:demo-eureka-client2:8092").getStatus());
+		return ResultMap.buildSuccess().put("status", serviceRegistry.getStatus(registration));
 	}
 	
 	@RequestMapping(value = "status", method = RequestMethod.POST)
