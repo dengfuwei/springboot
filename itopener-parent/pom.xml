@@ -162,9 +162,6 @@
 		<module>spring-boot-starters-parent</module>
 		<module>tools-parent</module>
 		<module>demo-parent</module>
-		<module>tellist-parent</module>
-		<module>authority-parent</module>
-		<module>tms-parent</module>
     <module>memo-parent</module>
   </modules>
 
